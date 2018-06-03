@@ -2,8 +2,8 @@ package com.meandmyphone.genericdevicefancyvator.core.programs;
 
 import android.content.Context;
 
-import com.meandmyphone.genericdevicefancyvator.util.ShaderHelper;
-import com.meandmyphone.genericdevicefancyvator.util.TextResourceReader;
+import com.meandmyphone.genericdevicefancyvator.core.util.ShaderHelper;
+import com.meandmyphone.genericdevicefancyvator.core.util.TextResourceReader;
 
 import static android.opengl.GLES20.glUseProgram;
 

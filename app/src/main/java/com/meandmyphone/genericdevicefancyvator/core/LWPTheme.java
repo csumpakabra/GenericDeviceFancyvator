@@ -1,5 +1,7 @@
 package com.meandmyphone.genericdevicefancyvator.core;
 
+import com.meandmyphone.genericdevicefancyvator.core.gl.Scene;
+
 import java.util.Map;
 import java.util.Set;
 

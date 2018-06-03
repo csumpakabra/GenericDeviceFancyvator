@@ -1,4 +1,5 @@
 import java.nio.file.Paths
+import java.nio.file.Path
 
 apply plugin: 'com.android.application'
 
@@ -35,12 +36,12 @@ task getResources(type: Copy) {
     println 'getting resources'
     if (project.hasProperty('res')) {
 
-        java.nio.file.Path projectPath = Paths.get(project.projectDir.toString())
+        Path projectPath = Paths.get(project.projectDir.toString())
 
         println String.format("input: res=%s; xml=%s\nProject location=%s", project.getProperties().get('res'), project.getProperties().get('xml'), projectPath.toString())
         for (String fromFile : res.split(';')) {
-            java.nio.file.Path fromPath = Paths.get(fromFile)
-            java.nio.file.Path toPath = projectPath.resolve("src/main/res/drawable-nodpi")
+            Path fromPath = Paths.get(fromFile)
+            Path toPath = projectPath.resolve("src/main/res/drawable-nodpi")
             from file(fromPath.toFile())
             into file(toPath.toFile())
             println 'copy from: ' + fromPath.toFile()
@@ -54,9 +55,9 @@ task getResources(type: Copy) {
 
 task getInputXml(type: Copy) {
     if (project.hasProperty('xml')) {
-        java.nio.file.Path projectPath = Paths.get(project.projectDir.toString())
-        java.nio.file.Path xmlPath = Paths.get(project.getProperties().get('xml'))
-        java.nio.file.Path toXmlPath = projectPath.resolve("src/main/res/xml")
+        Path projectPath = Paths.get(project.projectDir.toString())
+        Path xmlPath = Paths.get(project.getProperties().get('xml'))
+        Path toXmlPath = projectPath.resolve("src/main/res/xml")
         from file(xmlPath.toFile())
         into file(toXmlPath.toFile())
         rename(".*","input.xml")

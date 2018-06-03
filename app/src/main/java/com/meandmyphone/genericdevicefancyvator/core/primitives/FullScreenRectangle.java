@@ -1,13 +1,12 @@
 package com.meandmyphone.genericdevicefancyvator.core.primitives;
 
-import android.graphics.Color;
-
 import com.meandmyphone.genericdevicefancyvator.core.programs.ColorShaderProgram;
-import com.meandmyphone.genericdevicefancyvator.data.VertexArray;
+import com.meandmyphone.genericdevicefancyvator.core.data.VertexArray;
+import com.meandmyphone.genericdevicefancyvator.core.util.Mathf;
 
 import static android.opengl.GLES20.GL_TRIANGLES;
 import static android.opengl.GLES20.glDrawArrays;
-import static com.meandmyphone.genericdevicefancyvator.core.Constants.BYTES_PER_FLOAT;
+import static com.meandmyphone.genericdevicefancyvator.core.gl.Constants.BYTES_PER_FLOAT;
 
 /**
  * Created by csumpakadabra on 2017.10.27..
@@ -25,10 +24,10 @@ public class FullScreenRectangle {
 
     public FullScreenRectangle(int topLeftColor, int botLeftColor, int botRightColor, int topRightColor) {
         float [][] colors = new float[4][4];
-        colors[0] = toGLColor(topLeftColor);
-        colors[1] = toGLColor(botLeftColor);
-        colors[2] = toGLColor(botRightColor);
-        colors[3] = toGLColor(topRightColor);
+        colors[0] = Mathf.toGLColor(topLeftColor);
+        colors[1] = Mathf.toGLColor(botLeftColor);
+        colors[2] = Mathf.toGLColor(botRightColor);
+        colors[3] = Mathf.toGLColor(topRightColor);
 
         vertexData = new float [] {
                 -1,1,colors[0][0],colors[0][1],colors[0][2],colors[0][3], // top l
@@ -60,12 +59,5 @@ public class FullScreenRectangle {
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
 
-    private float[] toGLColor(int color) {
-        float [] glColor = new float[4];
-        glColor[0] = Color.red(color) / 255f;
-        glColor[1] = Color.green(color) / 255f;
-        glColor[2] = Color.blue(color) / 255f;
-        glColor[3] = Color.alpha(color) / 255f;
-        return glColor;
-    }
+
 }

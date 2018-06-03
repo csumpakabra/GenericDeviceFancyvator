@@ -1,7 +1,9 @@
 package com.meandmyphone.genericdevicefancyvator.core;
 
 import android.content.Context;
-import android.content.res.Resources;
+
+import com.meandmyphone.genericdevicefancyvator.core.gl.GLRenderer;
+import com.meandmyphone.genericdevicefancyvator.core.gl.Scene;
 
 import java.util.Map;
 import java.util.Set;
