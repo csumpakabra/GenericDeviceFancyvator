@@ -1,7 +1,6 @@
 package com.meandmyphone.genericdevicefancyvator.transitions.misc;
 
 import com.meandmyphone.genericdevicefancyvator.core.GLRenderer;
-import com.meandmyphone.genericdevicefancyvator.halloween.Halloween;
 
 /**
  * Created by csumpakadabra on 2017.10.18..
@@ -39,16 +38,17 @@ public abstract class Transition implements ITransition {
 
     // EH :S
     private long calculateSeed(long speedOnNormal) {
-        return calculateSpeed(speedOnNormal, Halloween.speed);
+        // TODO calculatespeed!!!!!!
+        return calculateSpeed(speedOnNormal, 1);
     }
 
     private long calculateSpeed(long speedOnNormal, int currentSpeed) {
         switch (currentSpeed) {
-            case Halloween.SPEED_SLOW: return speedOnNormal/2;
-            case Halloween.SPEED_SLOWER: return 3*speedOnNormal/4;
-            case Halloween.SPEED_NORMAL: return speedOnNormal;
-            case Halloween.SPEED_FASTER: return 5*speedOnNormal/4;
-            case Halloween.SPEED_FASTEST: return 3*speedOnNormal/2;
+//            case Halloween.SPEED_SLOW: return speedOnNormal/2;
+//            case Halloween.SPEED_SLOWER: return 3*speedOnNormal/4;
+//            case Halloween.SPEED_NORMAL: return speedOnNormal;
+//            case Halloween.SPEED_FASTER: return 5*speedOnNormal/4;
+//            case Halloween.SPEED_FASTEST: return 3*speedOnNormal/2;
             default: return speedOnNormal;
         }
     }
