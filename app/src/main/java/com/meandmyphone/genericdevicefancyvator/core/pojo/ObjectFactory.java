@@ -93,11 +93,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link com.meandmyphone.genericfancyvator.core.pojo.Transition }
+     * Create an instance of {@link com.meandmyphone.genericdevicefancyvator.core.pojo.Transition }
      * 
      */
-    public com.meandmyphone.genericfancyvator.core.pojo.Transition createTransition() {
-        return new com.meandmyphone.genericfancyvator.core.pojo.Transition();
+    public com.meandmyphone.genericdevicefancyvator.core.pojo.Transition createTransition() {
+        return new com.meandmyphone.genericdevicefancyvator.core.pojo.Transition();
     }
 
     /**
