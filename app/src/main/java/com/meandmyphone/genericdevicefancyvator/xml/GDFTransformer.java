@@ -8,7 +8,7 @@ import com.meandmyphone.genericdevicefancyvator.core.transitions.FlipBookAnimati
 import com.meandmyphone.genericdevicefancyvator.core.transitions.RotateTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ScaleTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.TranslateTransition;
-import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.ITransition;
+import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.Background;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.DiffuseBackground;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.Ease;
@@ -23,7 +23,6 @@ public class GDFTransformer implements Transformer {
         this.renderer = renderer;
     }
 
-    //GLRenderer renderer, int cycleDuration, int nodeId, int easeType, float fromAlpha, float toAlpha
     @Override
     public FadeTransition transform(com.meandmyphone.genericdevicefancyvator.xml.pojo.FadeTransition xmlTransition) {
         return new FadeTransition(renderer, xmlTransition.getDuration().intValue(), 0, transform(xmlTransition.getEase()), (float) xmlTransition.getFromAlpha(), (float) xmlTransition.getToAlpha());

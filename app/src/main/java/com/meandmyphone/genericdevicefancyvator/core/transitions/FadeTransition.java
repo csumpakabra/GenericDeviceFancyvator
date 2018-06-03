@@ -4,8 +4,6 @@ package com.meandmyphone.genericdevicefancyvator.core.transitions;
 import com.meandmyphone.genericdevicefancyvator.core.gl.GLRenderer;
 import com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.Ease;
-import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.ITransition;
-import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.Transition;
 import com.meandmyphone.genericdevicefancyvator.core.util.Logger;
 
 /**

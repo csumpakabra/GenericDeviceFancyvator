@@ -27,10 +27,18 @@
             <xs:enumeration value="flipbook" />
         </xs:restriction>
     </xs:simpleType>
+    <xs:simpleType name="cycle_type" final="restriction">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="yoyo" />
+            <xs:enumeration value="restart" />
+        </xs:restriction>
+    </xs:simpleType>
     <xs:complexType name="transition">
         <xs:sequence>
-            <xs:element name="duration" type="xs:decimal" />
+            <xs:element name="duration" type="xs:int" />
             <xs:element name="ease" type="ease" />
+            <xs:element name="cycle_type" type="cycle_type" />
+            <xs:element name="cycle_count" type="xs:int" />
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="fade_transition">
@@ -146,7 +154,7 @@
     </xs:complexType>
     <xs:complexType name="diffuse_background">
         <xs:sequence>
-            <xs:element name="color" type="xs:decimal" />
+            <xs:element name="color" type="xs:int" />
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="on_click">

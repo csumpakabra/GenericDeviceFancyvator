@@ -1,4 +1,4 @@
-package com.meandmyphone.genericdevicefancyvator.core.transitions.misc;
+package com.meandmyphone.genericdevicefancyvator.core.transitions;
 
 /**
  * Created by csumpakadabra on 2017.10.18..

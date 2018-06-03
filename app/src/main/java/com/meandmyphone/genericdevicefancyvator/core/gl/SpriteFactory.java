@@ -11,7 +11,7 @@ import com.meandmyphone.genericdevicefancyvator.core.data.VertexArray;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.SpritePoint;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.SpritePoint2D;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.SpriteUV;
-import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.ITransition;
+import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
 import com.meandmyphone.genericdevicefancyvator.core.util.Logger;
 import com.meandmyphone.genericdevicefancyvator.core.util.TextureHelper;
 

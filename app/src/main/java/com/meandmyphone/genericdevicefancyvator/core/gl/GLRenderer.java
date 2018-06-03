@@ -5,11 +5,10 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 
 import com.meandmyphone.genericdevicefancyvator.core.LWPTheme;
-import com.meandmyphone.genericdevicefancyvator.core.ThemeBuilder;
 import com.meandmyphone.genericdevicefancyvator.core.programs.TextureShaderProgram;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.Ease;
-import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.ITransition;
+import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
 import com.meandmyphone.genericdevicefancyvator.core.util.Logger;
 import com.meandmyphone.genericdevicefancyvator.core.util.Mathf;
 

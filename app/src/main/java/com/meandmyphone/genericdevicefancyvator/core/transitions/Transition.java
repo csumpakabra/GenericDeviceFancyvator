@@ -1,6 +1,7 @@
-package com.meandmyphone.genericdevicefancyvator.core.transitions.misc;
+package com.meandmyphone.genericdevicefancyvator.core.transitions;
 
 import com.meandmyphone.genericdevicefancyvator.core.gl.GLRenderer;
+import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.TransitionCallback;
 
 /**
  * Created by csumpakadabra on 2017.10.18..

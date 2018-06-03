@@ -1,5 +1,7 @@
 package com.meandmyphone.genericdevicefancyvator.core.transitions.misc;
 
+import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
+
 import java.util.Random;
 
 /**

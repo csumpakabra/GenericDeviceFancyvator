@@ -14,31 +14,31 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for background_type.
+ * <p>Java class for cycle_type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="background_type">
+ * &lt;simpleType name="cycle_type">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="simple"/>
- *     &lt;enumeration value="image"/>
+ *     &lt;enumeration value="yoyo"/>
+ *     &lt;enumeration value="restart"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
-@XmlType(name = "background_type")
+@XmlType(name = "cycle_type")
 @XmlEnum
-public enum BackgroundType {
+public enum CycleType {
 
-    @XmlEnumValue("simple")
-    SIMPLE("simple"),
-    @XmlEnumValue("image")
-    IMAGE("image");
+    @XmlEnumValue("yoyo")
+    YOYO("yoyo"),
+    @XmlEnumValue("restart")
+    RESTART("restart");
     private final String value;
 
-    BackgroundType(String v) {
+    CycleType(String v) {
         value = v;
     }
 
@@ -46,8 +46,8 @@ public enum BackgroundType {
         return value;
     }
 
-    public static BackgroundType fromValue(String v) {
-        for (BackgroundType c: BackgroundType.values()) {
+    public static CycleType fromValue(String v) {
+        for (CycleType c: CycleType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }
