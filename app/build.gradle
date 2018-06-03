@@ -1,4 +1,7 @@
+import java.nio.file.Paths
+
 apply plugin: 'com.android.application'
+
 
 android {
     compileSdkVersion 26
@@ -21,7 +24,47 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    api group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
 }
+
+task getResources(type: Copy) {
+    println 'getting resources'
+    if (project.hasProperty('res')) {
+
+        java.nio.file.Path projectPath = Paths.get(project.projectDir.toString())
+
+        println String.format("input: res=%s; xml=%s\nProject location=%s", project.getProperties().get('res'), project.getProperties().get('xml'), projectPath.toString())
+        for (String fromFile : res.split(';')) {
+            java.nio.file.Path fromPath = Paths.get(fromFile)
+            java.nio.file.Path toPath = projectPath.resolve("src/main/res/drawable-nodpi")
+            from file(fromPath.toFile())
+            into file(toPath.toFile())
+            println 'copy from: ' + fromPath.toFile()
+            println 'to: ' + toPath.toFile()
+        }
+    } else {
+        println 'noArgs!'
+    }
+    println 'resources all set!'
+}
+
+task getInputXml(type: Copy) {
+    if (project.hasProperty('xml')) {
+        java.nio.file.Path projectPath = Paths.get(project.projectDir.toString())
+        java.nio.file.Path xmlPath = Paths.get(project.getProperties().get('xml'))
+        java.nio.file.Path toXmlPath = projectPath.resolve("src/main/res/xml")
+        from file(xmlPath.toFile())
+        into file(toXmlPath.toFile())
+        rename(".*","input.xml")
+        println String.format("Copied input xml from %s to %s", xmlPath.toString(), toXmlPath.toString())
+    } else {
+        println 'noArgs!'
+    }
+}
+
+preBuild.dependsOn(getResources)
+getResources.dependsOn(getInputXml)
