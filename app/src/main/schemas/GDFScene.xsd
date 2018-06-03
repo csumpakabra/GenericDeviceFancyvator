@@ -1,53 +1,44 @@
 <?xml version = "1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
     targetNamespace="https://github.com/csumpakabra/GenericDeviceFancyvator/blob/master/app/src/main/schemas/GDFScene.xsd"
-    xmlns="https://github.com/csumpakabra/GenericDeviceFancyvator/blob/master/app/src/main/schemas/GDFScene.xsd"
-    elementFormDefault="qualified">
+    xmlns="https://github.com/csumpakabra/GenericDeviceFancyvator/blob/master/app/src/main/schemas/GDFScene.xsd">
     <xs:element name="scene">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="scene_properties">
+                <xs:element name="scene_properties" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="background_type" type="background_type"/>
-                            <xs:element name="background_color" type="xs:decimal"/>
-                            <xs:element name="background_image" type="xs:string"/>
+                            <xs:element name="background" minOccurs="0" type="background" />
+                            <xs:element name="on_click" minOccurs="0" type="on_click" />
+                            <xs:element name="camera" minOccurs="0" type="camera" />
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="sprite" minOccurs="0" maxOccurs="unbounded" type="sprite"/>
+                <xs:element name="sprite" maxOccurs="unbounded" minOccurs="0" type="sprite" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="background_type"
-        final="restriction">
+    <xs:simpleType name="transition_type" final="restriction">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="simple"/>
-            <xs:enumeration value="image"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="transition_type"
-        final="restriction">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="fade"/>
-            <xs:enumeration value="rotate"/>
-            <xs:enumeration value="scale"/>
-            <xs:enumeration value="translate"/>
-            <xs:enumeration value="flipbook"/>
+            <xs:enumeration value="fade" />
+            <xs:enumeration value="rotate" />
+            <xs:enumeration value="scale" />
+            <xs:enumeration value="translate" />
+            <xs:enumeration value="flipbook" />
         </xs:restriction>
     </xs:simpleType>
     <xs:complexType name="transition">
         <xs:sequence>
-            <xs:element name="duration" type="xs:decimal"/>
-            <xs:element name="ease" type="ease"/>
+            <xs:element name="duration" type="xs:decimal" />
+            <xs:element name="ease" type="ease" />
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="fade_transition">
         <xs:complexContent>
             <xs:extension base="transition">
                 <xs:sequence>
-                    <xs:element name="from_alpha" type="xs:double"/>
-                    <xs:element name="to_alpha" type="xs:double"/>
+                    <xs:element name="from_alpha" type="xs:double" />
+                    <xs:element name="to_alpha" type="xs:double" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -56,10 +47,10 @@
         <xs:complexContent>
             <xs:extension base="transition">
                 <xs:sequence>
-                    <xs:element name="from_x" type="xs:double"/>
-                    <xs:element name="to_x" type="xs:double"/>
-                    <xs:element name="from_y" type="xs:double"/>
-                    <xs:element name="to_y" type="xs:double"/>
+                    <xs:element name="from_x" type="xs:double" />
+                    <xs:element name="to_x" type="xs:double" />
+                    <xs:element name="from_y" type="xs:double" />
+                    <xs:element name="to_y" type="xs:double" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -68,8 +59,8 @@
         <xs:complexContent>
             <xs:extension base="transition">
                 <xs:sequence>
-                    <xs:element name="from_angle" type="xs:double"/>
-                    <xs:element name="to_angle" type="xs:double"/>
+                    <xs:element name="from_angle" type="xs:double" />
+                    <xs:element name="to_angle" type="xs:double" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -78,10 +69,10 @@
         <xs:complexContent>
             <xs:extension base="transition">
                 <xs:sequence>
-                    <xs:element name="from_x" type="xs:double"/>
-                    <xs:element name="to_x" type="xs:double"/>
-                    <xs:element name="from_y" type="xs:double"/>
-                    <xs:element name="to_y" type="xs:double"/>
+                    <xs:element name="from_x" type="xs:double" />
+                    <xs:element name="to_x" type="xs:double" />
+                    <xs:element name="from_y" type="xs:double" />
+                    <xs:element name="to_y" type="xs:double" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -90,25 +81,26 @@
         <xs:complexContent>
             <xs:extension base="transition">
                 <xs:sequence>
-                    <xs:element name="sprite" type="sprite" maxOccurs="unbounded"/>
-                </xs:sequence>                                    
+                    <xs:element name="sprite" maxOccurs="unbounded" type="sprite" />
+                </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
     <xs:complexType name="sprite">
         <xs:sequence>
-            <xs:element name="resource" type="xs:string"/>
-            <xs:element name="sprite_u" type="xs:double"/>
-            <xs:element name="sprite_v" type="xs:double"/>
-            <xs:element name="sprite_resource" type="xs:decimal"/>
-            <xs:element name="transition" minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="resource" type="xs:string" />
+            <xs:element name="sprite_u" type="xs:double" />
+            <xs:element name="sprite_v" type="xs:double" />
+            <xs:element name="x" type="xs:double" />
+            <xs:element name="y" type="xs:double" />
+            <xs:element name="transition" maxOccurs="unbounded" minOccurs="0">
                 <xs:complexType>
                     <xs:choice>
-                        <xs:element name="fade_transition" type="fade_transition"/>
-                        <xs:element name="translate_transition" type="translate_transition"/>
-                        <xs:element name="rotate_transition" type="rotate_transition"/>
-                        <xs:element name="scale_transition" type="scale_transition"/>
-                        <xs:element name="flipbook_transition" type="flipbook_transition"/>
+                        <xs:element name="fade_transition" type="fade_transition" />
+                        <xs:element name="translate_transition" type="translate_transition" />
+                        <xs:element name="rotate_transition" type="rotate_transition" />
+                        <xs:element name="scale_transition" type="scale_transition" />
+                        <xs:element name="flipbook_transition" type="flipbook_transition" />
                     </xs:choice>
                 </xs:complexType>
             </xs:element>
@@ -116,18 +108,57 @@
     </xs:complexType>
     <xs:simpleType name="ease" final="restriction">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="linear"/>
-            <xs:enumeration value="cubic_in"/>
-            <xs:enumeration value="cubic_out"/>
-            <xs:enumeration value="cubic_inout"/>
-            <xs:enumeration value="quad_in"/>
-            <xs:enumeration value="quad_out"/>
-            <xs:enumeration value="quad_inout"/>
-            <xs:enumeration value="sine_in"/>
-            <xs:enumeration value="sine_out"/>
-            <xs:enumeration value="sine_inout"/>
+            <xs:enumeration value="linear" />
+            <xs:enumeration value="cubic_in" />
+            <xs:enumeration value="cubic_out" />
+            <xs:enumeration value="cubic_inout" />
+            <xs:enumeration value="quad_in" />
+            <xs:enumeration value="quad_out" />
+            <xs:enumeration value="quad_inout" />
+            <xs:enumeration value="sine_in" />
+            <xs:enumeration value="sine_out" />
+            <xs:enumeration value="sine_inout" />
         </xs:restriction>
     </xs:simpleType>
+    <xs:simpleType name="background_type">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="simple" />
+            <xs:enumeration value="image" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="background">
+        <xs:sequence>
+            <xs:element name="background_type" type="background_type" />
+            <xs:element name="background_source" maxOccurs="1" minOccurs="1">
+                <xs:complexType>
+                    <xs:choice>
+                        <xs:element name="image_background" type="image_background" />
+                        <xs:element name="diffuse_background" type="diffuse_background" />
+                    </xs:choice>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="image_background">
+        <xs:complexContent>
+            <xs:extension base="sprite" />
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="diffuse_background">
+        <xs:sequence>
+            <xs:element name="color" type="xs:decimal" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="on_click">
+        <xs:sequence>
+            <xs:element name="sprite" type="sprite" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="camera">
+        <xs:sequence>
+            <xs:element name="recenter_after_swipe" type="xs:boolean" />
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>
 
 
