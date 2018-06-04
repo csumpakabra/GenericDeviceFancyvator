@@ -17,6 +17,18 @@
                 <xs:element name="sprite" maxOccurs="unbounded" minOccurs="0" type="sprite" />
             </xs:sequence>
         </xs:complexType>
+        <xs:key name="pk_sprite_id">
+            <xs:selector xpath="sprite" />
+            <xs:field xpath="sprite/id" />
+        </xs:key>
+        <xs:keyref name="fk__width_realtive_to_sprite_id" refer="pk_sprite_id">
+            <xs:selector xpath="sprite/spritepoint/width/relative_to" />
+            <xs:field xpath="." />
+        </xs:keyref>
+        <xs:keyref name="fk__height_realtive_to_sprite_id" refer="pk_sprite_id">
+            <xs:selector xpath="sprite/spritepoint/height/relative_to" />
+            <xs:field xpath="." />
+        </xs:keyref>
     </xs:element>
     <xs:simpleType name="transition_type" final="restriction">
         <xs:restriction base="xs:string">
@@ -34,19 +46,17 @@
         </xs:restriction>
     </xs:simpleType>
     <xs:complexType name="transition">
-        <xs:sequence>
-            <xs:element name="duration" type="xs:int" />
-            <xs:element name="ease" type="ease" />
-            <xs:element name="cycle_type" type="cycle_type" />
-            <xs:element name="cycle_count" type="xs:int" />
-        </xs:sequence>
+        <xs:attribute name="duration" type="xs:int" use="required"/>
+        <xs:attribute name="ease" type="ease" default="linear"/>
+        <xs:attribute name="cycle_type" type="cycle_type" default="restart"/>
+        <xs:attribute name="cycle_count" type="xs:int" use="required"/>
     </xs:complexType>
     <xs:complexType name="fade_transition">
         <xs:complexContent>
             <xs:extension base="transition">
                 <xs:sequence>
-                    <xs:element name="from_alpha" type="xs:double" />
-                    <xs:element name="to_alpha" type="xs:double" />
+                    <xs:element name="from_alpha" type="xs:float" />
+                    <xs:element name="to_alpha" type="xs:float" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -55,10 +65,10 @@
         <xs:complexContent>
             <xs:extension base="transition">
                 <xs:sequence>
-                    <xs:element name="from_x" type="xs:double" />
-                    <xs:element name="to_x" type="xs:double" />
-                    <xs:element name="from_y" type="xs:double" />
-                    <xs:element name="to_y" type="xs:double" />
+                    <xs:element name="from_x" type="xs:float" />
+                    <xs:element name="to_x" type="xs:float" />
+                    <xs:element name="from_y" type="xs:float" />
+                    <xs:element name="to_y" type="xs:float" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -67,8 +77,8 @@
         <xs:complexContent>
             <xs:extension base="transition">
                 <xs:sequence>
-                    <xs:element name="from_angle" type="xs:double" />
-                    <xs:element name="to_angle" type="xs:double" />
+                    <xs:element name="from_angle" type="xs:float" />
+                    <xs:element name="to_angle" type="xs:float" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -77,10 +87,10 @@
         <xs:complexContent>
             <xs:extension base="transition">
                 <xs:sequence>
-                    <xs:element name="from_x" type="xs:double" />
-                    <xs:element name="to_x" type="xs:double" />
-                    <xs:element name="from_y" type="xs:double" />
-                    <xs:element name="to_y" type="xs:double" />
+                    <xs:element name="from_x" type="xs:float" />
+                    <xs:element name="to_x" type="xs:float" />
+                    <xs:element name="from_y" type="xs:float" />
+                    <xs:element name="to_y" type="xs:float" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -94,13 +104,67 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+    <xs:simpleType name="pivot">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="top_left" />
+            <xs:enumeration value="top_center" />
+            <xs:enumeration value="top_right" />
+            <xs:enumeration value="center_right" />
+            <xs:enumeration value="bot_right" />
+            <xs:enumeration value="bot_center" />
+            <xs:enumeration value="bot_left" />
+            <xs:enumeration value="center_left" />
+            <xs:enumeration value="center" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="relativity_type">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="scene" />
+            <xs:enumeration value="sprite" />
+            <xs:enumeration value="none" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="scene_relative_position">
+        <xs:sequence>
+            <xs:element name="scene_point" type="pivot"/>
+            <xs:element name="distance_from_pivot" type="measure"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="sprite_relative_position">
+        <xs:sequence>
+            <xs:element name="relative_sprite_id" type="xs:string"/>
+            <xs:element name="relative_sprite_point" type="pivot"/>
+            <xs:element name="distance_from_sprite" type="measure"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="position">
+        <xs:choice>
+            <xs:element name="sprite_relative_position" type="sprite_relative_position"/>
+            <xs:element name="scene_relative_position" type="scene_relative_position"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="measure">
+        <xs:sequence>
+            <xs:element name="relativity" type="relativity_type" />
+            <xs:element name="relative_to" minOccurs="0" type="xs:string" />
+            <xs:element name="value" type="xs:float" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="sprite_transform">
+        <xs:sequence>
+            <xs:element name="position" type="position"/>
+            <xs:element name="pivot" type="pivot" />
+            <xs:element name="width" type="measure" />
+            <xs:element name="height" type="measure" />
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="sprite">
         <xs:sequence>
+            <xs:element name="id" type="xs:string" />
             <xs:element name="resource" type="xs:string" />
-            <xs:element name="sprite_u" type="xs:double" />
-            <xs:element name="sprite_v" type="xs:double" />
-            <xs:element name="x" type="xs:double" />
-            <xs:element name="y" type="xs:double" />
+            <xs:element name="sprite_u" type="xs:float" />
+            <xs:element name="sprite_v" type="xs:float" />
+            <xs:element name="sprite_transform" type="sprite_transform" />
             <xs:element name="transition" maxOccurs="unbounded" minOccurs="0">
                 <xs:complexType>
                     <xs:choice>
@@ -159,7 +223,7 @@
     </xs:complexType>
     <xs:complexType name="on_click">
         <xs:sequence>
-            <xs:element name="sprite" type="sprite" />
+            <xs:element name="sprite" maxOccurs="unbounded" type="sprite" />
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="camera">

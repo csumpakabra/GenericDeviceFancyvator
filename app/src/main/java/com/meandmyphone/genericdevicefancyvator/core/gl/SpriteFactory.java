@@ -46,7 +46,7 @@ public class SpriteFactory {
         Point2DUV C = new Point2DUV(spriteBottomRight, botRightU, botRightV);
         Point2DUV D = new Point2DUV(spriteBottomTopRight, botRightU, topLeftV);
 
-        Sprite sprite = new Sprite(resourceID, A, B, C, D);
+        Sprite sprite = new Sprite(Sprite.SPRITE_COUNTER++, resourceID, A, B, C, D);
         Logger.Log(TAG, "New sprite created:\n%s\nPoints:\n%s,%s,%s,%s", sprite.toString(), A, B, C, D);
 
         scene.addSprite(sprite);
@@ -161,8 +161,8 @@ public class SpriteFactory {
 
     private Point2D calculateSpritePointOfSprite(int spriteId, SpritePoint spritePoint) {
         Sprite sprite = scene.getSprite(spriteId);
-        float x = sprite.getX();
-        float y = sprite.getY();
+        float x = sprite.getTopLeftX();
+        float y = sprite.getTopLeftY();
         float spriteHeight = sprite.height;
         float spriteWidth = sprite.width;
         switch (spritePoint) {
@@ -208,8 +208,8 @@ public class SpriteFactory {
      * Created by csumpakabra on 2016.09.25..
      */
     public static class Sprite {
-        private static int counter = 0xFF00;
-        public final int ID = ++counter;
+        public static int SPRITE_COUNTER = 0xFF00;
+        public final int ID;
         public final SparseArray<ITransition> transitions = new SparseArray<>();
 
         private static final int POSITION_COMPONENT_COUNT = 2;
@@ -246,7 +246,8 @@ public class SpriteFactory {
          * @param C bottom right
          * @param D top right
          */
-        private Sprite(int resourceId, Point2DUV A, Point2DUV B, Point2DUV C, Point2DUV D) {
+        private Sprite(int ID, int resourceId, Point2DUV A, Point2DUV B, Point2DUV C, Point2DUV D) {
+            this.ID = ID;
             vertexData = new float [] {
                     A.X, A.Y, A.U, A.V, // top l
                     B.X, B.Y, B.U, B.V, // bot l
@@ -300,11 +301,11 @@ public class SpriteFactory {
             this.resourceId = resourceId;
         }
 
-        public float getX() {
+        public float getTopLeftX() {
             return A.X;
         }
 
-        public float getY() {
+        public float getTopLeftY() {
             return A.Y;
         }
 

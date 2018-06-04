@@ -14,31 +14,34 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for cycle_type.
+ * <p>Java class for relativity_type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="cycle_type">
+ * &lt;simpleType name="relativity_type">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="yoyo"/>
- *     &lt;enumeration value="restart"/>
+ *     &lt;enumeration value="scene"/>
+ *     &lt;enumeration value="sprite"/>
+ *     &lt;enumeration value="none"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
-@XmlType(name = "cycle_type")
+@XmlType(name = "relativity_type")
 @XmlEnum
-public enum CycleType {
+public enum RelativityType {
 
-    @XmlEnumValue("yoyo")
-    YOYO("yoyo"),
-    @XmlEnumValue("restart")
-    RESTART("restart");
+    @XmlEnumValue("scene")
+    SCENE("scene"),
+    @XmlEnumValue("sprite")
+    SPRITE("sprite"),
+    @XmlEnumValue("none")
+    NONE("none");
     private final String value;
 
-    CycleType(String v) {
+    RelativityType(String v) {
         value = v;
     }
 
@@ -46,8 +49,8 @@ public enum CycleType {
         return value;
     }
 
-    public static CycleType fromValue(String v) {
-        for (CycleType c: CycleType.values()) {
+    public static RelativityType fromValue(String v) {
+        for (RelativityType c: RelativityType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

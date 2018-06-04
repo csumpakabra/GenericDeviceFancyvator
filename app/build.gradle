@@ -57,7 +57,7 @@ task getInputXml(type: Copy) {
     if (project.hasProperty('xml')) {
         Path projectPath = Paths.get(project.projectDir.toString())
         Path xmlPath = Paths.get(project.getProperties().get('xml'))
-        Path toXmlPath = projectPath.resolve("src/main/res/xml")
+        Path toXmlPath = projectPath.resolve("src/main/res/raw")
         from file(xmlPath.toFile())
         into file(toXmlPath.toFile())
         rename(".*","input.xml")
