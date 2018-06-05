@@ -33,7 +33,6 @@ public class SpriteFactory {
         Logger.Log(TAG, "New spritefactory created:\n%s", toString());
     }
 
-
     public Sprite createSprite(int resourceID, float topLeftX, float topLeftY, float sizeX, float sizeY, float topLeftU, float topLeftV, float botRightU, float botRightV) {
         Point2D base = new Point2D(topLeftX, topLeftY);
         Point2D spriteTopLeft = new Point2D(base.X, base.Y);
@@ -307,14 +306,6 @@ public class SpriteFactory {
 
         public float getTopLeftY() {
             return A.Y;
-        }
-
-        public float getRelativeWidth() {
-            return width/GLRenderer.getWidth();
-        }
-
-        public float getRelativHeight() {
-            return height/GLRenderer.getHeight();
         }
 
         public SpritePoint getPivot() {

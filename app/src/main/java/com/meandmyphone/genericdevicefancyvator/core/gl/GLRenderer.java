@@ -3,6 +3,7 @@ package com.meandmyphone.genericdevicefancyvator.core.gl;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.renderscript.Matrix4f;
 
 import com.meandmyphone.genericdevicefancyvator.core.LWPTheme;
 import com.meandmyphone.genericdevicefancyvator.core.programs.TextureShaderProgram;
@@ -11,6 +12,8 @@ import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.Ease;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
 import com.meandmyphone.genericdevicefancyvator.core.util.Logger;
 import com.meandmyphone.genericdevicefancyvator.core.util.Mathf;
+
+import java.util.Arrays;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -42,8 +45,6 @@ public class GLRenderer implements GLSurfaceView.Renderer {
     private int FPS = 30, ghostAnimationValue = 2, LWPSpeed=3;
     private LWPTheme theme;
     private Scene scene;
-    private Point2D projectionTopLeft, projectionBotRight;
-    private static float projectionWidth, projectionHeight;
     private int runMode = PORTRAIT_MODE;
     private final float[] projectionMatrix = new float[16];
     private Context context;
@@ -76,16 +77,21 @@ public class GLRenderer implements GLSurfaceView.Renderer {
 //        perspectiveM(projectionMatrix, 0, 45, (float) width
 //                / (float) height, 1f, 10f);
 
+        float [] projectionMatrixLandscape = new float[16];
+        float [] projectionMatrixPortrait = new float[16];
+
         final float aspectRatio = width > height ?
                 (float) width / (float) height :
                 (float) height / (float) width;
         if (width > height) {
-            orthoM(projectionMatrix, 0, -aspectRatio, aspectRatio, -1f, 1f, 0, 10f);
+            orthoM(projectionMatrixLandscape, 0, -aspectRatio, aspectRatio, -1f, 1f, 0, 10f);
             runMode = LANDSCAPE_MODE;
+            System.arraycopy(projectionMatrixLandscape, 0, projectionMatrix, 0, projectionMatrixLandscape.length);
             Logger.Log(TAG, "Renderer running in LANDSCAPE mode.");
         } else {
-            orthoM(projectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio, 0f, 10f);
+            orthoM(projectionMatrixPortrait, 0, -1f, 1f, -aspectRatio, aspectRatio, 0f, 10f);
             runMode = PORTRAIT_MODE;
+            System.arraycopy(projectionMatrixPortrait, 0, projectionMatrix, 0, projectionMatrixPortrait.length);
             Logger.Log(TAG, "Renderer running in PORTRAIT mode.");
         }
 
@@ -93,14 +99,13 @@ public class GLRenderer implements GLSurfaceView.Renderer {
 
         screenWidth = width;
         screenHeight = height;
-        projectionTopLeft = SpaceConverter.worldToProjectionSpacePoint(projectionMatrix, SpaceConverter.screenToWorldPoint(0, 0));
-        projectionBotRight = SpaceConverter.worldToProjectionSpacePoint(projectionMatrix, SpaceConverter.screenToWorldPoint(width, height));
-        scene = new Scene(context, runMode, projectionTopLeft, projectionBotRight, theme);
-        projectionWidth = projectionBotRight.X - projectionTopLeft.X;
-        projectionHeight = projectionTopLeft.Y - projectionBotRight.Y;
+
+        Projection projection = new Projection(projectionMatrix, width, height);
+
+        scene = new Scene(context, runMode, projection, theme);
 
         theme.fillScene(scene);
-        maxOffset = 0.5f * (scene.getSceneWidth() - projectionWidth);
+        maxOffset = 0.5f * (scene.getSceneWidth() - projection.getProjectionWidth());
     }
 
     @Override
@@ -195,15 +200,6 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         lastFrameTime = System.currentTimeMillis();
     }
 
-    public static float getWidth() {
-        return projectionWidth;
-    }
-
-    public static float getHeight() {
-        return projectionHeight;
-    }
-
-
     public void setOffsetDelta(float offsetDelta) {
         if (offsetChanging) return;
         float newOffset = Mathf.clamp(targetXOffset + offsetDelta, -1, 1);
@@ -218,14 +214,6 @@ public class GLRenderer implements GLSurfaceView.Renderer {
 
     public int getRunMode() {
         return runMode;
-    }
-
-    public float getProjectionWidth() {
-        return projectionWidth;
-    }
-
-    public float getProjectionHeight() {
-        return projectionHeight;
     }
 
     public Scene getCurrentScene() {

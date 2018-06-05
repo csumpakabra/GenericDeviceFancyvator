@@ -18,6 +18,9 @@ import com.meandmyphone.genericdevicefancyvator.xml.pojo.Background;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.DiffuseBackground;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.Ease;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.FlipbookTransition;
+import com.meandmyphone.genericdevicefancyvator.xml.pojo.Measure;
+import com.meandmyphone.genericdevicefancyvator.xml.pojo.Pivot;
+import com.meandmyphone.genericdevicefancyvator.xml.pojo.SceneRelativePosition;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.Sprite;
 
 import java.util.HashMap;
@@ -84,6 +87,12 @@ public class GDFTransformer implements Transformer {
         int resourceId = context.getResources().getIdentifier(xmlSprite.getResource(),
                 "drawable", context.getPackageName());
         int SpriteID = spriteIdByXmlId.get(xmlSprite.getId());
+        if (xmlSprite.getSpriteTransform().getPosition().getSceneRelativePosition() != null) {
+            SceneRelativePosition sceneRelativePosition = xmlSprite.getSpriteTransform().getPosition().getSceneRelativePosition();
+            Pivot pivot = sceneRelativePosition.getScenePoint();
+            Measure distance = sceneRelativePosition.getDistanceFromPivot();
+        }
+
 
         return null;
     }
