@@ -73,6 +73,10 @@ public class GLRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceChanged(GL10 unused, int width, int height) {
         Logger.Log(TAG, "Surface changed! Width = %d, Height = %d", width, height);
+        Projection projectionLandscape;
+        Projection projectionPortrait;
+        Projection projection;
+
         glViewport(0, 0, width, height);
 //        perspectiveM(projectionMatrix, 0, 45, (float) width
 //                / (float) height, 1f, 10f);
@@ -83,24 +87,26 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         final float aspectRatio = width > height ?
                 (float) width / (float) height :
                 (float) height / (float) width;
+
+        orthoM(projectionMatrixLandscape, 0, -aspectRatio, aspectRatio, -1f, 1f, 0, 10f);
+        projectionLandscape = new Projection(projectionMatrixLandscape, width, height);
+        orthoM(projectionMatrixPortrait, 0, -1f, 1f, -aspectRatio, aspectRatio, 0f, 10f);
+        projectionPortrait = new Projection(projectionMatrixPortrait, width, height);
+
         if (width > height) {
-            orthoM(projectionMatrixLandscape, 0, -aspectRatio, aspectRatio, -1f, 1f, 0, 10f);
             runMode = LANDSCAPE_MODE;
             System.arraycopy(projectionMatrixLandscape, 0, projectionMatrix, 0, projectionMatrixLandscape.length);
+            projection = projectionLandscape;
             Logger.Log(TAG, "Renderer running in LANDSCAPE mode.");
         } else {
-            orthoM(projectionMatrixPortrait, 0, -1f, 1f, -aspectRatio, aspectRatio, 0f, 10f);
             runMode = PORTRAIT_MODE;
             System.arraycopy(projectionMatrixPortrait, 0, projectionMatrix, 0, projectionMatrixPortrait.length);
+            projection = projectionPortrait;
             Logger.Log(TAG, "Renderer running in PORTRAIT mode.");
         }
-
         Logger.Log(TAG, "aspectratio = %f", aspectRatio);
-
         screenWidth = width;
         screenHeight = height;
-
-        Projection projection = new Projection(projectionMatrix, width, height);
 
         scene = new Scene(context, runMode, projection, theme);
 

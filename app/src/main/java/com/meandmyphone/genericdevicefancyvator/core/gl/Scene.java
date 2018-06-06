@@ -7,8 +7,6 @@ import android.util.SparseIntArray;
 import com.meandmyphone.genericdevicefancyvator.core.LWPTheme;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.SpritePoint;
-import com.meandmyphone.genericdevicefancyvator.core.gl.GLRenderer;
-import com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.FadeTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.TransitionCallback;
 import com.meandmyphone.genericdevicefancyvator.core.util.TextureHelper;
@@ -34,39 +32,40 @@ public class Scene {
 
     public Scene(Context context, int runMode, Projection projection, LWPTheme theme) {
         this.projection = projection;
-
         for (int textureResource : theme.getResources()) {
             textures.put(textureResource, TextureHelper.loadTexture(context, textureResource));
         }
-
-
-
-
         if (runMode == GLRenderer.PORTRAIT_MODE) {
-            // TODO !!!
-            setSceneHeight(projectionHeight);
-            setSceneWidth(projectionHeight);
-            setSceneTopLeft(new Point2D(-getSceneHeight() / 2, projectionTopLeft.Y));
-            setSceneTopCenter(new Point2D(0,0));
-            setSceneTopRight(new Point2D(0, 0));
-            setSceneCenterRight(new Point2D(0, 0));
-            setSceneBotRight(new Point2D(getSceneHeight() / 2, projectionBotRight.Y));
-            setSceneBotCenter(new Point2D(0,0));
-            setSceneBotLeft(new Point2D(0,0));
-            setSceneCenterLeft(new Point2D(0,0));
-            setSceneCenter(new Point2D(0,0));
-        } else if (runMode == GLRenderer.LANDSCAPE_MODE) {
-            setSceneWidth(projection.getProjectionWidth());
             setSceneHeight(projection.getProjectionHeight());
-            setSceneTopLeft(projection.getProjectionPointOfInteres(SpritePoint.TOPLEFT));
-            setSceneTopCenter(projection.getProjectionPointOfInteres(SpritePoint.TOPCENTER));
-            setSceneTopRight(projection.getProjectionPointOfInteres(SpritePoint.TOPRIGHT));
-            setSceneCenterRight(projection.getProjectionPointOfInteres(SpritePoint.CENTERRIGHT));
-            setSceneBotRight(projection.getProjectionPointOfInteres(SpritePoint.BOTRIGHT));
-            setSceneBotCenter(projection.getProjectionPointOfInteres(SpritePoint.BOTCENTER));
-            setSceneBotLeft(projection.getProjectionPointOfInteres(SpritePoint.BOTLEFT));
-            setSceneCenterLeft(projection.getProjectionPointOfInteres(SpritePoint.CENTERLEFT));
-            setSceneCenter(projection.getProjectionPointOfInteres(SpritePoint.CENTER));
+            setSceneWidth((float) (Math.pow(projection.getProjectionHeight(), 2) / projection.getProjectionWidth()));
+            float
+                    top = projection.getProjectionPointOfInteres(SpritePoint.TOPCENTER).Y,
+                    right = projection.getProjectionPointOfInteres(SpritePoint.CENTER).X + getSceneWidth() / 2,
+                    bottom = projection.getProjectionPointOfInteres(SpritePoint.BOTCENTER).Y,
+                    left = projection.getProjectionPointOfInteres(SpritePoint.CENTER).X - getSceneWidth() / 2,
+                    centerX = projection.getProjectionPointOfInteres(SpritePoint.CENTER).X / 2,
+                    centerY = projection.getProjectionPointOfInteres(SpritePoint.CENTER).Y / 2;
+            setSceneTopLeft(new Point2D(left, top));
+            setSceneTopCenter(new Point2D(centerX, top));
+            setSceneTopRight(new Point2D(right, top));
+            setSceneCenterRight(new Point2D(right, centerY));
+            setSceneBotRight(new Point2D(right, bottom));
+            setSceneBotCenter(new Point2D(centerX, bottom));
+            setSceneBotLeft(new Point2D(left, bottom));
+            setSceneCenterLeft(new Point2D(left, bottom));
+            setSceneCenter(new Point2D(centerX, centerY));
+        } else if (runMode == GLRenderer.LANDSCAPE_MODE) {
+            setSceneWidth(this.projection.getProjectionWidth());
+            setSceneHeight(this.projection.getProjectionHeight());
+            setSceneTopLeft(this.projection.getProjectionPointOfInteres(SpritePoint.TOPLEFT));
+            setSceneTopCenter(this.projection.getProjectionPointOfInteres(SpritePoint.TOPCENTER));
+            setSceneTopRight(this.projection.getProjectionPointOfInteres(SpritePoint.TOPRIGHT));
+            setSceneCenterRight(this.projection.getProjectionPointOfInteres(SpritePoint.CENTERRIGHT));
+            setSceneBotRight(this.projection.getProjectionPointOfInteres(SpritePoint.BOTRIGHT));
+            setSceneBotCenter(this.projection.getProjectionPointOfInteres(SpritePoint.BOTCENTER));
+            setSceneBotLeft(this.projection.getProjectionPointOfInteres(SpritePoint.BOTLEFT));
+            setSceneCenterLeft(this.projection.getProjectionPointOfInteres(SpritePoint.CENTERLEFT));
+            setSceneCenter(this.projection.getProjectionPointOfInteres(SpritePoint.CENTER));
         }
     }
 
@@ -182,19 +181,23 @@ public class Scene {
         return textures.get(resourceId);
     }
 
-    private void destroySprite(int spriteID) {
+    public void destroySprite(int spriteID) {
         deprecatedSprites.add(spriteID);
     }
 
-    public void fadeAndDestroySprite(GLRenderer renderer, final int id) {
-        FadeTransition fadeOut = new FadeTransition(renderer, 500,id, 0.0f);
-        fadeOut.setOnTransitionFinished(new TransitionCallback() {
-            @Override
-            public void handleEvent() {
-                destroySprite(id);
-            }
-        });
-        fadeOut.start();
+    public void destroySpriteWithEffect(GLRenderer renderer, final int id, DestroyEffect effect) {
+        switch (effect) {
+            case FADE:
+                FadeTransition fadeOut = new FadeTransition(renderer, 500, id, 0.0f);
+                fadeOut.setOnTransitionFinished(new TransitionCallback() {
+                    @Override
+                    public void handleEvent() {
+                        destroySprite(id);
+                    }
+                });
+                fadeOut.start();
+                break;
+        }
     }
 
     public void onFrameDrawn() {
@@ -221,8 +224,7 @@ public class Scene {
                 '}';
     }
 
-
-
-
-
+    public enum DestroyEffect {
+        FADE
+    }
 }
