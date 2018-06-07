@@ -7,13 +7,13 @@ import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
  */
 
 public class SpritePoint2D extends Point2D {
-    private final SpritePoint type;
-    public SpritePoint2D(SpritePoint type, float x, float y) {
+    private final Anchor type;
+    public SpritePoint2D(Anchor type, float x, float y) {
         super(x, y);
         this.type = type;
     }
 
-    public SpritePoint getType() {
+    public Anchor getType() {
         return type;
     }
 }

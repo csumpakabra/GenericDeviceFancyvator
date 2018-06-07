@@ -1,7 +1,7 @@
 package com.meandmyphone.genericdevicefancyvator.core.gl;
 
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
-import com.meandmyphone.genericdevicefancyvator.core.data.misc.SpritePoint;
+import com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ public class Projection {
 
     private float[] projectionMatrix;
     private float projectionWidth, projectionHeight;
-    private Map<SpritePoint, Point2D> pointsOfInterest;
+    private Map<Anchor, Point2D> pointsOfInterest;
 
     public Projection(float [] projectionMatrix, int width, int height) {
         this.projectionMatrix = projectionMatrix;
@@ -26,15 +26,15 @@ public class Projection {
         Point2D projectionCenterLeft = GLRenderer.SpaceConverter.worldToProjectionSpacePoint(projectionMatrix, GLRenderer.SpaceConverter.screenToWorldPoint(0, height / 2));
         Point2D projectionCenter = GLRenderer.SpaceConverter.worldToProjectionSpacePoint(projectionMatrix, GLRenderer.SpaceConverter.screenToWorldPoint(width / 2, height / 2));
 
-        pointsOfInterest.put(SpritePoint.TOPLEFT, projectionTopLeft);
-        pointsOfInterest.put(SpritePoint.TOPCENTER, projectionTopCenter);
-        pointsOfInterest.put(SpritePoint.TOPRIGHT, projectionTopRight);
-        pointsOfInterest.put(SpritePoint.CENTERRIGHT, projectionCenterRight);
-        pointsOfInterest.put(SpritePoint.BOTRIGHT, projectionBotRight);
-        pointsOfInterest.put(SpritePoint.BOTCENTER, projectionBotCenter);
-        pointsOfInterest.put(SpritePoint.BOTLEFT, projectionBotLeft);
-        pointsOfInterest.put(SpritePoint.CENTERLEFT, projectionCenterLeft);
-        pointsOfInterest.put(SpritePoint.CENTER, projectionCenter);
+        pointsOfInterest.put(Anchor.TOPLEFT, projectionTopLeft);
+        pointsOfInterest.put(Anchor.TOPCENTER, projectionTopCenter);
+        pointsOfInterest.put(Anchor.TOPRIGHT, projectionTopRight);
+        pointsOfInterest.put(Anchor.CENTERRIGHT, projectionCenterRight);
+        pointsOfInterest.put(Anchor.BOTRIGHT, projectionBotRight);
+        pointsOfInterest.put(Anchor.BOTCENTER, projectionBotCenter);
+        pointsOfInterest.put(Anchor.BOTLEFT, projectionBotLeft);
+        pointsOfInterest.put(Anchor.CENTERLEFT, projectionCenterLeft);
+        pointsOfInterest.put(Anchor.CENTER, projectionCenter);
 
         projectionWidth = projectionBotRight.X - projectionTopLeft.X;
         projectionHeight = projectionTopLeft.Y - projectionBotRight.Y;
@@ -52,7 +52,7 @@ public class Projection {
         return projectionHeight;
     }
 
-    public Point2D getProjectionPointOfInteres(SpritePoint spritePoint) {
-        return pointsOfInterest.get(spritePoint);
+    public Point2D getProjectionPointOfInteres(Anchor anchor) {
+        return pointsOfInterest.get(anchor);
     }
 }

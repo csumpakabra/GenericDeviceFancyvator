@@ -1,9 +1,12 @@
 package com.meandmyphone.genericdevicefancyvator.common;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.meandmyphone.genericdevicefancyvator.core.LWPTheme;
+import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
+import com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor;
 import com.meandmyphone.genericdevicefancyvator.core.gl.GLRenderer;
 import com.meandmyphone.genericdevicefancyvator.core.gl.Scene;
 import com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory;
@@ -20,13 +23,19 @@ import com.meandmyphone.genericdevicefancyvator.xml.pojo.Ease;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.FlipbookTransition;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.Measure;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.Pivot;
+import com.meandmyphone.genericdevicefancyvator.xml.pojo.Position;
+import com.meandmyphone.genericdevicefancyvator.xml.pojo.RelativityType;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.SceneRelativePosition;
-import com.meandmyphone.genericdevicefancyvator.xml.pojo.Sprite;
+
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory.*;
+
 public class GDFTransformer implements Transformer {
+
+    private final static String TAG = "Transformer";
 
     private final GLRenderer renderer;
     private final Context context;
@@ -47,8 +56,8 @@ public class GDFTransformer implements Transformer {
 
     private void init() {
         for (com.meandmyphone.genericdevicefancyvator.xml.pojo.Sprite sprite : xmlScene.getSprite()) {
-            xmlIdBySpriteId.put(SpriteFactory.Sprite.SPRITE_COUNTER, sprite.getId());
-            spriteIdByXmlId.put(sprite.getId(), SpriteFactory.Sprite.SPRITE_COUNTER++);
+            xmlIdBySpriteId.put(Sprite.SPRITE_COUNTER, sprite.getId());
+            spriteIdByXmlId.put(sprite.getId(), Sprite.SPRITE_COUNTER++);
         }
     }
 
@@ -83,14 +92,21 @@ public class GDFTransformer implements Transformer {
     }
 
     @Override
-    public SpriteFactory.Sprite transform(Sprite xmlSprite) {
+    public Sprite transform(com.meandmyphone.genericdevicefancyvator.xml.pojo.Sprite xmlSprite) {
         int resourceId = context.getResources().getIdentifier(xmlSprite.getResource(),
                 "drawable", context.getPackageName());
         int SpriteID = spriteIdByXmlId.get(xmlSprite.getId());
         if (xmlSprite.getSpriteTransform().getPosition().getSceneRelativePosition() != null) {
             SceneRelativePosition sceneRelativePosition = xmlSprite.getSpriteTransform().getPosition().getSceneRelativePosition();
-            Pivot pivot = sceneRelativePosition.getScenePoint();
-            Measure distance = sceneRelativePosition.getDistanceFromPivot();
+            float realWidth = getRealWidth(xmlSprite.getSpriteTransform().getWidth());
+            float realHeight = getRealHeight(xmlSprite.getSpriteTransform().getHeight());
+            Point2D getSpriteTopLeft = getRealPoint(xmlSprite.getSpriteTransform().getPosition());
+
+
+
+//            float realWidth =
+
+
         }
 
 
@@ -98,7 +114,7 @@ public class GDFTransformer implements Transformer {
     }
 
     @Override
-    public SpriteFactory.Sprite transform(Background xmlImageBackground) {
+    public Sprite transform(Background xmlImageBackground) {
         int resourceId = context.getResources().getIdentifier(
                 xmlImageBackground.getBackgroundSource().getImageBackground().getResource(),
                 "drawable", context.getPackageName());
@@ -125,5 +141,46 @@ public class GDFTransformer implements Transformer {
             case SINE_INOUT: return ITransition.SINEASEINOUT;
         }
         throw new IllegalArgumentException("Unable to transform xmlEase: " + xmlEase);
+    }
+
+    private float getRealWidth(Measure measure) {
+        if (RelativityType.NONE.equals(measure.getRelativity())) {
+            Log.w(TAG, "Creating absolute widht sprite!");
+            return measure.getValue();
+        } else if (RelativityType.SCENE.equals(measure.getRelativity())) {
+            return measure.getValue() * scene.getSceneWidth();
+        } else if (RelativityType.SPRITE.equals(measure.getRelativity())) {
+            int relativeToSpriteId = spriteIdByXmlId.get(measure.getRelativeTo());
+            Sprite relativeToSprite = scene.getSprite(relativeToSpriteId);
+            return relativeToSprite.width * measure.getValue();
+        }
+        throw new IllegalArgumentException("Invalid measure: " + measure.getRelativity());
+    }
+
+    private float getRealHeight(Measure measure) {
+        if (RelativityType.NONE.equals(measure.getRelativity())) {
+            Log.w(TAG, "Creating absolute height sprite!");
+            return measure.getValue();
+        } else if (RelativityType.SCENE.equals(measure.getRelativity())) {
+            return measure.getValue() * scene.getSceneHeight();
+        } else if (RelativityType.SPRITE.equals(measure.getRelativity())) {
+            int relativeToSpriteId = spriteIdByXmlId.get(measure.getRelativeTo());
+            Sprite relativeToSprite = scene.getSprite(relativeToSpriteId);
+            return relativeToSprite.height * measure.getValue();
+        }
+        throw new IllegalArgumentException("Invalid measure: " + measure.getRelativity());
+    }
+
+    private Point2D getRealPoint(Position position) {
+        if (position.getSceneRelativePosition() != null) {
+            float distanceX = getRealWidth(position.getSceneRelativePosition().getXDistanceFromPivot());
+            float distanceY = getRealHeight(position.getSceneRelativePosition().getYDistanceFromPivot());
+            float x = scene.getScenePointOfInterest(Anchor.fromPivot(position.getSceneRelativePosition().getScenePoint())).X + distanceX;
+            float y = scene.getScenePointOfInterest(Anchor.fromPivot(position.getSceneRelativePosition().getScenePoint())).Y - distanceY;
+            return new Point2D(x, y);
+        } else if (position.getSpriteRelativePosition() != null) {
+
+        }
+        throw new IllegalArgumentException("Invalid position: " + position.toString());
     }
 }

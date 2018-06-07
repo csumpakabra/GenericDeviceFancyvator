@@ -8,7 +8,7 @@ import com.meandmyphone.genericdevicefancyvator.core.programs.TextureShaderProgr
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2DUV;
 import com.meandmyphone.genericdevicefancyvator.core.data.VertexArray;
-import com.meandmyphone.genericdevicefancyvator.core.data.misc.SpritePoint;
+import com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.SpritePoint2D;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.SpriteUV;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
@@ -33,7 +33,7 @@ public class SpriteFactory {
         Logger.Log(TAG, "New spritefactory created:\n%s", toString());
     }
 
-    public Sprite createSprite(int resourceID, float topLeftX, float topLeftY, float sizeX, float sizeY, float topLeftU, float topLeftV, float botRightU, float botRightV) {
+    private Sprite createSprite(int resourceID, float topLeftX, float topLeftY, float sizeX, float sizeY, float topLeftU, float topLeftV, float botRightU, float botRightV) {
         Point2D base = new Point2D(topLeftX, topLeftY);
         Point2D spriteTopLeft = new Point2D(base.X, base.Y);
         Point2D spriteBottomLeft = new Point2D(base.X, base.Y - sizeY);
@@ -86,11 +86,11 @@ public class SpriteFactory {
         );
     }
 
-    public Sprite createSpriteRelativeToOtherSpriteRelativeWidth(int resourceID, int otherSpriteID, SpritePoint otherSpriteSpritePoint, SpritePoint spritePoint, float relativeSpriteWidth, SpriteUV spriteUV) {
-        Point2D connectionPoint = calculateSpritePointOfSprite(otherSpriteID, otherSpriteSpritePoint);
+    public Sprite createSpriteRelativeToOtherSpriteRelativeWidth(int resourceID, int otherSpriteID, Anchor otherSpriteAnchor, Anchor anchor, float relativeSpriteWidth, SpriteUV spriteUV) {
+        Point2D connectionPoint = calculateSpritePointOfSprite(otherSpriteID, otherSpriteAnchor);
         float spriteWidthInProjection = scene.getSceneWidth() * relativeSpriteWidth;
         float spriteHeightInProjection = (spriteWidthInProjection * spriteUV.getHeight()) / (TextureHelper.bitmapAspectRatio.get(resourceID) * spriteUV.getWidth());
-        Point2D topLeft = calculateTopLeftFromOwnedSpritePoint(new SpritePoint2D(spritePoint, connectionPoint.X, connectionPoint.Y), spriteWidthInProjection, spriteHeightInProjection);
+        Point2D topLeft = calculateTopLeftFromOwnedSpritePoint(new SpritePoint2D(anchor, connectionPoint.X, connectionPoint.Y), spriteWidthInProjection, spriteHeightInProjection);
         return createSprite(
                 resourceID,
                 topLeft.X,
@@ -104,11 +104,11 @@ public class SpriteFactory {
         );
     }
 
-    public Sprite createSpriteRelativeToOtherSpriteRelativeHeight(int resourceID, int otherSpriteID, SpritePoint otherSpriteSpritePoint, SpritePoint spritePoint, float relativeSpriteHeight, SpriteUV spriteUV) {
-        Point2D connectionPoint = calculateSpritePointOfSprite(otherSpriteID, otherSpriteSpritePoint);
+    public Sprite createSpriteRelativeToOtherSpriteRelativeHeight(int resourceID, int otherSpriteID, Anchor otherSpriteAnchor, Anchor anchor, float relativeSpriteHeight, SpriteUV spriteUV) {
+        Point2D connectionPoint = calculateSpritePointOfSprite(otherSpriteID, otherSpriteAnchor);
         float spriteHeightInProjection = scene.getSceneHeight() * relativeSpriteHeight;
         float spriteWidthInProjection = (spriteHeightInProjection * spriteUV.getWidth()) / (TextureHelper.bitmapAspectRatio.get(resourceID) * spriteUV.getHeight());
-        Point2D topLeft = calculateTopLeftFromOwnedSpritePoint(new SpritePoint2D(spritePoint, connectionPoint.X, connectionPoint.Y), spriteWidthInProjection, spriteHeightInProjection);
+        Point2D topLeft = calculateTopLeftFromOwnedSpritePoint(new SpritePoint2D(anchor, connectionPoint.X, connectionPoint.Y), spriteWidthInProjection, spriteHeightInProjection);
         return createSprite(
                 resourceID,
                 topLeft.X,
@@ -158,13 +158,13 @@ public class SpriteFactory {
         return new Point2D(x, y);
     }
 
-    private Point2D calculateSpritePointOfSprite(int spriteId, SpritePoint spritePoint) {
+    private Point2D calculateSpritePointOfSprite(int spriteId, Anchor anchor) {
         Sprite sprite = scene.getSprite(spriteId);
         float x = sprite.getTopLeftX();
         float y = sprite.getTopLeftY();
         float spriteHeight = sprite.height;
         float spriteWidth = sprite.width;
-        switch (spritePoint) {
+        switch (anchor) {
             case CENTERLEFT:
                 y -= spriteHeight / 2;
                 break;
@@ -234,7 +234,7 @@ public class SpriteFactory {
                 pivotX,
                 pivotY;
 
-        private SpritePoint pivot = SpritePoint.CENTER;
+        private Anchor pivot = Anchor.CENTER;
 
         /**
          *
@@ -308,7 +308,7 @@ public class SpriteFactory {
             return A.Y;
         }
 
-        public SpritePoint getPivot() {
+        public Anchor getPivot() {
             return pivot;
         }
 
@@ -328,7 +328,7 @@ public class SpriteFactory {
             this.angle = angle;
         }
 
-        public void setPivot(SpritePoint pivot) {
+        public void setPivot(Anchor pivot) {
             this.pivot = pivot;
             calculatePivot();
         }

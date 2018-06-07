@@ -127,14 +127,16 @@
     <xs:complexType name="scene_relative_position">
         <xs:sequence>
             <xs:element name="scene_point" type="pivot"/>
-            <xs:element name="distance_from_pivot" type="measure"/>
+            <xs:element name="x_distance_from_pivot" type="measure"/>
+            <xs:element name="y_distance_from_pivot" type="measure"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="sprite_relative_position">
         <xs:sequence>
             <xs:element name="relative_sprite_id" type="xs:string"/>
             <xs:element name="relative_sprite_point" type="pivot"/>
-            <xs:element name="distance_from_sprite" type="measure"/>
+            <xs:element name="x_distance_from_sprite" type="measure"/>
+            <xs:element name="y_distance_from_sprite" type="measure"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="position">

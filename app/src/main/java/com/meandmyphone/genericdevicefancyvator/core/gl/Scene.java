@@ -6,14 +6,26 @@ import android.util.SparseIntArray;
 
 import com.meandmyphone.genericdevicefancyvator.core.LWPTheme;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
-import com.meandmyphone.genericdevicefancyvator.core.data.misc.SpritePoint;
+import com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.FadeTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.TransitionCallback;
 import com.meandmyphone.genericdevicefancyvator.core.util.TextureHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import static com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor.BOTCENTER;
+import static com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor.BOTLEFT;
+import static com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor.BOTRIGHT;
+import static com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor.CENTER;
+import static com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor.CENTERLEFT;
+import static com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor.CENTERRIGHT;
+import static com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor.TOPCENTER;
+import static com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor.TOPLEFT;
+import static com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor.TOPRIGHT;
 
 /**
  * Created by csumpakadabra on 2017.10.21..
@@ -29,8 +41,10 @@ public class Scene {
     private Point2D sceneTopLeft, sceneTopCenter, sceneTopRight, sceneCenterRight, sceneBotRight, sceneBotCenter, sceneBotLeft, sceneCenterLeft, sceneCenter;
     private float sceneWidth, sceneHeight;
     private final Projection projection;
+    private final Map<Anchor, Point2D> pointsOfInterest;
 
     public Scene(Context context, int runMode, Projection projection, LWPTheme theme) {
+        this.pointsOfInterest = new HashMap<>();
         this.projection = projection;
         for (int textureResource : theme.getResources()) {
             textures.put(textureResource, TextureHelper.loadTexture(context, textureResource));
@@ -39,12 +53,12 @@ public class Scene {
             setSceneHeight(projection.getProjectionHeight());
             setSceneWidth((float) (Math.pow(projection.getProjectionHeight(), 2) / projection.getProjectionWidth()));
             float
-                    top = projection.getProjectionPointOfInteres(SpritePoint.TOPCENTER).Y,
-                    right = projection.getProjectionPointOfInteres(SpritePoint.CENTER).X + getSceneWidth() / 2,
-                    bottom = projection.getProjectionPointOfInteres(SpritePoint.BOTCENTER).Y,
-                    left = projection.getProjectionPointOfInteres(SpritePoint.CENTER).X - getSceneWidth() / 2,
-                    centerX = projection.getProjectionPointOfInteres(SpritePoint.CENTER).X / 2,
-                    centerY = projection.getProjectionPointOfInteres(SpritePoint.CENTER).Y / 2;
+                    top = projection.getProjectionPointOfInteres(Anchor.TOPCENTER).Y,
+                    right = projection.getProjectionPointOfInteres(Anchor.CENTER).X + getSceneWidth() / 2,
+                    bottom = projection.getProjectionPointOfInteres(Anchor.BOTCENTER).Y,
+                    left = projection.getProjectionPointOfInteres(Anchor.CENTER).X - getSceneWidth() / 2,
+                    centerX = projection.getProjectionPointOfInteres(Anchor.CENTER).X / 2,
+                    centerY = projection.getProjectionPointOfInteres(Anchor.CENTER).Y / 2;
             setSceneTopLeft(new Point2D(left, top));
             setSceneTopCenter(new Point2D(centerX, top));
             setSceneTopRight(new Point2D(right, top));
@@ -57,15 +71,15 @@ public class Scene {
         } else if (runMode == GLRenderer.LANDSCAPE_MODE) {
             setSceneWidth(this.projection.getProjectionWidth());
             setSceneHeight(this.projection.getProjectionHeight());
-            setSceneTopLeft(this.projection.getProjectionPointOfInteres(SpritePoint.TOPLEFT));
-            setSceneTopCenter(this.projection.getProjectionPointOfInteres(SpritePoint.TOPCENTER));
-            setSceneTopRight(this.projection.getProjectionPointOfInteres(SpritePoint.TOPRIGHT));
-            setSceneCenterRight(this.projection.getProjectionPointOfInteres(SpritePoint.CENTERRIGHT));
-            setSceneBotRight(this.projection.getProjectionPointOfInteres(SpritePoint.BOTRIGHT));
-            setSceneBotCenter(this.projection.getProjectionPointOfInteres(SpritePoint.BOTCENTER));
-            setSceneBotLeft(this.projection.getProjectionPointOfInteres(SpritePoint.BOTLEFT));
-            setSceneCenterLeft(this.projection.getProjectionPointOfInteres(SpritePoint.CENTERLEFT));
-            setSceneCenter(this.projection.getProjectionPointOfInteres(SpritePoint.CENTER));
+            setSceneTopLeft(this.projection.getProjectionPointOfInteres(TOPLEFT));
+            setSceneTopCenter(this.projection.getProjectionPointOfInteres(Anchor.TOPCENTER));
+            setSceneTopRight(this.projection.getProjectionPointOfInteres(Anchor.TOPRIGHT));
+            setSceneCenterRight(this.projection.getProjectionPointOfInteres(Anchor.CENTERRIGHT));
+            setSceneBotRight(this.projection.getProjectionPointOfInteres(Anchor.BOTRIGHT));
+            setSceneBotCenter(this.projection.getProjectionPointOfInteres(Anchor.BOTCENTER));
+            setSceneBotLeft(this.projection.getProjectionPointOfInteres(Anchor.BOTLEFT));
+            setSceneCenterLeft(this.projection.getProjectionPointOfInteres(Anchor.CENTERLEFT));
+            setSceneCenter(this.projection.getProjectionPointOfInteres(Anchor.CENTER));
         }
     }
 
@@ -74,6 +88,7 @@ public class Scene {
     }
 
     public void setSceneTopLeft(Point2D sceneTopLeft) {
+        pointsOfInterest.put(TOPLEFT, sceneTopLeft);
         this.sceneTopLeft = sceneTopLeft;
     }
 
@@ -82,6 +97,7 @@ public class Scene {
     }
 
     public void setSceneTopCenter(Point2D sceneTopCenter) {
+        pointsOfInterest.put(TOPCENTER, sceneTopCenter);
         this.sceneTopCenter = sceneTopCenter;
     }
 
@@ -90,6 +106,7 @@ public class Scene {
     }
 
     public void setSceneTopRight(Point2D sceneTopRight) {
+        pointsOfInterest.put(TOPRIGHT, sceneTopRight);
         this.sceneTopRight = sceneTopRight;
     }
 
@@ -98,6 +115,7 @@ public class Scene {
     }
 
     public void setSceneCenterRight(Point2D sceneCenterRight) {
+        pointsOfInterest.put(CENTERRIGHT, sceneCenterRight);
         this.sceneCenterRight = sceneCenterRight;
     }
 
@@ -106,6 +124,7 @@ public class Scene {
     }
 
     public void setSceneBotRight(Point2D sceneBotRight) {
+        pointsOfInterest.put(BOTRIGHT, sceneBotRight);
         this.sceneBotRight = sceneBotRight;
     }
 
@@ -114,6 +133,7 @@ public class Scene {
     }
 
     public void setSceneBotCenter(Point2D sceneBotCenter) {
+        pointsOfInterest.put(BOTCENTER, sceneBotCenter);
         this.sceneBotCenter = sceneBotCenter;
     }
 
@@ -122,6 +142,7 @@ public class Scene {
     }
 
     public void setSceneBotLeft(Point2D sceneBotLeft) {
+        pointsOfInterest.put(BOTLEFT, sceneBotLeft);
         this.sceneBotLeft = sceneBotLeft;
     }
 
@@ -130,6 +151,7 @@ public class Scene {
     }
 
     public void setSceneCenterLeft(Point2D sceneCenterLeft) {
+        pointsOfInterest.put(CENTERLEFT, sceneCenterLeft);
         this.sceneCenterLeft = sceneCenterLeft;
     }
 
@@ -138,7 +160,12 @@ public class Scene {
     }
 
     public void setSceneCenter(Point2D sceneCenter) {
+        pointsOfInterest.put(CENTER, sceneCenter);
         this.sceneCenter = sceneCenter;
+    }
+
+    public Point2D getScenePointOfInterest(Anchor anchor) {
+        return pointsOfInterest.get(anchor);
     }
 
     public float getSceneWidth() {
