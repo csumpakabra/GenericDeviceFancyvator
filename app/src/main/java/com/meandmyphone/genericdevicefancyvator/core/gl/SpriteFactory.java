@@ -4,16 +4,19 @@ package com.meandmyphone.genericdevicefancyvator.core.gl;
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
-import com.meandmyphone.genericdevicefancyvator.core.programs.TextureShaderProgram;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2DUV;
 import com.meandmyphone.genericdevicefancyvator.core.data.VertexArray;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.SpritePoint2D;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.SpriteUV;
+import com.meandmyphone.genericdevicefancyvator.core.programs.TextureShaderProgram;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
 import com.meandmyphone.genericdevicefancyvator.core.util.Logger;
 import com.meandmyphone.genericdevicefancyvator.core.util.TextureHelper;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.opengl.GLES20.GL_TRIANGLES;
 import static android.opengl.GLES20.glDrawArrays;
@@ -133,7 +136,7 @@ public class SpriteFactory {
                 y += spriteHeight;
                 break;
             case BOTCENTER:
-                x -= spriteWidth/2;
+                x -= spriteWidth / 2;
                 y += spriteHeight;
                 break;
             case BOTRIGHT:
@@ -145,13 +148,13 @@ public class SpriteFactory {
                 y += spriteHeight / 2;
                 break;
             case TOPRIGHT:
-                x -=spriteWidth;
+                x -= spriteWidth;
                 break;
             case TOPCENTER:
-                x -= spriteWidth/2;
+                x -= spriteWidth / 2;
                 break;
             case CENTER:
-                x -= spriteWidth/2;
+                x -= spriteWidth / 2;
                 y += spriteHeight / 2;
                 break;
         }
@@ -172,7 +175,7 @@ public class SpriteFactory {
                 y -= spriteHeight;
                 break;
             case BOTCENTER:
-                x += spriteWidth/2;
+                x += spriteWidth / 2;
                 y -= spriteHeight;
             case BOTRIGHT:
                 x += spriteWidth;
@@ -183,17 +186,17 @@ public class SpriteFactory {
                 y -= spriteHeight / 2;
                 break;
             case TOPRIGHT:
-                x +=spriteWidth;
+                x += spriteWidth;
                 break;
             case TOPCENTER:
-                x += spriteWidth/2;
+                x += spriteWidth / 2;
                 break;
             case CENTER:
-                x += spriteWidth/2;
+                x += spriteWidth / 2;
                 y -= spriteHeight / 2;
                 break;
         }
-        return new Point2D(x,y);
+        return new Point2D(x, y);
     }
 
     @Override
@@ -220,8 +223,9 @@ public class SpriteFactory {
 
         private final VertexArray vertexArray;
         private int resourceId;
+        private Map<Anchor, Point2D> pointsOfInterest;
 
-        private Point2DUV A,B,C,D;
+        private Point2DUV A, B, C, D;
         public float
                 alpha = 1.0f,
                 angle,
@@ -237,7 +241,6 @@ public class SpriteFactory {
         private Anchor pivot = Anchor.CENTER;
 
         /**
-         *
          * Counter clockwise!
          *
          * @param A top left
@@ -247,13 +250,13 @@ public class SpriteFactory {
          */
         private Sprite(int ID, int resourceId, Point2DUV A, Point2DUV B, Point2DUV C, Point2DUV D) {
             this.ID = ID;
-            vertexData = new float [] {
+            vertexData = new float[]{
                     A.X, A.Y, A.U, A.V, // top l
                     B.X, B.Y, B.U, B.V, // bot l
                     C.X, C.Y, C.U, C.V, // bot r
                     A.X, A.Y, A.U, A.V, // top l
                     D.X, D.Y, D.U, D.V, // top r
-                    C.X, C.Y, C.U, C.V }; // bot r
+                    C.X, C.Y, C.U, C.V}; // bot r
             this.resourceId = resourceId;
             this.A = A;
             this.B = B;
@@ -263,8 +266,8 @@ public class SpriteFactory {
             width = A.distance(D);
             height = A.distance(B);
             calculatePivot();
+            createPointsOfInterest();
         }
-
 
 
         void bindData(TextureShaderProgram textureProgram) {
@@ -341,14 +344,14 @@ public class SpriteFactory {
                     break;
                 case CENTERLEFT:
                     pivotX = A.X;
-                    pivotY = A.Y - height/2;
+                    pivotY = A.Y - height / 2;
                     break;
                 case BOTLEFT:
                     pivotX = B.X;
                     pivotY = B.Y;
                     break;
                 case BOTCENTER:
-                    pivotX = B.X + width/2;
+                    pivotX = B.X + width / 2;
                     pivotY = B.Y;
                 case BOTRIGHT:
                     pivotX = C.X;
@@ -356,7 +359,7 @@ public class SpriteFactory {
                     break;
                 case CENTERRIGHT:
                     pivotX = C.X;
-                    pivotY = C.X + height/2;
+                    pivotY = C.X + height / 2;
                 case TOPRIGHT:
                     pivotX = D.X;
                     pivotY = D.Y;
@@ -366,8 +369,8 @@ public class SpriteFactory {
                     pivotY = D.Y;
                     break;
                 case CENTER:
-                    pivotX = A.X + width/2;
-                    pivotY = A.Y - height/2;
+                    pivotX = A.X + width / 2;
+                    pivotY = A.Y - height / 2;
                     break;
             }
         }
@@ -378,6 +381,23 @@ public class SpriteFactory {
 
         public void setTranslateX(float translateX) {
             this.translateX = translateX;
+        }
+
+        private void createPointsOfInterest() {
+            pointsOfInterest = new HashMap<>();
+            pointsOfInterest.put(Anchor.TOPLEFT, new Point2D(A.X, A.Y));
+            pointsOfInterest.put(Anchor.TOPCENTER, new Point2D(A.X + width / 2, A.Y));
+            pointsOfInterest.put(Anchor.TOPRIGHT, new Point2D(D.X, D.Y));
+            pointsOfInterest.put(Anchor.CENTERRIGHT, new Point2D(D.X, D.Y - height / 2));
+            pointsOfInterest.put(Anchor.BOTRIGHT, new Point2D(C.X, C.Y));
+            pointsOfInterest.put(Anchor.BOTCENTER, new Point2D(B.X + width / 2, C.Y));
+            pointsOfInterest.put(Anchor.BOTLEFT, new Point2D(B.X, B.Y));
+            pointsOfInterest.put(Anchor.CENTERLEFT, new Point2D(B.X, A.Y - height / 2));
+            pointsOfInterest.put(Anchor.CENTER, new Point2D(A.X + width / 2, A.Y - height / 2));
+        }
+
+        public Point2D getPointOfInterest(Anchor anchor) {
+            return pointsOfInterest.get(anchor);
         }
     }
 }

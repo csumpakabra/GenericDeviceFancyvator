@@ -179,7 +179,14 @@ public class GDFTransformer implements Transformer {
             float y = scene.getScenePointOfInterest(Anchor.fromPivot(position.getSceneRelativePosition().getScenePoint())).Y - distanceY;
             return new Point2D(x, y);
         } else if (position.getSpriteRelativePosition() != null) {
-
+            float distanceX = getRealWidth(position.getSpriteRelativePosition().getXDistanceFromSprite());
+            float distanceY = getRealHeight(position.getSpriteRelativePosition().getYDistanceFromSprite());
+            int relativeToSpirteId = spriteIdByXmlId.get(position.getSpriteRelativePosition().getRelativeSpriteId());
+            Sprite relativeToSprite = scene.getSprite(relativeToSpirteId);
+            Point2D relativePoint = relativeToSprite.getPointOfInterest(Anchor.fromPivot(position.getSpriteRelativePosition().getRelativeSpritePoint()));
+            float x = relativePoint.X + distanceX;
+            float y = relativePoint.Y - distanceY;
+            return new Point2D(x, y);
         }
         throw new IllegalArgumentException("Invalid position: " + position.toString());
     }
