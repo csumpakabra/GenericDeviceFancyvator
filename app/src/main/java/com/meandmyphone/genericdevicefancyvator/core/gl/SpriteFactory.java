@@ -36,7 +36,7 @@ public class SpriteFactory {
         Logger.Log(TAG, "New spritefactory created:\n%s", toString());
     }
 
-    private Sprite createSprite(int resourceID, float topLeftX, float topLeftY, float sizeX, float sizeY, float topLeftU, float topLeftV, float botRightU, float botRightV) {
+    public Sprite createSprite(int resourceID, float topLeftX, float topLeftY, float sizeX, float sizeY, float topLeftU, float topLeftV, float botRightU, float botRightV, float alpha, float scaleX, float scaleY, float rotation, Anchor pivot) {
         Point2D base = new Point2D(topLeftX, topLeftY);
         Point2D spriteTopLeft = new Point2D(base.X, base.Y);
         Point2D spriteBottomLeft = new Point2D(base.X, base.Y - sizeY);
@@ -51,79 +51,84 @@ public class SpriteFactory {
         Sprite sprite = new Sprite(Sprite.SPRITE_COUNTER++, resourceID, A, B, C, D);
         Logger.Log(TAG, "New sprite created:\n%s\nPoints:\n%s,%s,%s,%s", sprite.toString(), A, B, C, D);
 
+        sprite.setAlpha(alpha);
+        sprite.setAngle(rotation);
+        sprite.setPivot(pivot);
+        sprite.setScaleX(scaleX);
+        sprite.setScaleY(scaleY);
         scene.addSprite(sprite);
         return sprite;
     }
 
-    public Sprite createSpriteAtSpritePointRelativeWidth(int resourceID, SpritePoint2D spritePoint, float relativeSpriteWidth, SpriteUV spriteUV) {
-        float spriteWidthInProjection = scene.getSceneWidth() * relativeSpriteWidth;
-        float spriteHeightInProjection = (spriteWidthInProjection * spriteUV.getHeight()) / (TextureHelper.bitmapAspectRatio.get(resourceID) * spriteUV.getWidth());
-        Point2D topLeft = calculateTopLeftFromOwnedSpritePoint(spritePoint, spriteWidthInProjection, spriteHeightInProjection);
-        return createSprite(
-                resourceID,
-                topLeft.X,
-                topLeft.Y,
-                spriteWidthInProjection,
-                spriteHeightInProjection,
-                spriteUV.getTopLeft().U,
-                spriteUV.getTopLeft().V,
-                spriteUV.getBotRight().U,
-                spriteUV.getBotRight().V
-        );
-    }
-
-    public Sprite createSpriteAtSpritePointRelativeHeight(int resourceID, SpritePoint2D spritePoint, float relativeSpriteHeight, SpriteUV spriteUV) {
-        float spriteHeightInProjection = scene.getSceneHeight() * relativeSpriteHeight;
-        float spriteWidthInProjection = (spriteHeightInProjection * spriteUV.getWidth()) / (TextureHelper.bitmapAspectRatio.get(resourceID) * spriteUV.getHeight());
-        Point2D topLeft = calculateTopLeftFromOwnedSpritePoint(spritePoint, spriteWidthInProjection, spriteHeightInProjection);
-        return createSprite(
-                resourceID,
-                topLeft.X,
-                topLeft.Y,
-                spriteWidthInProjection,
-                spriteHeightInProjection,
-                spriteUV.getTopLeft().U,
-                spriteUV.getTopLeft().V,
-                spriteUV.getBotRight().U,
-                spriteUV.getBotRight().V
-        );
-    }
-
-    public Sprite createSpriteRelativeToOtherSpriteRelativeWidth(int resourceID, int otherSpriteID, Anchor otherSpriteAnchor, Anchor anchor, float relativeSpriteWidth, SpriteUV spriteUV) {
-        Point2D connectionPoint = calculateSpritePointOfSprite(otherSpriteID, otherSpriteAnchor);
-        float spriteWidthInProjection = scene.getSceneWidth() * relativeSpriteWidth;
-        float spriteHeightInProjection = (spriteWidthInProjection * spriteUV.getHeight()) / (TextureHelper.bitmapAspectRatio.get(resourceID) * spriteUV.getWidth());
-        Point2D topLeft = calculateTopLeftFromOwnedSpritePoint(new SpritePoint2D(anchor, connectionPoint.X, connectionPoint.Y), spriteWidthInProjection, spriteHeightInProjection);
-        return createSprite(
-                resourceID,
-                topLeft.X,
-                topLeft.Y,
-                spriteWidthInProjection,
-                spriteHeightInProjection,
-                spriteUV.getTopLeft().U,
-                spriteUV.getTopLeft().V,
-                spriteUV.getBotRight().U,
-                spriteUV.getBotRight().V
-        );
-    }
-
-    public Sprite createSpriteRelativeToOtherSpriteRelativeHeight(int resourceID, int otherSpriteID, Anchor otherSpriteAnchor, Anchor anchor, float relativeSpriteHeight, SpriteUV spriteUV) {
-        Point2D connectionPoint = calculateSpritePointOfSprite(otherSpriteID, otherSpriteAnchor);
-        float spriteHeightInProjection = scene.getSceneHeight() * relativeSpriteHeight;
-        float spriteWidthInProjection = (spriteHeightInProjection * spriteUV.getWidth()) / (TextureHelper.bitmapAspectRatio.get(resourceID) * spriteUV.getHeight());
-        Point2D topLeft = calculateTopLeftFromOwnedSpritePoint(new SpritePoint2D(anchor, connectionPoint.X, connectionPoint.Y), spriteWidthInProjection, spriteHeightInProjection);
-        return createSprite(
-                resourceID,
-                topLeft.X,
-                topLeft.Y,
-                spriteWidthInProjection,
-                spriteHeightInProjection,
-                spriteUV.getTopLeft().U,
-                spriteUV.getTopLeft().V,
-                spriteUV.getBotRight().U,
-                spriteUV.getBotRight().V
-        );
-    }
+//    public Sprite createSpriteAtSpritePointRelativeWidth(int resourceID, SpritePoint2D spritePoint, float relativeSpriteWidth, SpriteUV spriteUV) {
+//        float spriteWidthInProjection = scene.getSceneWidth() * relativeSpriteWidth;
+//        float spriteHeightInProjection = (spriteWidthInProjection * spriteUV.getHeight()) / (TextureHelper.bitmapAspectRatio.get(resourceID) * spriteUV.getWidth());
+//        Point2D topLeft = calculateTopLeftFromOwnedSpritePoint(spritePoint, spriteWidthInProjection, spriteHeightInProjection);
+//        return createSprite(
+//                resourceID,
+//                topLeft.X,
+//                topLeft.Y,
+//                spriteWidthInProjection,
+//                spriteHeightInProjection,
+//                spriteUV.getTopLeft().U,
+//                spriteUV.getTopLeft().V,
+//                spriteUV.getBotRight().U,
+//                spriteUV.getBotRight().V
+//        );
+//    }
+//
+//    public Sprite createSpriteAtSpritePointRelativeHeight(int resourceID, SpritePoint2D spritePoint, float relativeSpriteHeight, SpriteUV spriteUV) {
+//        float spriteHeightInProjection = scene.getSceneHeight() * relativeSpriteHeight;
+//        float spriteWidthInProjection = (spriteHeightInProjection * spriteUV.getWidth()) / (TextureHelper.bitmapAspectRatio.get(resourceID) * spriteUV.getHeight());
+//        Point2D topLeft = calculateTopLeftFromOwnedSpritePoint(spritePoint, spriteWidthInProjection, spriteHeightInProjection);
+//        return createSprite(
+//                resourceID,
+//                topLeft.X,
+//                topLeft.Y,
+//                spriteWidthInProjection,
+//                spriteHeightInProjection,
+//                spriteUV.getTopLeft().U,
+//                spriteUV.getTopLeft().V,
+//                spriteUV.getBotRight().U,
+//                spriteUV.getBotRight().V
+//        );
+//    }
+//
+//    public Sprite createSpriteRelativeToOtherSpriteRelativeWidth(int resourceID, int otherSpriteID, Anchor otherSpriteAnchor, Anchor anchor, float relativeSpriteWidth, SpriteUV spriteUV) {
+//        Point2D connectionPoint = calculateSpritePointOfSprite(otherSpriteID, otherSpriteAnchor);
+//        float spriteWidthInProjection = scene.getSceneWidth() * relativeSpriteWidth;
+//        float spriteHeightInProjection = (spriteWidthInProjection * spriteUV.getHeight()) / (TextureHelper.bitmapAspectRatio.get(resourceID) * spriteUV.getWidth());
+//        Point2D topLeft = calculateTopLeftFromOwnedSpritePoint(new SpritePoint2D(anchor, connectionPoint.X, connectionPoint.Y), spriteWidthInProjection, spriteHeightInProjection);
+//        return createSprite(
+//                resourceID,
+//                topLeft.X,
+//                topLeft.Y,
+//                spriteWidthInProjection,
+//                spriteHeightInProjection,
+//                spriteUV.getTopLeft().U,
+//                spriteUV.getTopLeft().V,
+//                spriteUV.getBotRight().U,
+//                spriteUV.getBotRight().V
+//        );
+//    }
+//
+//    public Sprite createSpriteRelativeToOtherSpriteRelativeHeight(int resourceID, int otherSpriteID, Anchor otherSpriteAnchor, Anchor anchor, float relativeSpriteHeight, SpriteUV spriteUV) {
+//        Point2D connectionPoint = calculateSpritePointOfSprite(otherSpriteID, otherSpriteAnchor);
+//        float spriteHeightInProjection = scene.getSceneHeight() * relativeSpriteHeight;
+//        float spriteWidthInProjection = (spriteHeightInProjection * spriteUV.getWidth()) / (TextureHelper.bitmapAspectRatio.get(resourceID) * spriteUV.getHeight());
+//        Point2D topLeft = calculateTopLeftFromOwnedSpritePoint(new SpritePoint2D(anchor, connectionPoint.X, connectionPoint.Y), spriteWidthInProjection, spriteHeightInProjection);
+//        return createSprite(
+//                resourceID,
+//                topLeft.X,
+//                topLeft.Y,
+//                spriteWidthInProjection,
+//                spriteHeightInProjection,
+//                spriteUV.getTopLeft().U,
+//                spriteUV.getTopLeft().V,
+//                spriteUV.getBotRight().U,
+//                spriteUV.getBotRight().V
+//        );
+//    }
 
     private Point2D calculateTopLeftFromOwnedSpritePoint(SpritePoint2D point, float spriteWidth, float spriteHeight) {
         float x = point.X;
@@ -381,6 +386,14 @@ public class SpriteFactory {
 
         public void setTranslateX(float translateX) {
             this.translateX = translateX;
+        }
+
+        public void setScaleX(float scaleX) {
+            this.scaleX = scaleX;
+        }
+
+        public void setScaleY(float scaleY) {
+            this.scaleY = scaleY;
         }
 
         private void createPointsOfInterest() {

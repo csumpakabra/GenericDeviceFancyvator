@@ -2,7 +2,6 @@ package com.meandmyphone.genericdevicefancyvator.common;
 
 import android.content.Context;
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.meandmyphone.genericdevicefancyvator.core.LWPTheme;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
@@ -13,25 +12,26 @@ import com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory;
 import com.meandmyphone.genericdevicefancyvator.core.primitives.FullScreenRectangle;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.FadeTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.FlipBookAnimation;
+import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.RotateTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ScaleTransition;
+import com.meandmyphone.genericdevicefancyvator.core.transitions.Transition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.TranslateTransition;
-import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.Background;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.DiffuseBackground;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.Ease;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.FlipbookTransition;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.Measure;
-import com.meandmyphone.genericdevicefancyvator.xml.pojo.Pivot;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.Position;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.RelativityType;
 import com.meandmyphone.genericdevicefancyvator.xml.pojo.SceneRelativePosition;
 
-
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory.*;
+import static com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory.Sprite;
 
 public class GDFTransformer implements Transformer {
 
@@ -42,8 +42,8 @@ public class GDFTransformer implements Transformer {
     private final com.meandmyphone.genericdevicefancyvator.xml.pojo.Scene xmlScene;
     private final Scene scene;
     private final SpriteFactory spriteFactory;
-    private SparseArray<String> xmlIdBySpriteId = new SparseArray<>();
     private Map<String, Integer> spriteIdByXmlId = new HashMap<>();
+    private Map<String, Integer> resourceIdByXmlResourceId = new HashMap<>();
 
     public GDFTransformer(Context context, GLRenderer renderer, com.meandmyphone.genericdevicefancyvator.xml.pojo.Scene xmlScene, Scene scene) {
         this.renderer = renderer;
@@ -56,8 +56,9 @@ public class GDFTransformer implements Transformer {
 
     private void init() {
         for (com.meandmyphone.genericdevicefancyvator.xml.pojo.Sprite sprite : xmlScene.getSprite()) {
-            xmlIdBySpriteId.put(Sprite.SPRITE_COUNTER, sprite.getId());
             spriteIdByXmlId.put(sprite.getId(), Sprite.SPRITE_COUNTER++);
+            int resourceId = context.getResources().getIdentifier(sprite.getResource(), "drawable", context.getPackageName());
+            resourceIdByXmlResourceId.put(sprite.getResource(), resourceId);
         }
     }
 
@@ -91,26 +92,61 @@ public class GDFTransformer implements Transformer {
         return null;
     }
 
+    public Transition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.xml.pojo.Transition xmlTransition) {
+        if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.xml.pojo.TranslateTransition) {
+            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.xml.pojo.TranslateTransition) xmlTransition);
+        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.xml.pojo.RotateTransition) {
+            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.xml.pojo.RotateTransition) xmlTransition);
+        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.xml.pojo.ScaleTransition) {
+            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.xml.pojo.ScaleTransition) xmlTransition);
+        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.xml.pojo.FadeTransition) {
+            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.xml.pojo.FadeTransition) xmlTransition);
+        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.xml.pojo.FlipbookTransition) {
+            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.xml.pojo.FlipbookTransition) xmlTransition);
+        }
+        throw new IllegalArgumentException("Invalid transition: " + xmlTransition);
+    }
+
     @Override
     public Sprite transform(com.meandmyphone.genericdevicefancyvator.xml.pojo.Sprite xmlSprite) {
-        int resourceId = context.getResources().getIdentifier(xmlSprite.getResource(),
-                "drawable", context.getPackageName());
         int SpriteID = spriteIdByXmlId.get(xmlSprite.getId());
-        if (xmlSprite.getSpriteTransform().getPosition().getSceneRelativePosition() != null) {
-            SceneRelativePosition sceneRelativePosition = xmlSprite.getSpriteTransform().getPosition().getSceneRelativePosition();
-            float realWidth = getRealWidth(xmlSprite.getSpriteTransform().getWidth());
-            float realHeight = getRealHeight(xmlSprite.getSpriteTransform().getHeight());
-            Point2D getSpriteTopLeft = getRealPoint(xmlSprite.getSpriteTransform().getPosition());
-
-
-
-//            float realWidth =
-
-
+        SceneRelativePosition sceneRelativePosition = xmlSprite.getSpriteTransform().getPosition().getSceneRelativePosition();
+        float realWidth = getRealWidth(xmlSprite.getSpriteTransform().getWidth());
+        float realHeight = getRealHeight(xmlSprite.getSpriteTransform().getHeight());
+        Point2D spriteTopLeft = null;
+        getRealPoint(xmlSprite.getSpriteTransform().getPosition());
+        List<Transition> transitions = new ArrayList<>();
+        for (com.meandmyphone.genericdevicefancyvator.xml.pojo.Sprite.Transition transition : xmlSprite.getTransition()) {
+            if (transition.getFadeTransition() != null) {
+                transitions.add(transform(SpriteID, transition.getFadeTransition()));
+            } else if (transition.getTranslateTransition() != null) {
+                transitions.add(transform(SpriteID, transition.getFadeTransition()));
+            } else if (transition.getRotateTransition() != null) {
+                transitions.add(transform(SpriteID, transition.getFadeTransition()));
+            } else if (transition.getScaleTransition() != null) {
+                transitions.add(transform(SpriteID, transition.getFadeTransition()));
+            } else if (transition.getFlipbookTransition() != null) {
+                transitions.add(transform(SpriteID, transition.getFlipbookTransition()));
+            } else {
+                throw new IllegalArgumentException("Invalid transition: " + transition);
+            }
         }
-
-
-        return null;
+        return spriteFactory.createSprite(
+                resourceIdByXmlResourceId.get(xmlSprite.getResource()),
+                spriteTopLeft.X,
+                spriteTopLeft.Y,
+                realWidth,
+                realHeight,
+                xmlSprite.getSpriteTopleftU(),
+                xmlSprite.getSpriteTopleftV(),
+                xmlSprite.getSpriteBotrightU(),
+                xmlSprite.getSpriteBotrightV(),
+                xmlSprite.getAlpha(),
+                xmlSprite.getScaleX(),
+                xmlSprite.getScaleY(),
+                xmlSprite.getRotation(),
+                Anchor.fromPivot(xmlSprite.getPivot())
+        );
     }
 
     @Override
@@ -129,16 +165,26 @@ public class GDFTransformer implements Transformer {
     @Override
     public int transform(Ease xmlEase) {
         switch (xmlEase) {
-            case LINEAR: return ITransition.LINEAR;
-            case CUBIC_IN: return ITransition.CUBICEASEIN;
-            case CUBIC_OUT: return ITransition.CUBICEASEOUT;
-            case CUBIC_INOUT: return ITransition.CUBICEASEINOUT;
-            case QUAD_IN: return ITransition.QUADRATICEASEIN;
-            case QUAD_OUT: return ITransition.QUADRATICEASEINOUT;
-            case QUAD_INOUT: return ITransition.QUADRATICEASEINOUT;
-            case SINE_IN: return ITransition.SINEASEIN;
-            case SINE_OUT: return ITransition.SINEASEOUT;
-            case SINE_INOUT: return ITransition.SINEASEINOUT;
+            case LINEAR:
+                return ITransition.LINEAR;
+            case CUBIC_IN:
+                return ITransition.CUBICEASEIN;
+            case CUBIC_OUT:
+                return ITransition.CUBICEASEOUT;
+            case CUBIC_INOUT:
+                return ITransition.CUBICEASEINOUT;
+            case QUAD_IN:
+                return ITransition.QUADRATICEASEIN;
+            case QUAD_OUT:
+                return ITransition.QUADRATICEASEINOUT;
+            case QUAD_INOUT:
+                return ITransition.QUADRATICEASEINOUT;
+            case SINE_IN:
+                return ITransition.SINEASEIN;
+            case SINE_OUT:
+                return ITransition.SINEASEOUT;
+            case SINE_INOUT:
+                return ITransition.SINEASEINOUT;
         }
         throw new IllegalArgumentException("Unable to transform xmlEase: " + xmlEase);
     }

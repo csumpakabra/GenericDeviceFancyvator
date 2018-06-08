@@ -65,10 +65,8 @@
         <xs:complexContent>
             <xs:extension base="transition">
                 <xs:sequence>
-                    <xs:element name="from_x" type="xs:float" />
-                    <xs:element name="to_x" type="xs:float" />
-                    <xs:element name="from_y" type="xs:float" />
-                    <xs:element name="to_y" type="xs:float" />
+                    <xs:element name="by_x" type="measure" />
+                    <xs:element name="by_y" type="measure" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -164,9 +162,16 @@
         <xs:sequence>
             <xs:element name="id" type="xs:string" />
             <xs:element name="resource" type="xs:string" />
-            <xs:element name="sprite_u" type="xs:float" />
-            <xs:element name="sprite_v" type="xs:float" />
+            <xs:element name="sprite_topleft_u" type="xs:float" />
+            <xs:element name="sprite_topleft_v" type="xs:float" />
+            <xs:element name="sprite_botright_u" type="xs:float" />
+            <xs:element name="sprite_botright_v" type="xs:float" />
             <xs:element name="sprite_transform" type="sprite_transform" />
+            <xs:element name="alpha" type="xs:float" />
+            <xs:element name="scaleX" type="xs:float" default="1"/>
+            <xs:element name="scaleY" type="xs:float" default="1"/>
+            <xs:element name="rotation" type="xs:float" default="0"/>
+            <xs:element name="pivot" type="pivot" />
             <xs:element name="transition" maxOccurs="unbounded" minOccurs="0">
                 <xs:complexType>
                     <xs:choice>
