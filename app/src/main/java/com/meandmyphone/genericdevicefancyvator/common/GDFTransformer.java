@@ -9,7 +9,6 @@ import com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor;
 import com.meandmyphone.genericdevicefancyvator.core.gl.GLRenderer;
 import com.meandmyphone.genericdevicefancyvator.core.gl.Scene;
 import com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory;
-import com.meandmyphone.genericdevicefancyvator.core.primitives.FullScreenRectangle;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.FadeTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.FlipBookAnimation;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
@@ -17,21 +16,21 @@ import com.meandmyphone.genericdevicefancyvator.core.transitions.RotateTransitio
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ScaleTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.Transition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.TranslateTransition;
-import com.meandmyphone.genericdevicefancyvator.xml.pojo.Background;
-import com.meandmyphone.genericdevicefancyvator.xml.pojo.DiffuseBackground;
-import com.meandmyphone.genericdevicefancyvator.xml.pojo.Ease;
-import com.meandmyphone.genericdevicefancyvator.xml.pojo.FlipbookTransition;
-import com.meandmyphone.genericdevicefancyvator.xml.pojo.Measure;
-import com.meandmyphone.genericdevicefancyvator.xml.pojo.Position;
-import com.meandmyphone.genericdevicefancyvator.xml.pojo.RelativityType;
-import com.meandmyphone.genericdevicefancyvator.xml.pojo.SceneRelativePosition;
+
+import com.meandmyphone.genericdevicefancyvator.json.pojo.Ease;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.FlipbookTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.Measure;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.Position;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.RelativityType;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.SceneRelativePosition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.SpriteRelativePosition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory.Sprite;
+import static com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory.*;
 
 public class GDFTransformer implements Transformer {
 
@@ -39,23 +38,19 @@ public class GDFTransformer implements Transformer {
 
     private final GLRenderer renderer;
     private final Context context;
-    private final com.meandmyphone.genericdevicefancyvator.xml.pojo.Scene xmlScene;
+    private final com.meandmyphone.genericdevicefancyvator.json.pojo.Scene xmlScene;
     private final Scene scene;
     private final SpriteFactory spriteFactory;
     private Map<String, Integer> spriteIdByXmlId = new HashMap<>();
     private Map<String, Integer> resourceIdByXmlResourceId = new HashMap<>();
 
-    public GDFTransformer(Context context, GLRenderer renderer, com.meandmyphone.genericdevicefancyvator.xml.pojo.Scene xmlScene, Scene scene) {
+    public GDFTransformer(Context context, GLRenderer renderer, com.meandmyphone.genericdevicefancyvator.json.pojo.Scene xmlScene, Scene scene) {
         this.renderer = renderer;
         this.context = context;
         this.xmlScene = xmlScene;
         this.scene = scene;
         this.spriteFactory = new SpriteFactory(scene);
-        init();
-    }
-
-    private void init() {
-        for (com.meandmyphone.genericdevicefancyvator.xml.pojo.Sprite sprite : xmlScene.getSprite()) {
+        for (com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite sprite : xmlScene.getSprite()) {
             spriteIdByXmlId.put(sprite.getId(), Sprite.SPRITE_COUNTER++);
             int resourceId = context.getResources().getIdentifier(sprite.getResource(), "drawable", context.getPackageName());
             resourceIdByXmlResourceId.put(sprite.getResource(), resourceId);
@@ -63,73 +58,67 @@ public class GDFTransformer implements Transformer {
     }
 
     @Override
-    public LWPTheme transform(com.meandmyphone.genericdevicefancyvator.xml.pojo.Scene xmlScene) {
+    public LWPTheme transform(com.meandmyphone.genericdevicefancyvator.json.pojo.Scene xmlScene) {
         return null;
     }
 
-    @Override
-    public FadeTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.xml.pojo.FadeTransition xmlTransition) {
+    private FadeTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.json.pojo.FadeTransition xmlTransition) {
         return new FadeTransition(renderer, xmlTransition.getDuration(), spriteId, transform(xmlTransition.getEase()), (float) xmlTransition.getFromAlpha(), (float) xmlTransition.getToAlpha());
     }
 
-    @Override
-    public TranslateTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.xml.pojo.TranslateTransition xmlTransition) {
+    private TranslateTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.json.pojo.TranslateTransition xmlTransition) {
         return null;
     }
 
-    @Override
-    public RotateTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.xml.pojo.RotateTransition xmlTransition) {
+    private RotateTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.json.pojo.RotateTransition xmlTransition) {
         return null;
     }
 
-    @Override
-    public ScaleTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.xml.pojo.ScaleTransition xmlTransition) {
+    private ScaleTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.json.pojo.ScaleTransition xmlTransition) {
         return null;
     }
 
-    @Override
-    public FlipBookAnimation transform(int spriteId, FlipbookTransition xmlTransition) {
+    private FlipBookAnimation transform(int spriteId, FlipbookTransition xmlTransition) {
         return null;
     }
 
-    public Transition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.xml.pojo.Transition xmlTransition) {
-        if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.xml.pojo.TranslateTransition) {
-            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.xml.pojo.TranslateTransition) xmlTransition);
-        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.xml.pojo.RotateTransition) {
-            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.xml.pojo.RotateTransition) xmlTransition);
-        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.xml.pojo.ScaleTransition) {
-            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.xml.pojo.ScaleTransition) xmlTransition);
-        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.xml.pojo.FadeTransition) {
-            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.xml.pojo.FadeTransition) xmlTransition);
-        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.xml.pojo.FlipbookTransition) {
-            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.xml.pojo.FlipbookTransition) xmlTransition);
+    public Transition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.json.pojo.Transition xmlTransition) {
+        if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.json.pojo.TranslateTransition) {
+            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.json.pojo.TranslateTransition) xmlTransition);
+        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.json.pojo.RotateTransition) {
+            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.json.pojo.RotateTransition) xmlTransition);
+        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.json.pojo.ScaleTransition) {
+            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.json.pojo.ScaleTransition) xmlTransition);
+        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.json.pojo.FadeTransition) {
+            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.json.pojo.FadeTransition) xmlTransition);
+        } else if (xmlTransition instanceof FlipbookTransition) {
+            return transform(spriteId, (FlipbookTransition) xmlTransition);
         }
         throw new IllegalArgumentException("Invalid transition: " + xmlTransition);
     }
 
     @Override
-    public Sprite transform(com.meandmyphone.genericdevicefancyvator.xml.pojo.Sprite xmlSprite) {
+    public Sprite transform(com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite xmlSprite) {
         int SpriteID = spriteIdByXmlId.get(xmlSprite.getId());
-        SceneRelativePosition sceneRelativePosition = xmlSprite.getSpriteTransform().getPosition().getSceneRelativePosition();
         float realWidth = getRealWidth(xmlSprite.getSpriteTransform().getWidth());
         float realHeight = getRealHeight(xmlSprite.getSpriteTransform().getHeight());
-        Point2D spriteTopLeft = null;
-        getRealPoint(xmlSprite.getSpriteTransform().getPosition());
+        Point2D spriteTopLeft = getRealPoint(xmlSprite.getSpriteTransform().getPosition());
         List<Transition> transitions = new ArrayList<>();
-        for (com.meandmyphone.genericdevicefancyvator.xml.pojo.Sprite.Transition transition : xmlSprite.getTransition()) {
-            if (transition.getFadeTransition() != null) {
-                transitions.add(transform(SpriteID, transition.getFadeTransition()));
-            } else if (transition.getTranslateTransition() != null) {
-                transitions.add(transform(SpriteID, transition.getFadeTransition()));
-            } else if (transition.getRotateTransition() != null) {
-                transitions.add(transform(SpriteID, transition.getFadeTransition()));
-            } else if (transition.getScaleTransition() != null) {
-                transitions.add(transform(SpriteID, transition.getFadeTransition()));
-            } else if (transition.getFlipbookTransition() != null) {
-                transitions.add(transform(SpriteID, transition.getFlipbookTransition()));
-            } else {
-                throw new IllegalArgumentException("Invalid transition: " + transition);
-            }
+        for (com.meandmyphone.genericdevicefancyvator.json.pojo.Transition transition : xmlSprite.getTransition()) {
+            // TODO
+//            if (transition.getFadeTransition() != null) {
+//                transitions.add(transform(SpriteID, transition.getFadeTransition()));
+//            } else if (transition.getTranslateTransition() != null) {
+//                transitions.add(transform(SpriteID, transition.getFadeTransition()));
+//            } else if (transition.getRotateTransition() != null) {
+//                transitions.add(transform(SpriteID, transition.getFadeTransition()));
+//            } else if (transition.getScaleTransition() != null) {
+//                transitions.add(transform(SpriteID, transition.getFadeTransition()));
+//            } else if (transition.getFlipbookTransition() != null) {
+//                transitions.add(transform(SpriteID, transition.getFlipbookTransition()));
+//            } else {
+//                throw new IllegalArgumentException("Invalid transition: " + transition);
+//            }
         }
         return spriteFactory.createSprite(
                 resourceIdByXmlResourceId.get(xmlSprite.getResource()),
@@ -147,19 +136,6 @@ public class GDFTransformer implements Transformer {
                 xmlSprite.getRotation(),
                 Anchor.fromPivot(xmlSprite.getPivot())
         );
-    }
-
-    @Override
-    public Sprite transform(Background xmlImageBackground) {
-        int resourceId = context.getResources().getIdentifier(
-                xmlImageBackground.getBackgroundSource().getImageBackground().getResource(),
-                "drawable", context.getPackageName());
-        return null;
-    }
-
-    @Override
-    public FullScreenRectangle transform(DiffuseBackground xmlDiffuseBackground) {
-        return null;
     }
 
     @Override
@@ -218,18 +194,19 @@ public class GDFTransformer implements Transformer {
     }
 
     private Point2D getRealPoint(Position position) {
-        if (position.getSceneRelativePosition() != null) {
-            float distanceX = getRealWidth(position.getSceneRelativePosition().getXDistanceFromPivot());
-            float distanceY = getRealHeight(position.getSceneRelativePosition().getYDistanceFromPivot());
-            float x = scene.getScenePointOfInterest(Anchor.fromPivot(position.getSceneRelativePosition().getScenePoint())).X + distanceX;
-            float y = scene.getScenePointOfInterest(Anchor.fromPivot(position.getSceneRelativePosition().getScenePoint())).Y - distanceY;
+        float distanceX = getRealWidth(position.getXDistanceFromTarget());
+        float distanceY = getRealHeight(position.getYDistanceFromTarget());
+        if (position instanceof SceneRelativePosition) {
+            SceneRelativePosition pos = (SceneRelativePosition)position;
+            Point2D relativePoint = scene.getScenePointOfInterest(Anchor.fromPivot(pos.getRelativePointOfTarget()));
+            float x = relativePoint.X + distanceX;
+            float y = relativePoint.Y - distanceY;
             return new Point2D(x, y);
-        } else if (position.getSpriteRelativePosition() != null) {
-            float distanceX = getRealWidth(position.getSpriteRelativePosition().getXDistanceFromSprite());
-            float distanceY = getRealHeight(position.getSpriteRelativePosition().getYDistanceFromSprite());
-            int relativeToSpirteId = spriteIdByXmlId.get(position.getSpriteRelativePosition().getRelativeSpriteId());
+        } else if (position instanceof SpriteRelativePosition) {
+            SpriteRelativePosition pos = (SpriteRelativePosition) position;
+            int relativeToSpirteId = spriteIdByXmlId.get(pos.getRelativeSpriteId());
             Sprite relativeToSprite = scene.getSprite(relativeToSpirteId);
-            Point2D relativePoint = relativeToSprite.getPointOfInterest(Anchor.fromPivot(position.getSpriteRelativePosition().getRelativeSpritePoint()));
+            Point2D relativePoint = relativeToSprite.getPointOfInterest(Anchor.fromPivot(pos.getRelativePointOfTarget()));
             float x = relativePoint.X + distanceX;
             float y = relativePoint.Y - distanceY;
             return new Point2D(x, y);

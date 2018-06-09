@@ -2,16 +2,14 @@ package com.meandmyphone.genericdevicefancyvator.common;
 
 import com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory;
 
-interface Transformer {
-    com.meandmyphone.genericdevicefancyvator.core.transitions.FadeTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.xml.pojo.FadeTransition xmlTransition);
-    com.meandmyphone.genericdevicefancyvator.core.transitions.TranslateTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.xml.pojo.TranslateTransition xmlTransition);
-    com.meandmyphone.genericdevicefancyvator.core.transitions.RotateTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.xml.pojo.RotateTransition xmlTransition);
-    com.meandmyphone.genericdevicefancyvator.core.transitions.ScaleTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.xml.pojo.ScaleTransition xmlTransition);
-    com.meandmyphone.genericdevicefancyvator.core.transitions.FlipBookAnimation transform(int spriteId, com.meandmyphone.genericdevicefancyvator.xml.pojo.FlipbookTransition xmlTransition);
-    SpriteFactory.Sprite transform(com.meandmyphone.genericdevicefancyvator.xml.pojo.Sprite xmlSprite);
-    SpriteFactory.Sprite transform(com.meandmyphone.genericdevicefancyvator.xml.pojo.Background xmlImageBackground);
-    com.meandmyphone.genericdevicefancyvator.core.primitives.FullScreenRectangle transform(com.meandmyphone.genericdevicefancyvator.xml.pojo.DiffuseBackground xmlDiffuseBackground);
-    com.meandmyphone.genericdevicefancyvator.core.LWPTheme transform(com.meandmyphone.genericdevicefancyvator.xml.pojo.Scene xmlScene);
-    int transform(com.meandmyphone.genericdevicefancyvator.xml.pojo.Ease xmlEase);
+import com.meandmyphone.genericdevicefancyvator.json.pojo.Ease;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.Scene;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.Transition;
 
+interface Transformer {
+    com.meandmyphone.genericdevicefancyvator.core.transitions.Transition transform(int spriteId, Transition xmlTransition);
+    SpriteFactory.Sprite transform(Sprite xmlSprite);
+    com.meandmyphone.genericdevicefancyvator.core.LWPTheme transform(Scene xmlScene);
+    int transform(Ease xmlEase);
 }

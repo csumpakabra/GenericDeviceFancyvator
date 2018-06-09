@@ -1,6 +1,6 @@
 package com.meandmyphone.genericdevicefancyvator.core.data.misc;
 
-import com.meandmyphone.genericdevicefancyvator.xml.pojo.Pivot;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.Pivot;
 
 /**
  * Created by csumpakadabra on 2017.10.21..
@@ -9,7 +9,7 @@ public enum Anchor {
     TOPLEFT, CENTERLEFT, BOTLEFT, BOTCENTER, BOTRIGHT, CENTERRIGHT, TOPRIGHT, TOPCENTER, CENTER
     ;
 
-    public static Anchor fromPivot(com.meandmyphone.genericdevicefancyvator.xml.pojo.Pivot pivot) {
+    public static Anchor fromPivot(Pivot pivot) {
         switch (pivot) {
             case TOP_LEFT: return TOPLEFT;
             case TOP_CENTER: return TOPCENTER;

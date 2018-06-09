@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GenericDeviceFancyvator</string>
+    <string name="title_activity_launch">LaunchActivity</string>
 </resources>

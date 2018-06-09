@@ -1,243 +1,235 @@
 <?xml version = "1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     targetNamespace="https://github.com/csumpakabra/GenericDeviceFancyvator/blob/master/app/src/main/schemas/GDFScene.xsd"
-    xmlns="https://github.com/csumpakabra/GenericDeviceFancyvator/blob/master/app/src/main/schemas/GDFScene.xsd">
-    <xs:element name="scene">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="scene_properties" minOccurs="0">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="background" minOccurs="0" type="background" />
-                            <xs:element name="on_click" minOccurs="0" type="on_click" />
-                            <xs:element name="camera" minOccurs="0" type="camera" />
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="sprite" maxOccurs="unbounded" minOccurs="0" type="sprite" />
-            </xs:sequence>
-        </xs:complexType>
-        <xs:key name="pk_sprite_id">
-            <xs:selector xpath="sprite" />
-            <xs:field xpath="sprite/id" />
-        </xs:key>
-        <xs:keyref name="fk__width_realtive_to_sprite_id" refer="pk_sprite_id">
-            <xs:selector xpath="sprite/spritepoint/width/relative_to" />
-            <xs:field xpath="." />
-        </xs:keyref>
-        <xs:keyref name="fk__height_realtive_to_sprite_id" refer="pk_sprite_id">
-            <xs:selector xpath="sprite/spritepoint/height/relative_to" />
-            <xs:field xpath="." />
-        </xs:keyref>
-    </xs:element>
-    <xs:simpleType name="transition_type" final="restriction">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="fade" />
-            <xs:enumeration value="rotate" />
-            <xs:enumeration value="scale" />
-            <xs:enumeration value="translate" />
-            <xs:enumeration value="flipbook" />
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="cycle_type" final="restriction">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="yoyo" />
-            <xs:enumeration value="restart" />
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:complexType name="transition">
-        <xs:attribute name="duration" type="xs:int" use="required"/>
-        <xs:attribute name="ease" type="ease" default="linear"/>
-        <xs:attribute name="cycle_type" type="cycle_type" default="restart"/>
-        <xs:attribute name="cycle_count" type="xs:int" use="required"/>
-    </xs:complexType>
-    <xs:complexType name="fade_transition">
-        <xs:complexContent>
-            <xs:extension base="transition">
-                <xs:sequence>
-                    <xs:element name="from_alpha" type="xs:float" />
-                    <xs:element name="to_alpha" type="xs:float" />
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="translate_transition">
-        <xs:complexContent>
-            <xs:extension base="transition">
-                <xs:sequence>
-                    <xs:element name="by_x" type="measure" />
-                    <xs:element name="by_y" type="measure" />
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="rotate_transition">
-        <xs:complexContent>
-            <xs:extension base="transition">
-                <xs:sequence>
-                    <xs:element name="from_angle" type="xs:float" />
-                    <xs:element name="to_angle" type="xs:float" />
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="scale_transition">
-        <xs:complexContent>
-            <xs:extension base="transition">
-                <xs:sequence>
-                    <xs:element name="from_x" type="xs:float" />
-                    <xs:element name="to_x" type="xs:float" />
-                    <xs:element name="from_y" type="xs:float" />
-                    <xs:element name="to_y" type="xs:float" />
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="flipbook_transition">
-        <xs:complexContent>
-            <xs:extension base="transition">
-                <xs:sequence>
-                    <xs:element name="sprite" maxOccurs="unbounded" type="sprite" />
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:simpleType name="pivot">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="top_left" />
-            <xs:enumeration value="top_center" />
-            <xs:enumeration value="top_right" />
-            <xs:enumeration value="center_right" />
-            <xs:enumeration value="bot_right" />
-            <xs:enumeration value="bot_center" />
-            <xs:enumeration value="bot_left" />
-            <xs:enumeration value="center_left" />
-            <xs:enumeration value="center" />
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="relativity_type">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="scene" />
-            <xs:enumeration value="sprite" />
-            <xs:enumeration value="none" />
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:complexType name="scene_relative_position">
-        <xs:sequence>
-            <xs:element name="scene_point" type="pivot"/>
-            <xs:element name="x_distance_from_pivot" type="measure"/>
-            <xs:element name="y_distance_from_pivot" type="measure"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="sprite_relative_position">
-        <xs:sequence>
-            <xs:element name="relative_sprite_id" type="xs:string"/>
-            <xs:element name="relative_sprite_point" type="pivot"/>
-            <xs:element name="x_distance_from_sprite" type="measure"/>
-            <xs:element name="y_distance_from_sprite" type="measure"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="position">
-        <xs:choice>
-            <xs:element name="sprite_relative_position" type="sprite_relative_position"/>
-            <xs:element name="scene_relative_position" type="scene_relative_position"/>
-        </xs:choice>
-    </xs:complexType>
-    <xs:complexType name="measure">
-        <xs:sequence>
-            <xs:element name="relativity" type="relativity_type" />
-            <xs:element name="relative_to" minOccurs="0" type="xs:string" />
-            <xs:element name="value" type="xs:float" />
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="sprite_transform">
-        <xs:sequence>
-            <xs:element name="position" type="position"/>
-            <xs:element name="pivot" type="pivot" />
-            <xs:element name="width" type="measure" />
-            <xs:element name="height" type="measure" />
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="sprite">
-        <xs:sequence>
-            <xs:element name="id" type="xs:string" />
-            <xs:element name="resource" type="xs:string" />
-            <xs:element name="sprite_topleft_u" type="xs:float" />
-            <xs:element name="sprite_topleft_v" type="xs:float" />
-            <xs:element name="sprite_botright_u" type="xs:float" />
-            <xs:element name="sprite_botright_v" type="xs:float" />
-            <xs:element name="sprite_transform" type="sprite_transform" />
-            <xs:element name="alpha" type="xs:float" />
-            <xs:element name="scaleX" type="xs:float" default="1"/>
-            <xs:element name="scaleY" type="xs:float" default="1"/>
-            <xs:element name="rotation" type="xs:float" default="0"/>
-            <xs:element name="pivot" type="pivot" />
-            <xs:element name="transition" maxOccurs="unbounded" minOccurs="0">
-                <xs:complexType>
-                    <xs:choice>
-                        <xs:element name="fade_transition" type="fade_transition" />
-                        <xs:element name="translate_transition" type="translate_transition" />
-                        <xs:element name="rotate_transition" type="rotate_transition" />
-                        <xs:element name="scale_transition" type="scale_transition" />
-                        <xs:element name="flipbook_transition" type="flipbook_transition" />
-                    </xs:choice>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:simpleType name="ease" final="restriction">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="linear" />
-            <xs:enumeration value="cubic_in" />
-            <xs:enumeration value="cubic_out" />
-            <xs:enumeration value="cubic_inout" />
-            <xs:enumeration value="quad_in" />
-            <xs:enumeration value="quad_out" />
-            <xs:enumeration value="quad_inout" />
-            <xs:enumeration value="sine_in" />
-            <xs:enumeration value="sine_out" />
-            <xs:enumeration value="sine_inout" />
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="background_type">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="simple" />
-            <xs:enumeration value="image" />
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:complexType name="background">
-        <xs:sequence>
-            <xs:element name="background_type" type="background_type" />
-            <xs:element name="background_source" maxOccurs="1" minOccurs="1">
-                <xs:complexType>
-                    <xs:choice>
-                        <xs:element name="image_background" type="image_background" />
-                        <xs:element name="diffuse_background" type="diffuse_background" />
-                    </xs:choice>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="image_background">
-        <xs:complexContent>
-            <xs:extension base="sprite" />
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="diffuse_background">
-        <xs:sequence>
-            <xs:element name="color" type="xs:int" />
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="on_click">
-        <xs:sequence>
-            <xs:element name="sprite" maxOccurs="unbounded" type="sprite" />
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="camera">
-        <xs:sequence>
-            <xs:element name="recenter_after_swipe" type="xs:boolean" />
-        </xs:sequence>
-    </xs:complexType>
-</xs:schema>
+    xmlns:gdf="https://github.com/csumpakabra/GenericDeviceFancyvator/blob/master/app/src/main/schemas/GDFScene.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xsd:simpleType name="transition_type" final="restriction">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="fade" />
+            <xsd:enumeration value="rotate" />
+            <xsd:enumeration value="scale" />
+            <xsd:enumeration value="translate" />
+            <xsd:enumeration value="flipbook" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="cycle_type" final="restriction">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="yoyo" />
+            <xsd:enumeration value="restart" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="transition">
+        <xsd:attribute name="duration" type="xsd:int" use="required"/>
+        <xsd:attribute name="ease" type="ease" default="linear"/>
+        <xsd:attribute name="cycle_type" type="cycle_type" default="restart"/>
+        <xsd:attribute name="cycle_count" type="xsd:int" use="required"/>
+    </xsd:complexType>
+    <xsd:complexType name="fade_transition">
+        <xsd:complexContent>
+            <xsd:extension base="transition">
+                <xsd:sequence>
+                    <xsd:element name="from_alpha" type="xsd:float" />
+                    <xsd:element name="to_alpha" type="xsd:float" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="translate_transition">
+        <xsd:complexContent>
+            <xsd:extension base="transition">
+                <xsd:sequence>
+                    <xsd:element name="by_x" type="measure" />
+                    <xsd:element name="by_y" type="measure" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="rotate_transition">
+        <xsd:complexContent>
+            <xsd:extension base="transition">
+                <xsd:sequence>
+                    <xsd:element name="from_angle" type="xsd:float" />
+                    <xsd:element name="to_angle" type="xsd:float" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="scale_transition">
+        <xsd:complexContent>
+            <xsd:extension base="transition">
+                <xsd:sequence>
+                    <xsd:element name="from_x" type="xsd:float" />
+                    <xsd:element name="to_x" type="xsd:float" />
+                    <xsd:element name="from_y" type="xsd:float" />
+                    <xsd:element name="to_y" type="xsd:float" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="flipbook_transition">
+        <xsd:complexContent>
+            <xsd:extension base="transition">
+                <xsd:sequence>
+                    <xsd:element name="sprite" maxOccurs="unbounded" type="sprite" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:simpleType name="pivot">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="top_left" />
+            <xsd:enumeration value="top_center" />
+            <xsd:enumeration value="top_right" />
+            <xsd:enumeration value="center_right" />
+            <xsd:enumeration value="bot_right" />
+            <xsd:enumeration value="bot_center" />
+            <xsd:enumeration value="bot_left" />
+            <xsd:enumeration value="center_left" />
+            <xsd:enumeration value="center" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="relativity_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="scene" />
+            <xsd:enumeration value="sprite" />
+            <xsd:enumeration value="none" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="scene_relative_position">
+        <xsd:sequence>
+            <xsd:element name="scene_point" type="pivot"/>
+            <xsd:element name="x_distance_from_pivot" type="measure"/>
+            <xsd:element name="y_distance_from_pivot" type="measure"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="sprite_relative_position">
+        <xsd:sequence>
+            <xsd:element name="relative_sprite_id" type="xsd:string"/>
+            <xsd:element name="relative_sprite_point" type="pivot"/>
+            <xsd:element name="x_distance_from_sprite" type="measure"/>
+            <xsd:element name="y_distance_from_sprite" type="measure"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="position">
+        <xsd:choice>
+            <xsd:element name="sprite_relative_position" type="sprite_relative_position"/>
+            <xsd:element name="scene_relative_position" type="scene_relative_position"/>
+        </xsd:choice>
+    </xsd:complexType>
+    <xsd:complexType name="measure">
+        <xsd:sequence>
+            <xsd:element name="relativity" type="relativity_type" />
+            <xsd:element name="relative_to" minOccurs="0" type="xsd:string" />
+            <xsd:element name="value" type="xsd:float" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="sprite_transform">
+        <xsd:sequence>
+            <xsd:element name="position" type="position"/>
+            <xsd:element name="pivot" type="pivot" />
+            <xsd:element name="width" type="measure" />
+            <xsd:element name="height" type="measure" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="sprite">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:string" />
+            <xsd:element name="resource" type="xsd:string" />
+            <xsd:element name="sprite_topleft_u" type="xsd:float" />
+            <xsd:element name="sprite_topleft_v" type="xsd:float" />
+            <xsd:element name="sprite_botright_u" type="xsd:float" />
+            <xsd:element name="sprite_botright_v" type="xsd:float" />
+            <xsd:element name="sprite_transform" type="sprite_transform" />
+            <xsd:element name="alpha" type="xsd:float" default="0"/>
+            <xsd:element name="scaleX" type="xsd:float" default="1"/>
+            <xsd:element name="scaleY" type="xsd:float" default="1"/>
+            <xsd:element name="rotation" type="xsd:float" default="0"/>
+            <xsd:element name="pivot" type="pivot" />
+            <xsd:element name="transition" maxOccurs="unbounded" minOccurs="0">
+                <xsd:complexType>
+                    <xsd:choice>
+                        <xsd:element name="fade_transition" type="fade_transition" />
+                        <xsd:element name="translate_transition" type="translate_transition" />
+                        <xsd:element name="rotate_transition" type="rotate_transition" />
+                        <xsd:element name="scale_transition" type="scale_transition" />
+                        <xsd:element name="flipbook_transition" type="flipbook_transition" />
+                    </xsd:choice>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="ease" final="restriction">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="linear" />
+            <xsd:enumeration value="cubic_in" />
+            <xsd:enumeration value="cubic_out" />
+            <xsd:enumeration value="cubic_inout" />
+            <xsd:enumeration value="quad_in" />
+            <xsd:enumeration value="quad_out" />
+            <xsd:enumeration value="quad_inout" />
+            <xsd:enumeration value="sine_in" />
+            <xsd:enumeration value="sine_out" />
+            <xsd:enumeration value="sine_inout" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="background_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="simple" />
+            <xsd:enumeration value="image" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="background">
+        <xsd:sequence>
+            <xsd:element name="background_type" type="background_type" />
+            <xsd:element name="background_source" maxOccurs="1" minOccurs="1">
+                <xsd:complexType>
+                    <xsd:choice>
+                        <xsd:element name="image_background" type="image_background" />
+                        <xsd:element name="diffuse_background" type="diffuse_background" />
+                    </xsd:choice>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="image_background">
+        <xsd:complexContent>
+            <xsd:extension base="sprite" />
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="diffuse_background">
+        <xsd:sequence>
+            <xsd:element name="color" type="xsd:int" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="on_click">
+        <xsd:sequence>
+            <xsd:element name="sprite" maxOccurs="unbounded" type="sprite" />
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="camera">
+        <xsd:sequence>
+            <xsd:element name="recenter_after_swipe" type="xsd:boolean" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="scene">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="scene_properties" minOccurs="0">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="background" minOccurs="0" type="background_type" />
+                            <xsd:element name="on_click" minOccurs="0" type="on_click" />
+                            <xsd:element name="camera" minOccurs="0" type="camera" />
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="sprite" maxOccurs="unbounded" minOccurs="0" type="sprite" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
 
 
