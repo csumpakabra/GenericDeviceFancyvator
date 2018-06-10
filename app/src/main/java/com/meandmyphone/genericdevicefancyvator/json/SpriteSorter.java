@@ -3,8 +3,11 @@ package com.meandmyphone.genericdevicefancyvator.json;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.meandmyphone.genericdevicefancyvator.json.pojo.RelativityType;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.SceneRelativePosition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.SpriteRelativePosition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.Transition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.TranslateTransition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +17,10 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
+
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.PositionType.SCENE_RELATIVE;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.PositionType.SPRITE_RELATIVE;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.RelativityType.*;
 
 public class SpriteSorter {
 
@@ -36,36 +43,35 @@ public class SpriteSorter {
 
         int direction = 1;
 
-        while (it.hasNext() || it.hasPrevious()) {
-            Sprite sprite = null;
-            if (direction == 1) {
-                if (it.hasNext()) {
-                    sprite = it.next();
-                } else {
-                    if (it.hasPrevious()) {
-                        direction = -1;
-                    } else {
-                        direction = 0;
-                        continue;
-                    }
-                }
-            } else if (direction == -1) {
-                if (it.hasPrevious()) {
-                    sprite = it.previous();
-                } else {
-                    if (it.hasNext()) {
-                        direction = 1;
-                    } else {
-                        direction = 0;
-                        continue;
-                    }
-                }
-            } else {
-                break;
-            }
-
+//        while (it.hasNext() || it.hasPrevious()) {
+            while (it.hasNext()) {
+            Sprite sprite = it.next();
+//            if (direction == 1) {
+//                if (it.hasNext()) {
+//                    sprite = it.next();
+//                } else {
+//                    if (it.hasPrevious()) {
+//                        direction = -1;
+//                    } else {
+//                        direction = 0;
+//                        continue;
+//                    }
+//                }
+//            } else if (direction == -1) {
+//                if (it.hasPrevious()) {
+//                    sprite = it.previous();
+//                } else {
+//                    if (it.hasNext()) {
+//                        direction = 1;
+//                    } else {
+//                        direction = 0;
+//                        continue;
+//                    }
+//                }
+//            } else {
+//                break;
+//            }
             visit(sprite, null, permanentSprites, sortedSprites);
-
         }
         return sortedSprites;
     }
@@ -81,36 +87,39 @@ public class SpriteSorter {
             visit(s, temp, permanent, sortedSprites);
         }
         permanent.add(sprite);
-        sortedSprites.add(0, sprite);
+        sortedSprites.add( sprite);
     }
 
     private List<Sprite> extractDependencies(final Sprite sprite) {
         return new ArrayList<Sprite>(){
             {
                 Set<String> marked = new HashSet<>();
-                if (sprite.getSpriteTransform().getPosition()) {
-                    marked.add(sprite.getSpriteTransform().getPosition()
-                                    .getSpriteRelativePosition().getRelativeSpriteId());
-                } else if (sprite.getSpriteTransform().getPosition().getSceneRelativePosition() != null) {
-                    marked.add(sprite.getSpriteTransform().getPosition()
-                            .getSceneRelativePosition().getXDistanceFromPivot().getRelativeTo());
-                    marked.add(sprite.getSpriteTransform().getPosition()
-                            .getSceneRelativePosition().getYDistanceFromPivot().getRelativeTo());
+                 if (SPRITE_RELATIVE.equals(sprite.getSpriteTransform().getPosition().getPositionType())) {
+                    SpriteRelativePosition spriteRelativePosition = (SpriteRelativePosition)sprite.getSpriteTransform().getPosition();
+                    marked.add(spriteRelativePosition.getRelativeSpriteId());
+                } else if (SCENE_RELATIVE.equals(sprite.getSpriteTransform().getPosition().getPositionType())) {
+                    SceneRelativePosition sceneRelativePosition = (SceneRelativePosition)sprite.getSpriteTransform().getPosition();
+                    if (SPRITE.equals(sceneRelativePosition.getXDistanceFromTarget().relativity)) {
+                        marked.add(sceneRelativePosition.getXDistanceFromTarget().getRelativeTo());
+                    }
+                    if (SPRITE.equals(sceneRelativePosition.getYDistanceFromTarget().relativity)) {
+                        marked.add(sceneRelativePosition.getYDistanceFromTarget().getRelativeTo());
+                    }
                 }
-                if (sprite.getSpriteTransform().getWidth().getRelativity() == RelativityType.SPRITE) {
+                if (SPRITE.equals(sprite.getSpriteTransform().getWidth().getRelativity())) {
                     marked.add(sprite.getSpriteTransform().getWidth().getRelativeTo());
                 }
-                if (RelativityType.SPRITE.equals(sprite.getSpriteTransform().getHeight().getRelativity())) {
+                if (SPRITE.equals(sprite.getSpriteTransform().getHeight().getRelativity())) {
                     marked.add(sprite.getSpriteTransform().getHeight().getRelativeTo());
                 }
-                for (Sprite.Transition transition : sprite.getTransition()) {
-                    if (transition.getTranslateTransition() != null) {
-                        if (RelativityType.SPRITE.equals(transition.getTranslateTransition().getByX().getRelativity())) {
-                            marked.add(transition.getTranslateTransition().getByX().getRelativeTo());
+                for (Transition transition : sprite.getTransition()) {
+                    if (transition instanceof TranslateTransition) {
+                        TranslateTransition translateTransition = (TranslateTransition) transition;
+                        if (SPRITE.equals(translateTransition.getByX().getRelativity())) {
+                            marked.add(translateTransition.getByX().getRelativeTo());
                         }
-
-                        if (RelativityType.SPRITE.equals(transition.getTranslateTransition().getByY().getRelativity())) {
-                            marked.add(transition.getTranslateTransition().getByY().getRelativeTo());
+                        if (SPRITE.equals(translateTransition.getByY().getRelativity())) {
+                            marked.add(translateTransition.getByY().getRelativeTo());
                         }
                     }
                 }
@@ -122,6 +131,9 @@ public class SpriteSorter {
     }
 
     private Sprite getSpriteFor(String id) {
+        if (!spritesById.containsKey(id)) {
+            throw new IllegalArgumentException("Invalid spriteId: " + id);
+        }
         return spritesById.get(id);
     }
 }
