@@ -1,0 +1,233 @@
+{
+  "sprite": [{
+    "id": "sprite5",
+    "resource": "resource1",
+    "spriteTopleftU": 1.0,
+    "spriteTopleftV": 0.0,
+    "spriteBotrightU": 1.0,
+    "spriteBotrightV": 1.0,
+    "spriteTransform": {
+      "position": {
+        "relativeSpriteId": "sprite4",
+        "positionType": "SPRITE_RELATIVE",
+        "relativePointOfTarget": "BOT_RIGHT",
+        "xDistanceFromTarget": {
+          "relativity": "SPRITE",
+          "relativeTo": "sprite4",
+          "value": 0.0
+        },
+        "yDistanceFromTarget": {
+          "relativity": "SPRITE",
+          "relativeTo": "sprite4",
+          "value": 0.0
+        }
+      },
+      "pivot": "TOP_LEFT",
+      "width": {
+        "relativity": "SPRITE",
+        "relativeTo": "sprite4",
+        "value": 0.5
+      },
+      "height": {
+        "relativity": "SPRITE",
+        "relativeTo": "sprite4",
+        "value": 0.5
+      }
+    },
+    "alpha": 0.0,
+    "scaleX": 1.0,
+    "scaleY": 1.0,
+    "rotation": 0.0,
+    "pivot": "TOP_LEFT"
+  }, {
+    "id": "sprite2",
+    "resource": "resource1",
+    "spriteTopleftU": 1.0,
+    "spriteTopleftV": 0.0,
+    "spriteBotrightU": 1.0,
+    "spriteBotrightV": 1.0,
+    "spriteTransform": {
+      "position": {
+        "relativeSpriteId": "sprite1",
+        "positionType": "SPRITE_RELATIVE",
+        "relativePointOfTarget": "BOT_RIGHT",
+        "xDistanceFromTarget": {
+          "relativity": "SPRITE",
+          "relativeTo": "sprite1",
+          "value": 0.0
+        },
+        "yDistanceFromTarget": {
+          "relativity": "SPRITE",
+          "relativeTo": "sprite1",
+          "value": 0.0
+        }
+      },
+      "pivot": "TOP_LEFT",
+      "width": {
+        "relativity": "SPRITE",
+        "relativeTo": "sprite1",
+        "value": 0.5
+      },
+      "height": {
+        "relativity": "SPRITE",
+        "relativeTo": "sprite1",
+        "value": 0.5
+      }
+    },
+    "alpha": 0.0,
+    "scaleX": 1.0,
+    "scaleY": 1.0,
+    "rotation": 0.0,
+    "pivot": "TOP_LEFT"
+  }, {
+    "id": "sprite3",
+    "resource": "resource1",
+    "spriteTopleftU": 1.0,
+    "spriteTopleftV": 0.0,
+    "spriteBotrightU": 1.0,
+    "spriteBotrightV": 1.0,
+    "spriteTransform": {
+      "position": {
+        "relativeSpriteId": "sprite1",
+        "positionType": "SPRITE_RELATIVE",
+        "relativePointOfTarget": "BOT_RIGHT",
+        "xDistanceFromTarget": {
+          "relativity": "SPRITE",
+          "relativeTo": "sprite1",
+          "value": 0.0
+        },
+        "yDistanceFromTarget": {
+          "relativity": "SPRITE",
+          "relativeTo": "sprite1",
+          "value": 0.0
+        }
+      },
+      "pivot": "TOP_LEFT",
+      "width": {
+        "relativity": "SPRITE",
+        "relativeTo": "sprite2",
+        "value": 0.5
+      },
+      "height": {
+        "relativity": "SPRITE",
+        "relativeTo": "sprite2",
+        "value": 0.5
+      }
+    },
+    "alpha": 0.0,
+    "scaleX": 1.0,
+    "scaleY": 1.0,
+    "rotation": 0.0,
+    "pivot": "TOP_LEFT"
+  }, {
+    "id": "sprite6",
+    "resource": "resource1",
+    "spriteTopleftU": 1.0,
+    "spriteTopleftV": 0.0,
+    "spriteBotrightU": 1.0,
+    "spriteBotrightV": 1.0,
+    "spriteTransform": {
+      "position": {
+        "positionType": "SCENE_RELATIVE",
+        "relativePointOfTarget": "TOP_LEFT",
+        "xDistanceFromTarget": {
+          "relativity": "SCENE",
+          "value": 0.0
+        },
+        "yDistanceFromTarget": {
+          "relativity": "SCENE",
+          "value": 0.0
+        }
+      },
+      "pivot": "TOP_LEFT",
+      "width": {
+        "relativity": "SCENE",
+        "value": 0.5
+      },
+      "height": {
+        "relativity": "SCENE",
+        "value": 0.5
+      }
+    },
+    "alpha": 0.0,
+    "scaleX": 1.0,
+    "scaleY": 1.0,
+    "rotation": 0.0,
+    "pivot": "TOP_LEFT"
+  }, {
+    "id": "sprite4",
+    "resource": "resource1",
+    "spriteTopleftU": 1.0,
+    "spriteTopleftV": 0.0,
+    "spriteBotrightU": 1.0,
+    "spriteBotrightV": 1.0,
+    "spriteTransform": {
+      "position": {
+        "relativeSpriteId": "sprite1",
+        "positionType": "SPRITE_RELATIVE",
+        "relativePointOfTarget": "BOT_RIGHT",
+        "xDistanceFromTarget": {
+          "relativity": "SPRITE",
+          "relativeTo": "sprite3",
+          "value": 0.0
+        },
+        "yDistanceFromTarget": {
+          "relativity": "SPRITE",
+          "relativeTo": "sprite2",
+          "value": 0.0
+        }
+      },
+      "pivot": "TOP_LEFT",
+      "width": {
+        "relativity": "SPRITE",
+        "relativeTo": "sprite2",
+        "value": 0.5
+      },
+      "height": {
+        "relativity": "SPRITE",
+        "relativeTo": "sprite2",
+        "value": 0.5
+      }
+    },
+    "alpha": 0.0,
+    "scaleX": 1.0,
+    "scaleY": 1.0,
+    "rotation": 0.0,
+    "pivot": "TOP_LEFT"
+  }, {
+    "id": "sprite1",
+    "resource": "resource1",
+    "spriteTopleftU": 1.0,
+    "spriteTopleftV": 0.0,
+    "spriteBotrightU": 1.0,
+    "spriteBotrightV": 1.0,
+    "spriteTransform": {
+      "position": {
+        "positionType": "SCENE_RELATIVE",
+        "relativePointOfTarget": "TOP_LEFT",
+        "xDistanceFromTarget": {
+          "relativity": "SCENE",
+          "value": 0.0
+        },
+        "yDistanceFromTarget": {
+          "relativity": "SCENE",
+          "value": 0.0
+        }
+      },
+      "pivot": "TOP_LEFT",
+      "width": {
+        "relativity": "SCENE",
+        "value": 0.5
+      },
+      "height": {
+        "relativity": "SCENE",
+        "value": 0.5
+      }
+    },
+    "alpha": 0.0,
+    "scaleX": 1.0,
+    "scaleY": 1.0,
+    "rotation": 0.0,
+    "pivot": "TOP_LEFT"
+  }]
+}

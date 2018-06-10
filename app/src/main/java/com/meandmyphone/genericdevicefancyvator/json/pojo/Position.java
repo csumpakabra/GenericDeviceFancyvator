@@ -28,7 +28,7 @@ public class Position {
         return xDistanceFromTarget;
     }
 
-    public void setxDistanceFromTarget(Measure xDistanceFromTarget) {
+    public void setXDistanceFromTarget(Measure xDistanceFromTarget) {
         this.xDistanceFromTarget = xDistanceFromTarget;
     }
 
@@ -36,7 +36,7 @@ public class Position {
         return yDistanceFromTarget;
     }
 
-    public void setyDistanceFromTarget(Measure yDistanceFromTarget) {
+    public void setYDistanceFromTarget(Measure yDistanceFromTarget) {
         this.yDistanceFromTarget = yDistanceFromTarget;
     }
 }

@@ -14,13 +14,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
 import static com.meandmyphone.genericdevicefancyvator.json.pojo.PositionType.SCENE_RELATIVE;
 import static com.meandmyphone.genericdevicefancyvator.json.pojo.PositionType.SPRITE_RELATIVE;
-import static com.meandmyphone.genericdevicefancyvator.json.pojo.RelativityType.*;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.RelativityType.SPRITE;
 
 public class SpriteSorter {
 
@@ -39,38 +38,8 @@ public class SpriteSorter {
         List<Sprite> remainingSprites = new ArrayList<>(originalSprites);
         LinkedList<Sprite> sortedSprites = new LinkedList<>();
         List<Sprite> permanentSprites = new ArrayList<>();
-        ListIterator<Sprite> it = remainingSprites.listIterator();
 
-        int direction = 1;
-
-//        while (it.hasNext() || it.hasPrevious()) {
-            while (it.hasNext()) {
-            Sprite sprite = it.next();
-//            if (direction == 1) {
-//                if (it.hasNext()) {
-//                    sprite = it.next();
-//                } else {
-//                    if (it.hasPrevious()) {
-//                        direction = -1;
-//                    } else {
-//                        direction = 0;
-//                        continue;
-//                    }
-//                }
-//            } else if (direction == -1) {
-//                if (it.hasPrevious()) {
-//                    sprite = it.previous();
-//                } else {
-//                    if (it.hasNext()) {
-//                        direction = 1;
-//                    } else {
-//                        direction = 0;
-//                        continue;
-//                    }
-//                }
-//            } else {
-//                break;
-//            }
+        for (Sprite sprite : remainingSprites) {
             visit(sprite, null, permanentSprites, sortedSprites);
         }
         return sortedSprites;
@@ -87,18 +56,24 @@ public class SpriteSorter {
             visit(s, temp, permanent, sortedSprites);
         }
         permanent.add(sprite);
-        sortedSprites.add( sprite);
+        sortedSprites.add(sprite);
     }
 
     private List<Sprite> extractDependencies(final Sprite sprite) {
-        return new ArrayList<Sprite>(){
+        return new ArrayList<Sprite>() {
             {
                 Set<String> marked = new HashSet<>();
-                 if (SPRITE_RELATIVE.equals(sprite.getSpriteTransform().getPosition().getPositionType())) {
-                    SpriteRelativePosition spriteRelativePosition = (SpriteRelativePosition)sprite.getSpriteTransform().getPosition();
+                if (SPRITE_RELATIVE.equals(sprite.getSpriteTransform().getPosition().getPositionType())) {
+                    SpriteRelativePosition spriteRelativePosition = (SpriteRelativePosition) sprite.getSpriteTransform().getPosition();
                     marked.add(spriteRelativePosition.getRelativeSpriteId());
+                    if (SPRITE.equals(spriteRelativePosition.getXDistanceFromTarget().relativity)) {
+                        marked.add(spriteRelativePosition.getXDistanceFromTarget().relativeTo);
+                    }
+                    if (SPRITE.equals(spriteRelativePosition.getYDistanceFromTarget().relativity)) {
+                        marked.add(spriteRelativePosition.getYDistanceFromTarget().relativeTo);
+                    }
                 } else if (SCENE_RELATIVE.equals(sprite.getSpriteTransform().getPosition().getPositionType())) {
-                    SceneRelativePosition sceneRelativePosition = (SceneRelativePosition)sprite.getSpriteTransform().getPosition();
+                    SceneRelativePosition sceneRelativePosition = (SceneRelativePosition) sprite.getSpriteTransform().getPosition();
                     if (SPRITE.equals(sceneRelativePosition.getXDistanceFromTarget().relativity)) {
                         marked.add(sceneRelativePosition.getXDistanceFromTarget().getRelativeTo());
                     }
