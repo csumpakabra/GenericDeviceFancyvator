@@ -83,83 +83,47 @@ public class Scene {
         }
     }
 
-    public Point2D getSceneTopLeft() {
-        return sceneTopLeft;
-    }
-
-    public void setSceneTopLeft(Point2D sceneTopLeft) {
+    private void setSceneTopLeft(Point2D sceneTopLeft) {
         pointsOfInterest.put(TOPLEFT, sceneTopLeft);
         this.sceneTopLeft = sceneTopLeft;
     }
 
-    public Point2D getSceneTopCenter() {
-        return sceneTopCenter;
-    }
-
-    public void setSceneTopCenter(Point2D sceneTopCenter) {
+    private void setSceneTopCenter(Point2D sceneTopCenter) {
         pointsOfInterest.put(TOPCENTER, sceneTopCenter);
         this.sceneTopCenter = sceneTopCenter;
     }
 
-    public Point2D getSceneTopRight() {
-        return sceneTopRight;
-    }
-
-    public void setSceneTopRight(Point2D sceneTopRight) {
+    private void setSceneTopRight(Point2D sceneTopRight) {
         pointsOfInterest.put(TOPRIGHT, sceneTopRight);
         this.sceneTopRight = sceneTopRight;
     }
 
-    public Point2D getSceneCenterRight() {
-        return sceneCenterRight;
-    }
-
-    public void setSceneCenterRight(Point2D sceneCenterRight) {
+    private void setSceneCenterRight(Point2D sceneCenterRight) {
         pointsOfInterest.put(CENTERRIGHT, sceneCenterRight);
         this.sceneCenterRight = sceneCenterRight;
     }
 
-    public Point2D getSceneBotRight() {
-        return sceneBotRight;
-    }
-
-    public void setSceneBotRight(Point2D sceneBotRight) {
+    private void setSceneBotRight(Point2D sceneBotRight) {
         pointsOfInterest.put(BOTRIGHT, sceneBotRight);
         this.sceneBotRight = sceneBotRight;
     }
 
-    public Point2D getSceneBotCenter() {
-        return sceneBotCenter;
-    }
-
-    public void setSceneBotCenter(Point2D sceneBotCenter) {
+    private void setSceneBotCenter(Point2D sceneBotCenter) {
         pointsOfInterest.put(BOTCENTER, sceneBotCenter);
         this.sceneBotCenter = sceneBotCenter;
     }
 
-    public Point2D getSceneBotLeft() {
-        return sceneBotLeft;
-    }
-
-    public void setSceneBotLeft(Point2D sceneBotLeft) {
+    private void setSceneBotLeft(Point2D sceneBotLeft) {
         pointsOfInterest.put(BOTLEFT, sceneBotLeft);
         this.sceneBotLeft = sceneBotLeft;
     }
 
-    public Point2D getSceneCenterLeft() {
-        return sceneCenterLeft;
-    }
-
-    public void setSceneCenterLeft(Point2D sceneCenterLeft) {
+    private void setSceneCenterLeft(Point2D sceneCenterLeft) {
         pointsOfInterest.put(CENTERLEFT, sceneCenterLeft);
         this.sceneCenterLeft = sceneCenterLeft;
     }
 
-    public Point2D getSceneCenter() {
-        return sceneCenter;
-    }
-
-    public void setSceneCenter(Point2D sceneCenter) {
+    private void setSceneCenter(Point2D sceneCenter) {
         pointsOfInterest.put(CENTER, sceneCenter);
         this.sceneCenter = sceneCenter;
     }

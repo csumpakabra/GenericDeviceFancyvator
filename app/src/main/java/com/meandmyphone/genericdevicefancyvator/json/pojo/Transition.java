@@ -4,13 +4,15 @@ package com.meandmyphone.genericdevicefancyvator.json.pojo;
 public class Transition {
 
 
-    public int duration;
+    private TransitionType transitionType;
 
-    public Ease ease;
+    private int duration;
 
-    public CycleType cycleType;
+    private Ease ease;
 
-    public int cycleCount;
+    private CycleType cycleType;
+
+    private int cycleCount;
 
     /**
      * Gets the value of the duration property.
@@ -100,4 +102,11 @@ public class Transition {
         this.cycleCount = value;
     }
 
+    public TransitionType getTransitionType() {
+        return transitionType;
+    }
+
+    public void setTransitionType(TransitionType transitionType) {
+        this.transitionType = transitionType;
+    }
 }

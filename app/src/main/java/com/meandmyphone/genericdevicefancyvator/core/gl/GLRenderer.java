@@ -5,6 +5,9 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.renderscript.Matrix4f;
 
+import com.meandmyphone.genericdevicefancyvator.common.GDFTransformer;
+import com.meandmyphone.genericdevicefancyvator.common.Parser;
+import com.meandmyphone.genericdevicefancyvator.common.Transformer;
 import com.meandmyphone.genericdevicefancyvator.core.LWPTheme;
 import com.meandmyphone.genericdevicefancyvator.core.programs.TextureShaderProgram;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
@@ -109,6 +112,15 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         screenHeight = height;
 
         scene = new Scene(context, runMode, projection, theme);
+
+        int input = context.getResources().getIdentifier("input", "raw", context.getPackageName());
+
+        Parser parser = new Parser();
+        com.meandmyphone.genericdevicefancyvator.json.pojo.Scene xmlScene =
+                parser.parse(context.getResources().openRawResource(input));
+        Transformer transformer = new GDFTransformer(context, this, xmlScene, scene);
+
+
 
         theme.fillScene(scene);
         maxOffset = 0.5f * (scene.getSceneWidth() - projection.getProjectionWidth());

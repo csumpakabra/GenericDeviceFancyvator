@@ -63,7 +63,7 @@ public class GDFTransformer implements Transformer {
     }
 
     private FadeTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.json.pojo.FadeTransition xmlTransition) {
-        return new FadeTransition(renderer, xmlTransition.getDuration(), spriteId, transform(xmlTransition.getEase()), (float) xmlTransition.getFromAlpha(), (float) xmlTransition.getToAlpha());
+        return new FadeTransition(renderer, xmlTransition.getDuration(), spriteId, transform(xmlTransition.getEase()), xmlTransition.getFromAlpha(), xmlTransition.getToAlpha());
     }
 
     private TranslateTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.json.pojo.TranslateTransition xmlTransition) {

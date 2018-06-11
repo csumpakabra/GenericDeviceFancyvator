@@ -2,15 +2,14 @@ package com.meandmyphone.genericdevicefancyvator.core.gl;
 
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.ConfigurationInfo;
 import android.opengl.GLSurfaceView;
-import android.preference.PreferenceManager;
 import android.service.wallpaper.WallpaperService;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.widget.Toast;
 
+import com.meandmyphone.genericdevicefancyvator.common.Transformer;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.util.Logger;
 
@@ -31,30 +30,14 @@ public class GLWallpaper extends WallpaperService {
     public class GLEngine extends Engine {
         private static final String TAG = "Engine";
 
+        private Transformer transformer;
         private WallpaperGLSurfaceView glSurfaceView;
         private GLRenderer glRenderer;
         private Point2D touchStart;
         private boolean offsetChangedWorking = false;
-        final SharedPreferences.OnSharedPreferenceChangeListener listener;
 
         public GLEngine() {
-            SharedPreferences prefs = PreferenceManager
-                    .getDefaultSharedPreferences(GLWallpaper.this);
             glRenderer = new GLRenderer(GLWallpaper.this);
-            listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-                @Override
-                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-                    glRenderer.setFPS(sharedPreferences.getInt("fpspref",30));
-                    glRenderer.setTouchEnabled(sharedPreferences.getBoolean("touchpref",true));
-                    glRenderer.setGhostAnimationValue(Integer.parseInt(sharedPreferences.getString("ghostanim","2")));
-                    glRenderer.setLWPSpeed(sharedPreferences.getInt("speedpref",3));
-                    // TODO listen other prefs
-                }
-            };
-            prefs.registerOnSharedPreferenceChangeListener(listener);
-            glRenderer.setFPS(prefs.getInt("fpspref",30));
-            glRenderer.setTouchEnabled(prefs.getBoolean("toucEnabled",true));
-            Logger.Log(TAG,"New GLEngine created!\nFPS=%d\nTouchEnabled=%s",glRenderer.getFPS(), String.valueOf(glRenderer.isTouchEnabled()));
         }
 
         @Override
