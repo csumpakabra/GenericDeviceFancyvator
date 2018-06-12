@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 
-import com.meandmyphone.genericdevicefancyvator.core.LWPTheme;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.FadeTransition;
@@ -43,10 +42,11 @@ public class Scene {
     private final Projection projection;
     private final Map<Anchor, Point2D> pointsOfInterest;
 
-    public Scene(Context context, int runMode, Projection projection, LWPTheme theme) {
+    public Scene(Context context, int runMode, Projection projection, Integer[] resources) {
         this.pointsOfInterest = new HashMap<>();
         this.projection = projection;
-        for (int textureResource : theme.getResources()) {
+
+        for (int textureResource : resources) {
             textures.put(textureResource, TextureHelper.loadTexture(context, textureResource));
         }
         if (runMode == GLRenderer.PORTRAIT_MODE) {

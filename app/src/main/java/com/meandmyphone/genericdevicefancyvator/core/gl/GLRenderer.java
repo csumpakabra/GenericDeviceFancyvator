@@ -15,6 +15,7 @@ import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.Ease;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
 import com.meandmyphone.genericdevicefancyvator.core.util.Logger;
 import com.meandmyphone.genericdevicefancyvator.core.util.Mathf;
+import com.meandmyphone.genericdevicefancyvator.json.ResourceExtractor;
 
 import java.util.Arrays;
 
@@ -44,9 +45,9 @@ public class GLRenderer implements GLSurfaceView.Renderer {
 
     static int screenWidth, screenHeight;
 
+    public static final int FPS = 30;
+
     private final String TAG = "Renderer";
-    private int FPS = 30, ghostAnimationValue = 2, LWPSpeed=3;
-    private LWPTheme theme;
     private Scene scene;
     private int runMode = PORTRAIT_MODE;
     private final float[] projectionMatrix = new float[16];
@@ -65,8 +66,6 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         Logger.Log(TAG, "Surface created!");
         // TODO ... do this ...
         //theme = ThemeBuilder.newBuilder(context, this).build();
-        theme = null;
-        theme.init(LWPSpeed,ghostAnimationValue); // TODO generifiy! map <string, value>
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -111,18 +110,18 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         screenWidth = width;
         screenHeight = height;
 
-        scene = new Scene(context, runMode, projection, theme);
-
         int input = context.getResources().getIdentifier("input", "raw", context.getPackageName());
-
         Parser parser = new Parser();
         com.meandmyphone.genericdevicefancyvator.json.pojo.Scene xmlScene =
                 parser.parse(context.getResources().openRawResource(input));
+        ResourceExtractor resourceExtractor = new ResourceExtractor(xmlScene, context);
+        scene = new Scene(context, runMode, projection, resourceExtractor.extractResources());
         Transformer transformer = new GDFTransformer(context, this, xmlScene, scene);
 
 
 
-        theme.fillScene(scene);
+        // TODO create scene;
+
         maxOffset = 0.5f * (scene.getSceneWidth() - projection.getProjectionWidth());
     }
 
@@ -179,8 +178,6 @@ public class GLRenderer implements GLSurfaceView.Renderer {
                 sprite.draw();
             }
 
-        theme.specialAnimation();
-
         scene.onFrameDrawn();
     }
 
@@ -226,7 +223,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
             startXOffset = currentXOffset;
             lastOffsetChangeStartTime = System.currentTimeMillis();
             offsetChanging = true;
-            theme.onOffsetChanged(offsetDelta);
+            // TODO handle offset change!
         }
     }
 
@@ -241,7 +238,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
     public void propagateTouchEvent(float screenX, float screenY) {
         if (touchEnabled) {
             Point2D touch = SpaceConverter.worldToProjectionSpacePoint(projectionMatrix, SpaceConverter.screenToWorldPoint(screenX, screenY));
-            theme.onSceneTouched(touch.X, touch.Y);
+            // TODO handle touch!
         }
     }
 
@@ -255,18 +252,6 @@ public class GLRenderer implements GLSurfaceView.Renderer {
 
     public void setTouchEnabled(boolean touchEnabled) {
         this.touchEnabled = touchEnabled;
-    }
-
-    public void setFPS(int FPS) {
-        this.FPS = FPS;
-    }
-
-    public void setGhostAnimationValue(int ghostAnimationValue) {
-        this.ghostAnimationValue = ghostAnimationValue;
-    }
-
-    public void setLWPSpeed(int LWPSpeed) {
-        this.LWPSpeed = LWPSpeed;
     }
 
     public static class SpaceConverter {

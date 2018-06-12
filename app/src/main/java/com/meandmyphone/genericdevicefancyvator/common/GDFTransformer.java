@@ -57,11 +57,6 @@ public class GDFTransformer implements Transformer {
         }
     }
 
-    @Override
-    public LWPTheme transform(com.meandmyphone.genericdevicefancyvator.json.pojo.Scene xmlScene) {
-        return null;
-    }
-
     private FadeTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.json.pojo.FadeTransition xmlTransition) {
         return new FadeTransition(renderer, xmlTransition.getDuration(), spriteId, transform(xmlTransition.getEase()), xmlTransition.getFromAlpha(), xmlTransition.getToAlpha());
     }
