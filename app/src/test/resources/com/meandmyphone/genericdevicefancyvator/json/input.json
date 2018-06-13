@@ -1,0 +1,38 @@
+{
+  "sprite": [{
+    "id": "sprite1",
+    "resource": "light_led",
+    "spriteTopleftU": 0.0,
+    "spriteTopleftV": 0.0,
+    "spriteBotrightU": 1.0,
+    "spriteBotrightV": 1.0,
+    "spriteTransform": {
+      "position": {
+        "positionType": "SCENE_RELATIVE",
+        "relativePointOfTarget": "TOP_LEFT",
+        "xDistanceFromTarget": {
+          "relativity": "SCENE",
+          "value": 0.0
+        },
+        "yDistanceFromTarget": {
+          "relativity": "SCENE",
+          "value": 0.0
+        }
+      },
+      "pivot": "TOP_LEFT",
+      "width": {
+        "relativity": "SCENE",
+        "value": 1.0
+      },
+      "height": {
+        "relativity": "SCENE",
+        "value": 1.0
+      }
+    },
+    "alpha": 0.5,
+    "scaleX": 1.0,
+    "scaleY": 1.0,
+    "rotation": 0.0,
+    "pivot": "TOP_LEFT"
+  }]
+}
