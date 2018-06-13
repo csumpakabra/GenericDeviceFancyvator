@@ -51,7 +51,8 @@ public class GDFTransformer implements Transformer {
         this.scene = scene;
         this.spriteFactory = new SpriteFactory(scene);
         for (com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite sprite : xmlScene.getSprite()) {
-            spriteIdByXmlId.put(sprite.getId(), Sprite.SPRITE_COUNTER++);
+            int internalId = Sprite.SPRITE_COUNTER++;
+            spriteIdByXmlId.put(sprite.getId(), internalId);
             int resourceId = context.getResources().getIdentifier(sprite.getResource(), "drawable", context.getPackageName());
             resourceIdByXmlResourceId.put(sprite.getResource(), resourceId);
         }
@@ -116,6 +117,7 @@ public class GDFTransformer implements Transformer {
 //            }
         }
         return spriteFactory.createSprite(
+                spriteIdByXmlId.get(xmlSprite.getId()),
                 resourceIdByXmlResourceId.get(xmlSprite.getResource()),
                 spriteTopLeft.X,
                 spriteTopLeft.Y,

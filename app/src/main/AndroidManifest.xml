@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".core.MainActivity"/>
+        <!--<activity android:name=".core.MainActivity"/>-->
         <activity
-            android:name=".common.LaunchActivity"
+            android:name=".core.MainActivity"
             android:label="@string/title_activity_launch"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -20,6 +20,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".core.gl.GLWallpaper"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/wallpaper" />
+        </service>
     </application>
 
 </manifest>

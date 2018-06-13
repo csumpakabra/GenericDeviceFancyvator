@@ -16,6 +16,8 @@ import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
 import com.meandmyphone.genericdevicefancyvator.core.util.Logger;
 import com.meandmyphone.genericdevicefancyvator.core.util.Mathf;
 import com.meandmyphone.genericdevicefancyvator.json.ResourceExtractor;
+import com.meandmyphone.genericdevicefancyvator.json.SpriteSorter;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite;
 
 import java.util.Arrays;
 
@@ -78,6 +80,8 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         Projection projectionLandscape;
         Projection projectionPortrait;
         Projection projection;
+        screenWidth = width;
+        screenHeight = height;
 
         glViewport(0, 0, width, height);
 //        perspectiveM(projectionMatrix, 0, 45, (float) width
@@ -107,8 +111,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
             Logger.Log(TAG, "Renderer running in PORTRAIT mode.");
         }
         Logger.Log(TAG, "aspectratio = %f", aspectRatio);
-        screenWidth = width;
-        screenHeight = height;
+
 
         int input = context.getResources().getIdentifier("input", "raw", context.getPackageName());
         Parser parser = new Parser();
@@ -117,10 +120,10 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         ResourceExtractor resourceExtractor = new ResourceExtractor(xmlScene, context);
         scene = new Scene(context, runMode, projection, resourceExtractor.extractResources());
         Transformer transformer = new GDFTransformer(context, this, xmlScene, scene);
-
-
-
-        // TODO create scene;
+        SpriteSorter spriteSorter = new SpriteSorter(xmlScene.getSprite());
+        for (Sprite s : spriteSorter.sortByDependents()) {
+            scene.addSprite(transformer.transform(s));
+        }
 
         maxOffset = 0.5f * (scene.getSceneWidth() - projection.getProjectionWidth());
     }

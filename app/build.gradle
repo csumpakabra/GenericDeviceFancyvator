@@ -63,7 +63,7 @@ task getInputXml(type: Copy) {
         Path toXmlPath = projectPath.resolve("src/main/res/raw")
         from file(xmlPath.toFile())
         into file(toXmlPath.toFile())
-        rename(".*", "input.xml")
+        rename(".*", "input.json")
         println String.format("Copied input xml from %s to %s", xmlPath.toString(), toXmlPath.toString())
     } else {
         println 'noArgs!'

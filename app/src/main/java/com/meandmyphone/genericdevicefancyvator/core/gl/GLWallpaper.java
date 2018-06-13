@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ConfigurationInfo;
 import android.opengl.GLSurfaceView;
 import android.service.wallpaper.WallpaperService;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class GLWallpaper extends WallpaperService {
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
             super.onCreate(surfaceHolder);
+            Log.d("asd", "GlEngine created");
 
             glSurfaceView = new WallpaperGLSurfaceView(GLWallpaper.this);
 

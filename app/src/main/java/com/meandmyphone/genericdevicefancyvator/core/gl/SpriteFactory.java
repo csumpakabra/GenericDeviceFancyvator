@@ -36,7 +36,7 @@ public class SpriteFactory {
         Logger.Log(TAG, "New spritefactory created:\n%s", toString());
     }
 
-    public Sprite createSprite(int resourceID, float topLeftX, float topLeftY, float sizeX, float sizeY, float topLeftU, float topLeftV, float botRightU, float botRightV, float alpha, float scaleX, float scaleY, float rotation, Anchor pivot) {
+    public Sprite createSprite(int ID, int resourceID, float topLeftX, float topLeftY, float sizeX, float sizeY, float topLeftU, float topLeftV, float botRightU, float botRightV, float alpha, float scaleX, float scaleY, float rotation, Anchor pivot) {
         Point2D base = new Point2D(topLeftX, topLeftY);
         Point2D spriteTopLeft = new Point2D(base.X, base.Y);
         Point2D spriteBottomLeft = new Point2D(base.X, base.Y - sizeY);
@@ -48,7 +48,7 @@ public class SpriteFactory {
         Point2DUV C = new Point2DUV(spriteBottomRight, botRightU, botRightV);
         Point2DUV D = new Point2DUV(spriteBottomTopRight, botRightU, topLeftV);
 
-        Sprite sprite = new Sprite(Sprite.SPRITE_COUNTER++, resourceID, A, B, C, D);
+        Sprite sprite = new Sprite(ID, resourceID, A, B, C, D);
         Logger.Log(TAG, "New sprite created:\n%s\nPoints:\n%s,%s,%s,%s", sprite.toString(), A, B, C, D);
 
         sprite.setAlpha(alpha);
