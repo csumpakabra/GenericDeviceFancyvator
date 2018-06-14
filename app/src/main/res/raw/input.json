@@ -3,7 +3,7 @@
     {
       "alpha": 1.0,
       "id": "robot",
-      "pivot": "CENTER",
+      "pivot": "BOT_LEFT",
       "resource": "roborun",
       "rotation": 0.0,
       "scaleX": 1.0,

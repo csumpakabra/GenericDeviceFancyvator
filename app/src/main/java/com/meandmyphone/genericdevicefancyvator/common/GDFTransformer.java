@@ -82,7 +82,7 @@ public class GDFTransformer implements Transformer {
                 transform(xmlTransition.getEase())
         );
         if (CycleType.RESTART.equals(xmlTransition.getCycleType())) {
-           translateTransition.setAutoreverse(false);
+            translateTransition.setAutoreverse(false);
         }
         return translateTransition;
     }
@@ -113,11 +113,11 @@ public class GDFTransformer implements Transformer {
 
     private FlipBookAnimation transform(int spriteId, FlipbookTransition xmlTransition) {
         int flipCount = xmlTransition.getSprite().size();
-        int [] resources = new int[flipCount];
-        float [] top_left_u = new float[flipCount];
-        float [] top_left_v = new float[flipCount];
-        float [] bot_right_u = new float[flipCount];
-        float [] bot_right_v = new float[flipCount];
+        int[] resources = new int[flipCount];
+        float[] top_left_u = new float[flipCount];
+        float[] top_left_v = new float[flipCount];
+        float[] bot_right_u = new float[flipCount];
+        float[] bot_right_v = new float[flipCount];
         int delay = xmlTransition.getDuration() / flipCount;
 
         for (int i = 0; i < flipCount; i++) {
@@ -140,7 +140,8 @@ public class GDFTransformer implements Transformer {
         int spriteID = spriteIdByXmlId.get(xmlSprite.getId());
         float realWidth = getRealWidth(xmlSprite.getSpriteTransform().getWidth());
         float realHeight = getRealHeight(xmlSprite.getSpriteTransform().getHeight());
-        Point2D spriteTopLeft = getRealPoint(xmlSprite.getSpriteTransform().getPosition());
+        Point2D pivotPoint = getRealPoint(xmlSprite.getSpriteTransform().getPosition());
+        Point2D spriteTopLeft = getTopLeft(pivotPoint, Anchor.fromPivot(xmlSprite.getPivot()), realWidth, realHeight);
 
         Sprite sprite = spriteFactory.createSprite(
                 spriteIdByXmlId.get(xmlSprite.getId()),
@@ -252,5 +253,29 @@ public class GDFTransformer implements Transformer {
             return new Point2D(x, y);
         }
         throw new IllegalArgumentException("Invalid position: " + position.toString());
+    }
+
+    private Point2D getTopLeft(Point2D pivotPoint, Anchor anchor, float realWidth, float realHeight) {
+        switch (anchor) {
+            case TOPLEFT:
+                return pivotPoint;
+            case TOPCENTER:
+                return new Point2D(pivotPoint.X - realWidth / 2, pivotPoint.Y);
+            case TOPRIGHT:
+                return new Point2D(pivotPoint.X - realWidth, pivotPoint.Y);
+            case CENTERRIGHT:
+                return new Point2D(pivotPoint.X - realWidth, pivotPoint.Y + realHeight / 2);
+            case BOTRIGHT:
+                return new Point2D(pivotPoint.X - realWidth, pivotPoint.Y + realHeight);
+            case BOTCENTER:
+                return new Point2D(pivotPoint.X - realWidth / 2, pivotPoint.Y + realHeight);
+            case BOTLEFT:
+                return new Point2D(pivotPoint.X, pivotPoint.Y + realHeight);
+            case CENTERLEFT:
+                return new Point2D(pivotPoint.X, pivotPoint.Y + realHeight / 2);
+            case CENTER:
+                return new Point2D(pivotPoint.X - realWidth / 2, pivotPoint.Y + realHeight);
+        }
+        throw new IllegalArgumentException("Invalid anchor: " + anchor);
     }
 }

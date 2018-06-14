@@ -57,8 +57,8 @@ public class Scene {
                     right = projection.getProjectionPointOfInteres(Anchor.CENTER).X + getSceneWidth() / 2,
                     bottom = projection.getProjectionPointOfInteres(Anchor.BOTCENTER).Y,
                     left = projection.getProjectionPointOfInteres(Anchor.CENTER).X - getSceneWidth() / 2,
-                    centerX = projection.getProjectionPointOfInteres(Anchor.CENTER).X / 2,
-                    centerY = projection.getProjectionPointOfInteres(Anchor.CENTER).Y / 2;
+                    centerX = projection.getProjectionPointOfInteres(Anchor.CENTER).X,
+                    centerY = projection.getProjectionPointOfInteres(Anchor.CENTER).Y;
             setSceneTopLeft(new Point2D(left, top));
             setSceneTopCenter(new Point2D(centerX, top));
             setSceneTopRight(new Point2D(right, top));
