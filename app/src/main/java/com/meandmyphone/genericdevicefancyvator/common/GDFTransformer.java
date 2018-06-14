@@ -14,6 +14,7 @@ import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.RotateTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ScaleTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.TranslateTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.Aspect;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.CycleType;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Ease;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.FlipbookTransition;
@@ -75,8 +76,8 @@ public class GDFTransformer implements Transformer {
                 renderer,
                 new Point2D(0, 0),
                 new Point2D(
-                        getRealWidth(xmlTransition.getByX()),
-                        getRealHeight(xmlTransition.getByY())),
+                        transformWidth(xmlTransition.getByX()),
+                        transformHeight(xmlTransition.getByY())),
                 xmlTransition.getDuration(),
                 spriteId,
                 transform(xmlTransition.getEase())
@@ -138,10 +139,30 @@ public class GDFTransformer implements Transformer {
     @Override
     public Sprite transform(com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite xmlSprite) {
         int spriteID = spriteIdByXmlId.get(xmlSprite.getId());
-        float realWidth = getRealWidth(xmlSprite.getSpriteTransform().getWidth());
-        float realHeight = getRealHeight(xmlSprite.getSpriteTransform().getHeight());
-        Point2D pivotPoint = getRealPoint(xmlSprite.getSpriteTransform().getPosition());
-        Point2D spriteTopLeft = getTopLeft(pivotPoint, Anchor.fromPivot(xmlSprite.getPivot()), realWidth, realHeight);
+        float realWidth;
+        float realHeight;
+
+        if (Aspect.NONE.equals(xmlSprite.getAspect())) {
+            realWidth = transformWidth(xmlSprite.getSpriteTransform().getWidth());
+            realHeight = transformHeight(xmlSprite.getSpriteTransform().getHeight());
+        } else {
+
+            float originalWidth = xmlSprite.getSpriteBotrightU() - xmlSprite.getSpriteTopleftU();
+            float originalHeight = xmlSprite.getSpriteBotrightV() - xmlSprite.getSpriteTopleftV();
+            float aspectRatio = originalWidth / originalHeight;
+
+            if (Aspect.WIDTH.equals(xmlSprite.getAspect())) {
+                realWidth = transformWidth(xmlSprite.getSpriteTransform().getWidth());
+                realHeight = realWidth / aspectRatio;
+            } else if (Aspect.HEIGHT.equals(xmlSprite.getAspect())) {
+                realHeight = transformHeight(xmlSprite.getSpriteTransform().getHeight());
+                realWidth = realHeight * aspectRatio;
+            } else {
+                throw new IllegalArgumentException("Invalid aspect: " + xmlSprite.getAspect());
+            }
+        }
+        Point2D pivotPoint = transformPoint(xmlSprite.getSpriteTransform().getPosition());
+        Point2D spriteTopLeft = transformPointToTopLeft(pivotPoint, Anchor.fromPivot(xmlSprite.getPivot()), realWidth, realHeight);
 
         Sprite sprite = spriteFactory.createSprite(
                 spriteIdByXmlId.get(xmlSprite.getId()),
@@ -206,7 +227,7 @@ public class GDFTransformer implements Transformer {
         throw new IllegalArgumentException("Unable to transform xmlEase: " + xmlEase);
     }
 
-    private float getRealWidth(Measure measure) {
+    private float transformWidth(Measure measure) {
         if (RelativityType.NONE.equals(measure.getRelativity())) {
             Log.w(TAG, "Creating absolute widht sprite!");
             return measure.getValue();
@@ -220,7 +241,7 @@ public class GDFTransformer implements Transformer {
         throw new IllegalArgumentException("Invalid measure: " + measure.getRelativity());
     }
 
-    private float getRealHeight(Measure measure) {
+    private float transformHeight(Measure measure) {
         if (RelativityType.NONE.equals(measure.getRelativity())) {
             Log.w(TAG, "Creating absolute height sprite!");
             return measure.getValue();
@@ -234,9 +255,9 @@ public class GDFTransformer implements Transformer {
         throw new IllegalArgumentException("Invalid measure: " + measure.getRelativity());
     }
 
-    private Point2D getRealPoint(Position position) {
-        float distanceX = getRealWidth(position.getXDistanceFromTarget());
-        float distanceY = getRealHeight(position.getYDistanceFromTarget());
+    private Point2D transformPoint(Position position) {
+        float distanceX = transformWidth(position.getXDistanceFromTarget());
+        float distanceY = transformHeight(position.getYDistanceFromTarget());
         if (position instanceof SceneRelativePosition) {
             SceneRelativePosition pos = (SceneRelativePosition) position;
             Point2D relativePoint = scene.getScenePointOfInterest(Anchor.fromPivot(pos.getRelativePointOfTarget()));
@@ -255,7 +276,7 @@ public class GDFTransformer implements Transformer {
         throw new IllegalArgumentException("Invalid position: " + position.toString());
     }
 
-    private Point2D getTopLeft(Point2D pivotPoint, Anchor anchor, float realWidth, float realHeight) {
+    private Point2D transformPointToTopLeft(Point2D pivotPoint, Anchor anchor, float realWidth, float realHeight) {
         switch (anchor) {
             case TOPLEFT:
                 return pivotPoint;

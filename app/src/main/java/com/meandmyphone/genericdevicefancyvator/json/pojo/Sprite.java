@@ -20,6 +20,7 @@ public class Sprite {
     private Pivot pivot;
     private int sortingOrder;
     private List<Transition> transition;
+    private Aspect aspect;
 
     public Sprite() {
     }
@@ -283,5 +284,21 @@ public class Sprite {
 
     public void setSortingOrder(int sortingOrder) {
         this.sortingOrder = sortingOrder;
+    }
+
+    public List<Transition> getTransition() {
+        return transition;
+    }
+
+    public void setTransition(List<Transition> transition) {
+        this.transition = transition;
+    }
+
+    public Aspect getAspect() {
+        return aspect;
+    }
+
+    public void setAspect(Aspect aspect) {
+        this.aspect = aspect;
     }
 }
