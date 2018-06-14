@@ -31,9 +31,9 @@ public class Scene {
      * 
      * 
      */
-    public List<Sprite> getSprite() {
+    public List<com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite> getSprite() {
         if (sprite == null) {
-            sprite = new ArrayList<Sprite>();
+            sprite = new ArrayList<>();
         }
         return this.sprite;
     }

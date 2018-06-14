@@ -19,7 +19,7 @@ import java.io.InputStreamReader;
 
 public class Parser {
 
-    public Scene parse(InputStream inputStream) {
+    public com.meandmyphone.genericdevicefancyvator.json.pojo.Scene parse(InputStream inputStream) {
 
         RuntimeTypeAdapterFactory<Position> positionRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory
                 .of(Position.class, "positionType")
