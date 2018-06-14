@@ -21,9 +21,14 @@ public class ResourceExtractor {
     public Integer[] extractResources() {
         Map<String, Integer> resources = new HashMap<>();
         for (Sprite sprite : xmlScene.getSprite()) {
-            if (!resources.containsKey(sprite.resource)) {
-                int resourceId = context.getResources().getIdentifier(sprite.getResource(), "drawable", context.getPackageName());
-                resources.put(sprite.resource, resourceId);
+            if (!resources.containsKey(sprite.getResource())) {
+                int resourceId = context
+                        .getResources().getIdentifier(
+                                sprite.getResource(),
+                                "drawable",
+                                context.getPackageName()
+                        );
+                resources.put(sprite.getResource(), resourceId);
             }
         }
         return resources.values().toArray(new Integer[resources.size()]);

@@ -27,7 +27,6 @@ public abstract class Transition implements ITransition {
         this.nodeId = nodeId;
         this.easeType = easeType;
         this.renderer = renderer;
-        renderer.getCurrentScene().getSprite(nodeId).transitions.put(transitionId, this);
     }
 
     public void start() {

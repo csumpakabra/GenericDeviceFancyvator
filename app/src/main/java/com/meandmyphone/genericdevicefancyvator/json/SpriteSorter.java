@@ -87,7 +87,7 @@ public class SpriteSorter {
                 if (SPRITE.equals(sprite.getSpriteTransform().getHeight().getRelativity())) {
                     marked.add(sprite.getSpriteTransform().getHeight().getRelativeTo());
                 }
-                for (Transition transition : sprite.getTransition()) {
+                for (Transition transition : sprite.getTransitions()) {
                     if (transition instanceof TranslateTransition) {
                         TranslateTransition translateTransition = (TranslateTransition) transition;
                         if (SPRITE.equals(translateTransition.getByX().getRelativity())) {

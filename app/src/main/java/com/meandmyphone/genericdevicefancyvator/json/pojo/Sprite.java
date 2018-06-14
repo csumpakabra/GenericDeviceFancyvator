@@ -6,19 +6,20 @@ import java.util.List;
 
 public class Sprite {
 
-    public String id;
-    public String resource;
-    public float spriteTopleftU;
-    public float spriteTopleftV;
-    public float spriteBotrightU;
-    public float spriteBotrightV;
-    public SpriteTransform spriteTransform;
-    public float alpha;
-    public float scaleX;
-    public float scaleY;
-    public float rotation;
-    public Pivot pivot;
-    public List<Transition> transition;
+    private String id;
+    private String resource;
+    private float spriteTopleftU;
+    private float spriteTopleftV;
+    private float spriteBotrightU;
+    private float spriteBotrightV;
+    private SpriteTransform spriteTransform;
+    private float alpha;
+    private float scaleX;
+    private float scaleY;
+    private float rotation;
+    private Pivot pivot;
+    private int sortingOrder;
+    private List<Transition> transition;
 
     public Sprite() {
     }
@@ -259,7 +260,7 @@ public class Sprite {
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getTransition().add(newItem);
+     *    getTransitions().add(newItem);
      * </pre>
      * 
      * 
@@ -269,11 +270,18 @@ public class Sprite {
      * 
      * 
      */
-    public List<Transition> getTransition() {
+    public List<Transition> getTransitions() {
         if (transition == null) {
             transition = new ArrayList<Transition>();
         }
         return this.transition;
     }
 
+    public int getSortingOrder() {
+        return sortingOrder;
+    }
+
+    public void setSortingOrder(int sortingOrder) {
+        this.sortingOrder = sortingOrder;
+    }
 }

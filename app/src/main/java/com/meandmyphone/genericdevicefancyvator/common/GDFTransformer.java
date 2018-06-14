@@ -3,7 +3,6 @@ package com.meandmyphone.genericdevicefancyvator.common;
 import android.content.Context;
 import android.util.Log;
 
-import com.meandmyphone.genericdevicefancyvator.core.LWPTheme;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor;
 import com.meandmyphone.genericdevicefancyvator.core.gl.GLRenderer;
@@ -14,9 +13,8 @@ import com.meandmyphone.genericdevicefancyvator.core.transitions.FlipBookAnimati
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.RotateTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ScaleTransition;
-import com.meandmyphone.genericdevicefancyvator.core.transitions.Transition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.TranslateTransition;
-
+import com.meandmyphone.genericdevicefancyvator.json.pojo.CycleType;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Ease;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.FlipbookTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Measure;
@@ -25,12 +23,15 @@ import com.meandmyphone.genericdevicefancyvator.json.pojo.RelativityType;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.SceneRelativePosition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.SpriteRelativePosition;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory.*;
+import static com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory.Sprite;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.TransitionType.FADE;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.TransitionType.FLIPBOOK;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.TransitionType.ROTATE;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.TransitionType.SCALE;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.TransitionType.TRANSLATE;
 
 public class GDFTransformer implements Transformer {
 
@@ -59,64 +60,89 @@ public class GDFTransformer implements Transformer {
     }
 
     private FadeTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.json.pojo.FadeTransition xmlTransition) {
-        return new FadeTransition(renderer, xmlTransition.getDuration(), spriteId, transform(xmlTransition.getEase()), xmlTransition.getFromAlpha(), xmlTransition.getToAlpha());
+        return new FadeTransition(
+                renderer,
+                xmlTransition.getDuration(),
+                spriteId,
+                transform(xmlTransition.getEase()),
+                xmlTransition.getFromAlpha(),
+                xmlTransition.getToAlpha()
+        );
     }
 
     private TranslateTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.json.pojo.TranslateTransition xmlTransition) {
-        return null;
+        TranslateTransition translateTransition = new TranslateTransition(
+                renderer,
+                new Point2D(0, 0),
+                new Point2D(
+                        getRealWidth(xmlTransition.getByX()),
+                        getRealHeight(xmlTransition.getByY())),
+                xmlTransition.getDuration(),
+                spriteId,
+                transform(xmlTransition.getEase())
+        );
+        if (CycleType.RESTART.equals(xmlTransition.getCycleType())) {
+           translateTransition.setAutoreverse(false);
+        }
+        return translateTransition;
     }
 
     private RotateTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.json.pojo.RotateTransition xmlTransition) {
-        return null;
+        return new RotateTransition(
+                renderer,
+                xmlTransition.getDuration(),
+                spriteId,
+                transform(xmlTransition.getEase()),
+                xmlTransition.getFromAngle(),
+                xmlTransition.getToAngle()
+        );
     }
 
     private ScaleTransition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.json.pojo.ScaleTransition xmlTransition) {
-        return null;
+        return new ScaleTransition(
+                renderer,
+                xmlTransition.getDuration(),
+                spriteId,
+                transform(xmlTransition.getEase()),
+                xmlTransition.getFromX(),
+                xmlTransition.getToX(),
+                xmlTransition.getFromY(),
+                xmlTransition.getToY()
+        );
     }
 
     private FlipBookAnimation transform(int spriteId, FlipbookTransition xmlTransition) {
-        return null;
-    }
+        int flipCount = xmlTransition.getSprite().size();
+        int [] resources = new int[flipCount];
+        float [] top_left_u = new float[flipCount];
+        float [] top_left_v = new float[flipCount];
+        float [] bot_right_u = new float[flipCount];
+        float [] bot_right_v = new float[flipCount];
+        int delay = xmlTransition.getDuration() / flipCount;
 
-    public Transition transform(int spriteId, com.meandmyphone.genericdevicefancyvator.json.pojo.Transition xmlTransition) {
-        if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.json.pojo.TranslateTransition) {
-            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.json.pojo.TranslateTransition) xmlTransition);
-        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.json.pojo.RotateTransition) {
-            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.json.pojo.RotateTransition) xmlTransition);
-        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.json.pojo.ScaleTransition) {
-            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.json.pojo.ScaleTransition) xmlTransition);
-        } else if (xmlTransition instanceof com.meandmyphone.genericdevicefancyvator.json.pojo.FadeTransition) {
-            return transform(spriteId, (com.meandmyphone.genericdevicefancyvator.json.pojo.FadeTransition) xmlTransition);
-        } else if (xmlTransition instanceof FlipbookTransition) {
-            return transform(spriteId, (FlipbookTransition) xmlTransition);
+        for (int i = 0; i < flipCount; i++) {
+            com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite xmlSprite = xmlTransition.getSprite().get(i);
+            resources[i] = resourceIdByXmlResourceId.get(xmlSprite.getResource());
+            top_left_u[i] = xmlSprite.getSpriteTopleftU();
+            top_left_v[i] = xmlSprite.getSpriteTopleftV();
+            bot_right_u[i] = xmlSprite.getSpriteBotrightU();
+            bot_right_v[i] = xmlSprite.getSpriteBotrightV();
         }
-        throw new IllegalArgumentException("Invalid transition: " + xmlTransition);
+        FlipBookAnimation flipBookAnimation = new FlipBookAnimation(renderer, spriteId, resources, top_left_u, top_left_v, bot_right_u, bot_right_v, delay);
+        if (CycleType.RESTART.equals(xmlTransition.getCycleType())) {
+            flipBookAnimation.setAutoreverse(false);
+        }
+        return flipBookAnimation;
     }
 
     @Override
     public Sprite transform(com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite xmlSprite) {
-        int SpriteID = spriteIdByXmlId.get(xmlSprite.getId());
+        int spriteID = spriteIdByXmlId.get(xmlSprite.getId());
         float realWidth = getRealWidth(xmlSprite.getSpriteTransform().getWidth());
         float realHeight = getRealHeight(xmlSprite.getSpriteTransform().getHeight());
         Point2D spriteTopLeft = getRealPoint(xmlSprite.getSpriteTransform().getPosition());
-        List<Transition> transitions = new ArrayList<>();
-        for (com.meandmyphone.genericdevicefancyvator.json.pojo.Transition transition : xmlSprite.getTransition()) {
-            // TODO
-//            if (transition.getFadeTransition() != null) {
-//                transitions.add(transform(SpriteID, transition.getFadeTransition()));
-//            } else if (transition.getTranslateTransition() != null) {
-//                transitions.add(transform(SpriteID, transition.getFadeTransition()));
-//            } else if (transition.getRotateTransition() != null) {
-//                transitions.add(transform(SpriteID, transition.getFadeTransition()));
-//            } else if (transition.getScaleTransition() != null) {
-//                transitions.add(transform(SpriteID, transition.getFadeTransition()));
-//            } else if (transition.getFlipbookTransition() != null) {
-//                transitions.add(transform(SpriteID, transition.getFlipbookTransition()));
-//            } else {
-//                throw new IllegalArgumentException("Invalid transition: " + transition);
-//            }
-        }
-        return spriteFactory.createSprite(
+
+        Sprite sprite = spriteFactory.createSprite(
                 spriteIdByXmlId.get(xmlSprite.getId()),
                 resourceIdByXmlResourceId.get(xmlSprite.getResource()),
                 spriteTopLeft.X,
@@ -131,12 +157,29 @@ public class GDFTransformer implements Transformer {
                 xmlSprite.getScaleX(),
                 xmlSprite.getScaleY(),
                 xmlSprite.getRotation(),
-                Anchor.fromPivot(xmlSprite.getPivot())
+                Anchor.fromPivot(xmlSprite.getPivot()),
+                xmlSprite.getSortingOrder()
         );
+
+        for (com.meandmyphone.genericdevicefancyvator.json.pojo.Transition transition : xmlSprite.getTransitions()) {
+            if (FADE.equals(transition.getTransitionType())) {
+                sprite.addTransition(transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.FadeTransition) transition));
+            } else if (TRANSLATE.equals(transition.getTransitionType())) {
+                sprite.addTransition(transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.TranslateTransition) transition));
+            } else if (ROTATE.equals(transition.getTransitionType())) {
+                sprite.addTransition(transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.RotateTransition) transition));
+            } else if (SCALE.equals(transition.getTransitionType())) {
+                sprite.addTransition(transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.ScaleTransition) transition));
+            } else if (FLIPBOOK.equals(transition.getTransitionType())) {
+                sprite.addTransition(transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.FlipbookTransition) transition));
+            } else {
+                throw new IllegalArgumentException("Invalid transition: " + transition);
+            }
+        }
+        return sprite;
     }
 
-    @Override
-    public int transform(Ease xmlEase) {
+    private int transform(Ease xmlEase) {
         switch (xmlEase) {
             case LINEAR:
                 return ITransition.LINEAR;
@@ -194,7 +237,7 @@ public class GDFTransformer implements Transformer {
         float distanceX = getRealWidth(position.getXDistanceFromTarget());
         float distanceY = getRealHeight(position.getYDistanceFromTarget());
         if (position instanceof SceneRelativePosition) {
-            SceneRelativePosition pos = (SceneRelativePosition)position;
+            SceneRelativePosition pos = (SceneRelativePosition) position;
             Point2D relativePoint = scene.getScenePointOfInterest(Anchor.fromPivot(pos.getRelativePointOfTarget()));
             float x = relativePoint.X + distanceX;
             float y = relativePoint.Y - distanceY;

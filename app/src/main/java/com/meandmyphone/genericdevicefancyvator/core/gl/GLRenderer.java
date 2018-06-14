@@ -3,23 +3,24 @@ package com.meandmyphone.genericdevicefancyvator.core.gl;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
-import android.renderscript.Matrix4f;
 
 import com.meandmyphone.genericdevicefancyvator.common.GDFTransformer;
 import com.meandmyphone.genericdevicefancyvator.common.Parser;
 import com.meandmyphone.genericdevicefancyvator.common.Transformer;
-import com.meandmyphone.genericdevicefancyvator.core.LWPTheme;
-import com.meandmyphone.genericdevicefancyvator.core.programs.TextureShaderProgram;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
-import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.Ease;
+import com.meandmyphone.genericdevicefancyvator.core.programs.TextureShaderProgram;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
+import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.Ease;
 import com.meandmyphone.genericdevicefancyvator.core.util.Logger;
 import com.meandmyphone.genericdevicefancyvator.core.util.Mathf;
 import com.meandmyphone.genericdevicefancyvator.json.ResourceExtractor;
 import com.meandmyphone.genericdevicefancyvator.json.SpriteSorter;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -66,8 +67,6 @@ public class GLRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         Logger.Log(TAG, "Surface created!");
-        // TODO ... do this ...
-        //theme = ThemeBuilder.newBuilder(context, this).build();
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -84,8 +83,6 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         screenHeight = height;
 
         glViewport(0, 0, width, height);
-//        perspectiveM(projectionMatrix, 0, 45, (float) width
-//                / (float) height, 1f, 10f);
 
         float [] projectionMatrixLandscape = new float[16];
         float [] projectionMatrixPortrait = new float[16];
@@ -121,10 +118,28 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         scene = new Scene(context, runMode, projection, resourceExtractor.extractResources());
         Transformer transformer = new GDFTransformer(context, this, xmlScene, scene);
         SpriteSorter spriteSorter = new SpriteSorter(xmlScene.getSprite());
+        List<SpriteFactory.Sprite> sprites = new ArrayList<>();
         for (Sprite s : spriteSorter.sortByDependents()) {
-            scene.addSprite(transformer.transform(s));
+            SpriteFactory.Sprite sprite = transformer.transform(s);
+            sprites.add(sprite);
+            for (int i = 0; i <= sprite.transitions.size(); i++) {
+                ITransition transition = sprite.transitions.get(sprite.transitions.keyAt(i));
+                if (transition != null) {
+                    transition.start();
+                }
+            }
         }
 
+        Collections.sort(sprites, new Comparator<SpriteFactory.Sprite>() {
+            @Override
+            public int compare(SpriteFactory.Sprite sprite, SpriteFactory.Sprite t1) {
+                return sprite.getSortOrder() - t1.getSortOrder();
+            }
+        });
+
+        for (SpriteFactory.Sprite s : sprites) {
+            scene.addSprite(s);
+        }
         maxOffset = 0.5f * (scene.getSceneWidth() - projection.getProjectionWidth());
     }
 
@@ -156,7 +171,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
                 Matrix.setIdentityM(transform, 0);
                 Matrix.setIdentityM(pivot, 0);
                 Matrix.translateM(pivot, 0, pivot, 0, sprite.pivotX, sprite.pivotY, 0); // TRANSLATE TO CENTER
-                Matrix.setRotateEulerM(rotation, 0, 0, 0, sprite.angle); // EULER ROTATE (?)
+                Matrix.setRotateEulerM(rotation, 0, 0, 0, sprite.angle); // EULER ROTATE
                 Matrix.multiplyMM(rotation, 0, pivot, 0, rotation, 0);
                 Matrix.multiplyMM(scale, 0, pivot, 0, scale, 0);
                 Matrix.setIdentityM(pivot, 0);
@@ -172,7 +187,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
                 Matrix.multiplyMM(transform, 0, scale, 0, rotation, 0);
                 Matrix.multiplyMM(transform, 0, translate, 0, transform, 0); // SCALE * ROTATION * TRANSLATE
 
-                //FINAL MATRIX
+                //FINAL MATRIX - PROJECT
                 Matrix.multiplyMM(temp, 0, projectionMatrix, 0, transform, 0);
 
                 textureProgram.useProgram();
@@ -276,39 +291,4 @@ public class GLRenderer implements GLSurfaceView.Renderer {
             return new Point2D(normalizedX, normalizedY);
         }
     }
-
-    public class SceneHolder {
-        private final Scene scene;
-        private final Point2D projectionTopLeft, projectionBotRight;
-        private final int screenWidth, screenHeight;
-
-        public SceneHolder(Scene scene, Point2D projectionTopLeft, Point2D projectionBotRight, int screenWidth, int screenHeight) {
-            this.scene = scene;
-            this.projectionTopLeft = projectionTopLeft;
-            this.projectionBotRight = projectionBotRight;
-            this.screenWidth = screenWidth;
-            this.screenHeight = screenHeight;
-        }
-
-        public Scene getScene() {
-            return scene;
-        }
-
-        public Point2D getProjectionTopLeft() {
-            return projectionTopLeft;
-        }
-
-        public Point2D getProjectionBotRight() {
-            return projectionBotRight;
-        }
-
-        public int getScreenWidth() {
-            return screenWidth;
-        }
-
-        public int getScreenHeight() {
-            return screenHeight;
-        }
-    }
-
 }

@@ -1,8 +1,6 @@
 package com.meandmyphone.genericdevicefancyvator.json.pojo;
 
-
 public enum Ease {
-
 
     LINEAR("linear"),
 
@@ -41,5 +39,4 @@ public enum Ease {
         }
         throw new IllegalArgumentException(v);
     }
-
 }

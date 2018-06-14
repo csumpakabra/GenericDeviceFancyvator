@@ -20,7 +20,6 @@ import com.meandmyphone.genericdevicefancyvator.core.util.Logger;
 
 public class GLWallpaper extends WallpaperService {
 
-
     private boolean rendererSet;
 
     @Override
@@ -37,34 +36,28 @@ public class GLWallpaper extends WallpaperService {
         private Point2D touchStart;
         private boolean offsetChangedWorking = false;
 
-        public GLEngine() {
+        GLEngine() {
             glRenderer = new GLRenderer(GLWallpaper.this);
         }
 
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
             super.onCreate(surfaceHolder);
-            Log.d("asd", "GlEngine created");
-
             glSurfaceView = new WallpaperGLSurfaceView(GLWallpaper.this);
-
-
             ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-            ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
-
-            final boolean supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000;
-            // Check for emulator. || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1 && (Build.FINGERPRINT.startsWith("generic") || Build.FINGERPRINT.startsWith("unknown") || Build.MODEL.contains("google_sdk") || Build.MODEL.contains("Emulator") || Build.MODEL.contains("Android SDK built for x86")));
-
-            if (supportsEs2) {
-                glSurfaceView.setEGLContextClientVersion(2);
-                glSurfaceView.setRenderer(glRenderer);
-                rendererSet = true;
-            } else {
-                Toast.makeText(GLWallpaper.this, "This device does not support OpenGL ES 2.0.", Toast.LENGTH_LONG).show();
-                return;
+            ConfigurationInfo configurationInfo = null;
+            if (activityManager != null) {
+                configurationInfo = activityManager.getDeviceConfigurationInfo();
+                final boolean supportsEs2 = configurationInfo != null && configurationInfo.reqGlEsVersion >= 0x20000;
+                if (supportsEs2) {
+                    glSurfaceView.setEGLContextClientVersion(2);
+                    glSurfaceView.setRenderer(glRenderer);
+                    rendererSet = true;
+                    return;
+                }
             }
+            Toast.makeText(GLWallpaper.this, "This device does not support OpenGL ES 2.0.", Toast.LENGTH_LONG).show();
         }
-
 
         @Override
         public void onVisibilityChanged(boolean visible) {
@@ -129,9 +122,7 @@ public class GLWallpaper extends WallpaperService {
                 if (eventTime < Constants.SWIPE_TIME_MS) {
                     glRenderer.propagateTouchEvent(event.getX(), event.getY());
                 }
-
             }
-
         }
 
         class WallpaperGLSurfaceView extends GLSurfaceView {

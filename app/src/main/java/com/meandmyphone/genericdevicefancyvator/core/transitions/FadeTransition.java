@@ -37,7 +37,7 @@ public class FadeTransition extends Transition {
 
     @Override
     public void transit() {
-        if (!playing || cyclesDone>=cycleCount) return;
+        if (!playing || cyclesDone >= cycleCount) return;
         long currentTimeInLoop = System.currentTimeMillis() - cycleStartTime;
         if (currentTimeInLoop <= cycleDuration) {
             SpriteFactory.Sprite sprite = renderer.getCurrentScene().getSprite(nodeId);

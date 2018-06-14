@@ -1,0 +1,392 @@
+{
+  "sprite": [
+    {
+      "alpha": 1.0,
+      "id": "robot",
+      "pivot": "CENTER",
+      "resource": "roborun",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "sortingOrder": 1,
+      "spriteBotrightU": 0.3333,
+      "spriteBotrightV": 0.3333,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "spriteTransform": {
+        "height": {
+          "relativity": "SCENE",
+          "value": 0.2
+        },
+        "pivot": "CENTER",
+        "position": {
+          "positionType": "SCENE_RELATIVE",
+          "relativePointOfTarget": "CENTER_LEFT",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": -0.2
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          }
+        },
+        "width": {
+          "relativity": "SCENE",
+          "value": 0.2
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.2
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "cycleCount": 10,
+          "cycleType": "RESTART",
+          "duration": 5000,
+          "ease": "LINEAR",
+          "transitionType": "TRANSLATE"
+        },
+        {
+          "sprite": [
+            {
+              "alpha": 1.0,
+              "id": "robot1",
+              "pivot": "CENTER",
+              "resource": "roborun",
+              "rotation": 0.0,
+              "scaleX": 1.0,
+              "scaleY": 1.0,
+              "spriteBotrightU": 0.33333334,
+              "spriteBotrightV": 0.33333334,
+              "spriteTopleftU": 0.0,
+              "spriteTopleftV": 0.0,
+              "spriteTransform": {
+                "height": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                },
+                "pivot": "CENTER",
+                "position": {
+                  "positionType": "SCENE_RELATIVE",
+                  "relativePointOfTarget": "CENTER",
+                  "xDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  },
+                  "yDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  }
+                },
+                "width": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                }
+              }
+            },
+            {
+              "alpha": 1.0,
+              "id": "robot2",
+              "pivot": "CENTER",
+              "resource": "roborun",
+              "rotation": 0.0,
+              "scaleX": 1.0,
+              "scaleY": 1.0,
+              "spriteBotrightU": 0.6666667,
+              "spriteBotrightV": 0.33333334,
+              "spriteTopleftU": 0.33333334,
+              "spriteTopleftV": 0.0,
+              "spriteTransform": {
+                "height": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                },
+                "pivot": "CENTER",
+                "position": {
+                  "positionType": "SCENE_RELATIVE",
+                  "relativePointOfTarget": "CENTER",
+                  "xDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  },
+                  "yDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  }
+                },
+                "width": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                }
+              }
+            },
+            {
+              "alpha": 1.0,
+              "id": "robot3",
+              "pivot": "CENTER",
+              "resource": "roborun",
+              "rotation": 0.0,
+              "scaleX": 1.0,
+              "scaleY": 1.0,
+              "spriteBotrightU": 1.0,
+              "spriteBotrightV": 0.33333334,
+              "spriteTopleftU": 0.6666666,
+              "spriteTopleftV": 0.0,
+              "spriteTransform": {
+                "height": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                },
+                "pivot": "CENTER",
+                "position": {
+                  "positionType": "SCENE_RELATIVE",
+                  "relativePointOfTarget": "CENTER",
+                  "xDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  },
+                  "yDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  }
+                },
+                "width": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                }
+              }
+            },
+            {
+              "alpha": 1.0,
+              "id": "robot4",
+              "pivot": "CENTER",
+              "resource": "roborun",
+              "rotation": 0.0,
+              "scaleX": 1.0,
+              "scaleY": 1.0,
+              "spriteBotrightU": 0.33333334,
+              "spriteBotrightV": 0.6666667,
+              "spriteTopleftU": 0.0,
+              "spriteTopleftV": 0.33333334,
+              "spriteTransform": {
+                "height": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                },
+                "pivot": "CENTER",
+                "position": {
+                  "positionType": "SCENE_RELATIVE",
+                  "relativePointOfTarget": "CENTER",
+                  "xDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  },
+                  "yDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  }
+                },
+                "width": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                }
+              }
+            },
+            {
+              "alpha": 1.0,
+              "id": "robot5",
+              "pivot": "CENTER",
+              "resource": "roborun",
+              "rotation": 0.0,
+              "scaleX": 1.0,
+              "scaleY": 1.0,
+              "spriteBotrightU": 0.6666667,
+              "spriteBotrightV": 0.6666667,
+              "spriteTopleftU": 0.33333334,
+              "spriteTopleftV": 0.33333334,
+              "spriteTransform": {
+                "height": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                },
+                "pivot": "CENTER",
+                "position": {
+                  "positionType": "SCENE_RELATIVE",
+                  "relativePointOfTarget": "CENTER",
+                  "xDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  },
+                  "yDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  }
+                },
+                "width": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                }
+              }
+            },
+            {
+              "alpha": 1.0,
+              "id": "robot6",
+              "pivot": "CENTER",
+              "resource": "roborun",
+              "rotation": 0.0,
+              "scaleX": 1.0,
+              "scaleY": 1.0,
+              "spriteBotrightU": 1.0,
+              "spriteBotrightV": 0.6666667,
+              "spriteTopleftU": 0.6666666,
+              "spriteTopleftV": 0.33333334,
+              "spriteTransform": {
+                "height": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                },
+                "pivot": "CENTER",
+                "position": {
+                  "positionType": "SCENE_RELATIVE",
+                  "relativePointOfTarget": "CENTER",
+                  "xDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  },
+                  "yDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  }
+                },
+                "width": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                }
+              }
+            },
+            {
+              "alpha": 1.0,
+              "id": "robot7",
+              "pivot": "CENTER",
+              "resource": "roborun",
+              "rotation": 0.0,
+              "scaleX": 1.0,
+              "scaleY": 1.0,
+              "spriteBotrightU": 0.33333334,
+              "spriteBotrightV": 1.0,
+              "spriteTopleftU": 0.0,
+              "spriteTopleftV": 0.6666666,
+              "spriteTransform": {
+                "height": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                },
+                "pivot": "CENTER",
+                "position": {
+                  "positionType": "SCENE_RELATIVE",
+                  "relativePointOfTarget": "CENTER",
+                  "xDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  },
+                  "yDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  }
+                },
+                "width": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                }
+              }
+            },
+            {
+              "alpha": 1.0,
+              "id": "robot8",
+              "pivot": "CENTER",
+              "resource": "roborun",
+              "rotation": 0.0,
+              "scaleX": 1.0,
+              "scaleY": 1.0,
+              "spriteBotrightU": 0.6666667,
+              "spriteBotrightV": 1.0,
+              "spriteTopleftU": 0.33333334,
+              "spriteTopleftV": 0.6666666,
+              "spriteTransform": {
+                "height": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                },
+                "pivot": "CENTER",
+                "position": {
+                  "positionType": "SCENE_RELATIVE",
+                  "relativePointOfTarget": "CENTER",
+                  "xDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  },
+                  "yDistanceFromTarget": {
+                    "relativity": "SCENE",
+                    "value": 0.0
+                  }
+                },
+                "width": {
+                  "relativity": "SCENE",
+                  "value": 0.2
+                }
+              }
+            }
+          ],
+          "cycleCount": 10,
+          "cycleType": "RESTART",
+          "duration": 1000,
+          "ease": "LINEAR",
+          "transitionType": "FLIPBOOK"
+        }
+      ]
+    },
+    {
+      "alpha": 0.2,
+      "id": "sprite1",
+      "pivot": "TOP_LEFT",
+      "resource": "light_led",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "sortingOrder": 2,
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "spriteTransform": {
+        "height": {
+          "relativity": "SCENE",
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SCENE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          }
+        },
+        "width": {
+          "relativity": "SCENE",
+          "value": 1.0
+        }
+      }
+    }
+  ]
+}

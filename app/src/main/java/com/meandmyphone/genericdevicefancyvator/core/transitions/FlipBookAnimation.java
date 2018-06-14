@@ -7,16 +7,21 @@ import com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory;
  * Created by csumpakadabra on 2017.10.27..
  */
 
-public class FlipBookAnimation extends Transition{
+public class FlipBookAnimation extends Transition {
 
-    private int [] resources;
+    private int[] resources;
+    private float [] top_left_u, top_left_v, bot_right_u, bot_right_v;
     private int delay, currentIndex = 0;
     private long lastFlipTime;
 
-    public FlipBookAnimation(GLRenderer renderer, int nodeId, int[] resources, int delay) {
+    public FlipBookAnimation(GLRenderer renderer, int nodeId, int[] resources, float[] top_left_u, float[] top_left_v, float [] bot_right_u, float [] bot_right_v, int delay) {
         super(renderer, resources.length * delay, nodeId, ITransition.LINEAR);
         this.resources = resources;
         this.delay = delay;
+        this.top_left_u = top_left_u;
+        this.top_left_v = top_left_v;
+        this.bot_right_u = bot_right_u;
+        this.bot_right_v = bot_right_v;
     }
 
     @Override
@@ -24,7 +29,14 @@ public class FlipBookAnimation extends Transition{
         if (System.currentTimeMillis() - lastFlipTime >= delay) {
             SpriteFactory.Sprite sprite = renderer.getCurrentScene().getSprite(nodeId);
 
-            sprite.setResourceId(resources[currentIndex]);
+            sprite.refreshUV(
+                    resources[currentIndex],
+                    top_left_u[currentIndex],
+                    top_left_v[currentIndex],
+                    bot_right_u[currentIndex],
+                    bot_right_v[currentIndex]
+            );
+
             nextIndex();
             lastFlipTime = System.currentTimeMillis();
         }
@@ -37,9 +49,9 @@ public class FlipBookAnimation extends Transition{
             if (autoreverse) direction = -1;
         }
 
-        if (currentIndex<0) {
+        if (currentIndex < 0) {
             currentIndex = 1;
-            direction=1;
+            direction = 1;
         }
     }
 }
