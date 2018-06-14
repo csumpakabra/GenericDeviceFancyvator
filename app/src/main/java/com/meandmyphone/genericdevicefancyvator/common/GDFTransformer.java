@@ -18,6 +18,7 @@ import com.meandmyphone.genericdevicefancyvator.json.pojo.Aspect;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.CycleType;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Ease;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.FlipbookTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.Frame;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Measure;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Position;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.RelativityType;
@@ -122,12 +123,13 @@ public class GDFTransformer implements Transformer {
         int delay = xmlTransition.getDuration() / flipCount;
 
         for (int i = 0; i < flipCount; i++) {
-            com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite xmlSprite = xmlTransition.getSprite().get(i);
+            Frame xmlSprite = xmlTransition.getSprite().get(i);
+            //noinspection SuspiciousMethodCalls
             resources[i] = resourceIdByXmlResourceId.get(xmlSprite.getResource());
-            top_left_u[i] = xmlSprite.getSpriteTopleftU();
-            top_left_v[i] = xmlSprite.getSpriteTopleftV();
-            bot_right_u[i] = xmlSprite.getSpriteBotrightU();
-            bot_right_v[i] = xmlSprite.getSpriteBotrightV();
+            top_left_u[i] = xmlSprite.getTopLeftU();
+            top_left_v[i] = xmlSprite.getTopLeftV();
+            bot_right_u[i] = xmlSprite.getBotRightU();
+            bot_right_v[i] = xmlSprite.getBotRightV();
         }
         FlipBookAnimation flipBookAnimation = new FlipBookAnimation(renderer, spriteId, resources, top_left_u, top_left_v, bot_right_u, bot_right_v, delay);
         if (CycleType.RESTART.equals(xmlTransition.getCycleType())) {
@@ -158,7 +160,7 @@ public class GDFTransformer implements Transformer {
                 realHeight = transformHeight(xmlSprite.getSpriteTransform().getHeight());
                 realWidth = realHeight * aspectRatio;
             } else {
-                throw new IllegalArgumentException("Invalid aspect: " + xmlSprite.getAspect());
+                throw new IllegalArgumentException("Invalid aspect: " + xmlSprite.getAspect() + " in: " + xmlSprite.getId());
             }
         }
         Point2D pivotPoint = transformPoint(xmlSprite.getSpriteTransform().getPosition());

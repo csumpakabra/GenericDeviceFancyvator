@@ -8,7 +8,7 @@ public class FlipbookTransition
     extends Transition
 {
 
-    private List<Sprite> sprite;
+    private List<Frame> frames;
 
     /**
      * Gets the value of the sprite property.
@@ -32,11 +32,11 @@ public class FlipbookTransition
      * 
      * 
      */
-    public List<Sprite> getSprite() {
-        if (sprite == null) {
-            sprite = new ArrayList<Sprite>();
+    public List<Frame> getSprite() {
+        if (frames == null) {
+            frames = new ArrayList<Frame>();
         }
-        return this.sprite;
+        return this.frames;
     }
 
 }

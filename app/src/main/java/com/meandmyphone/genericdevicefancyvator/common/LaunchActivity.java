@@ -143,7 +143,7 @@ public class LaunchActivity extends AppCompatActivity {
 
                 roboAnim.setResource("roborun");
                 roboAnim.setSpriteTransform(sprite1Transform);
-                ft.getSprite().add(roboAnim);
+//                ft.getSprite().add(roboAnim);
             }
         }
 

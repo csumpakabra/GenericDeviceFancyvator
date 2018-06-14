@@ -20,7 +20,7 @@ public class Sprite {
     private Pivot pivot;
     private int sortingOrder;
     private List<Transition> transition;
-    private Aspect aspect;
+    private Aspect keepAspect;
 
     public Sprite() {
     }
@@ -295,10 +295,10 @@ public class Sprite {
     }
 
     public Aspect getAspect() {
-        return aspect;
+        return keepAspect;
     }
 
-    public void setAspect(Aspect aspect) {
-        this.aspect = aspect;
+    public void setAspect(Aspect keepAspect) {
+        this.keepAspect = keepAspect;
     }
 }
