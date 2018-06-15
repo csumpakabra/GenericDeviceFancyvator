@@ -2,16 +2,16 @@ package com.meandmyphone.genericdevicefancyvator.common;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.FadeTransition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.FlipbookTransition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.Position;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.RotateTransition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.ScaleTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FadeTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FlipbookTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Position;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.RotateTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.ScaleTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Scene;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.SceneRelativePosition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.SpriteRelativePosition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.Transition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.TranslateTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SceneRelativePosition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SpriteRelativePosition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Transition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TranslateTransition;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

@@ -1,6 +1,11 @@
 package com.meandmyphone.genericdevicefancyvator.json.pojo;
 
 
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Aspect;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Pivot;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SpriteTransform;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Transition;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -129,7 +129,7 @@
       "rotation": 0.0,
       "scaleX": 1.0,
       "scaleY": 1.0,
-      "sortingOrder": 2,
+      "sortingOrder": 10,
       "spriteBotrightU": 1.0,
       "spriteBotrightV": 1.0,
       "spriteTopleftU": 0.0,
@@ -155,6 +155,81 @@
         "width": {
           "relativity": "SCENE",
           "value": 1.0
+        }
+      }
+    },{
+      "alpha": 0.2,
+      "keepAspect" : "WIDTH",
+      "id": "number1",
+      "pivot": "TOP_LEFT",
+      "resource": "light_led",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "sortingOrder": 2,
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "spriteTransform": {
+        "height": {
+          "relativity": "SCENE",
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SCENE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          }
+        },
+        "width": {
+          "relativity": "SCENE",
+          "value": 0.2
+        }
+      }
+    },{
+      "alpha": 0.2,
+      "keepAspect" : "WIDTH",
+      "id": "number2",
+      "pivot": "TOP_LEFT",
+      "resource": "light_led",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "sortingOrder": 3,
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "spriteTransform": {
+        "height": {
+          "relativity": "SCENE",
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "BOT_RIGHT",
+          "relativeSpriteId": "number1",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          }
+        },
+        "width": {
+          "relativity": "SCENE",
+          "value": 0.2
         }
       }
     }

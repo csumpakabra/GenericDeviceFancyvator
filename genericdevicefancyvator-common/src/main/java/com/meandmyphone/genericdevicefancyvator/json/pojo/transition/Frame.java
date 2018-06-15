@@ -1,4 +1,4 @@
-package com.meandmyphone.genericdevicefancyvator.json.pojo;
+package com.meandmyphone.genericdevicefancyvator.json.pojo.transition;
 
 public class Frame {
     private float topLeftU, topLeftV, botRightU, botRightV;

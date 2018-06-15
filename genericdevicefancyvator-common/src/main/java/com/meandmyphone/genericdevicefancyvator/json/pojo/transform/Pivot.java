@@ -1,4 +1,4 @@
-package com.meandmyphone.genericdevicefancyvator.json.pojo;
+package com.meandmyphone.genericdevicefancyvator.json.pojo.transform;
 
 public enum Pivot {
 

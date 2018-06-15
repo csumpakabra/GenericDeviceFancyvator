@@ -8,24 +8,25 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.meandmyphone.genericdevicefancyvator.R;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.CycleType;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.Ease;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.FadeTransition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.FlipbookTransition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.Measure;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.Pivot;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.Position;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.PositionType;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.RelativityType;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.RotateTransition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.ScaleTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.CycleType;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Ease;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FadeTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FlipbookTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Measure;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Pivot;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Position;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.PositionType;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.RelativityType;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.RotateTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.ScaleTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Scene;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.SceneRelativePosition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SceneRelativePosition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.SpriteRelativePosition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.SpriteTransform;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.TransitionType;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.TranslateTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SpriteRelativePosition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SpriteTransform;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TransitionType;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TranslateTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Transition;
 
 public class LaunchActivity extends AppCompatActivity {
 
@@ -156,8 +157,8 @@ public class LaunchActivity extends AppCompatActivity {
                 .registerSubtype(SpriteRelativePosition.class, "SPRITE_RELATIVE")
                 .registerSubtype(SceneRelativePosition.class, "SCENE_RELATIVE");
 
-        RuntimeTypeAdapterFactory<com.meandmyphone.genericdevicefancyvator.json.pojo.Transition> transitionRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory
-                .of(com.meandmyphone.genericdevicefancyvator.json.pojo.Transition.class, "transitionType")
+        RuntimeTypeAdapterFactory<Transition> transitionRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory
+                .of(Transition.class, "transitionType")
                 .registerSubtype(FadeTransition.class, "FADE")
                 .registerSubtype(TranslateTransition.class, "TRANSLATE")
                 .registerSubtype(RotateTransition.class, "ROTATE")

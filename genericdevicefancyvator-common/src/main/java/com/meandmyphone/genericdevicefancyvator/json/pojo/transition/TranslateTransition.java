@@ -1,5 +1,7 @@
 
-package com.meandmyphone.genericdevicefancyvator.json.pojo;
+package com.meandmyphone.genericdevicefancyvator.json.pojo.transition;
+
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Measure;
 
 public class TranslateTransition
     extends Transition

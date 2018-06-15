@@ -1,6 +1,6 @@
 package com.meandmyphone.genericdevicefancyvator.core.data.misc;
 
-import com.meandmyphone.genericdevicefancyvator.json.pojo.Pivot;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Pivot;
 
 /**
  * Created by csumpakadabra on 2017.10.21..

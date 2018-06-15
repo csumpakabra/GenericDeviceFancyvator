@@ -1,5 +1,7 @@
-package com.meandmyphone.genericdevicefancyvator.json.pojo;
+package com.meandmyphone.genericdevicefancyvator.json.pojo.transition;
 
+
+import com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,5 @@
 
-package com.meandmyphone.genericdevicefancyvator.json.pojo;
+package com.meandmyphone.genericdevicefancyvator.json.pojo.transition;
 
 public enum TransitionType {
 

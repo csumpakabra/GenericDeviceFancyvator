@@ -3,11 +3,11 @@ package com.meandmyphone.genericdevicefancyvator.json;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.meandmyphone.genericdevicefancyvator.json.pojo.SceneRelativePosition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SceneRelativePosition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.SpriteRelativePosition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.Transition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.TranslateTransition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SpriteRelativePosition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Transition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TranslateTransition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.meandmyphone.genericdevicefancyvator.json.pojo.PositionType.SCENE_RELATIVE;
-import static com.meandmyphone.genericdevicefancyvator.json.pojo.PositionType.SPRITE_RELATIVE;
-import static com.meandmyphone.genericdevicefancyvator.json.pojo.RelativityType.SPRITE;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.transform.PositionType.SCENE_RELATIVE;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.transform.PositionType.SPRITE_RELATIVE;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.transform.RelativityType.SPRITE;
 
 public class SpriteSorter {
 

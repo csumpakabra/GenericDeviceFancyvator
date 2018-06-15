@@ -3,7 +3,10 @@ package com.meandmyphone.genericdevicefancyvator.core.gl;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.widget.Toast;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.meandmyphone.genericdevicefancyvator.common.GDFTransformer;
 import com.meandmyphone.genericdevicefancyvator.common.Parser;
 import com.meandmyphone.genericdevicefancyvator.common.Transformer;
@@ -109,38 +112,41 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         }
         Logger.Log(TAG, "aspectratio = %f", aspectRatio);
 
-
-        int input = context.getResources().getIdentifier("input", "raw", context.getPackageName());
-        Parser parser = new Parser();
-        com.meandmyphone.genericdevicefancyvator.json.pojo.Scene xmlScene =
-                parser.parse(context.getResources().openRawResource(input));
-        ResourceExtractor resourceExtractor = new ResourceExtractor(xmlScene, context);
-        scene = new Scene(context, runMode, projection, resourceExtractor.extractResources());
-        Transformer transformer = new GDFTransformer(context, this, xmlScene, scene);
-        SpriteSorter spriteSorter = new SpriteSorter(xmlScene.getSprite());
-        List<SpriteFactory.Sprite> sprites = new ArrayList<>();
-        for (Sprite s : spriteSorter.sortByDependents()) {
-            SpriteFactory.Sprite sprite = transformer.transform(s);
-            sprites.add(sprite);
-            for (int i = 0; i <= sprite.transitions.size(); i++) {
-                ITransition transition = sprite.transitions.get(sprite.transitions.keyAt(i));
-                if (transition != null) {
-                    transition.start();
+        try {
+            int input = context.getResources().getIdentifier("input", "raw", context.getPackageName());
+            Parser parser = new Parser();
+            com.meandmyphone.genericdevicefancyvator.json.pojo.Scene xmlScene =
+                    parser.parse(context.getResources().openRawResource(input));
+            ResourceExtractor resourceExtractor = new ResourceExtractor(xmlScene, context);
+            scene = new Scene(context, runMode, projection, resourceExtractor.extractResources());
+            Transformer transformer = new GDFTransformer(context, this, xmlScene, scene);
+            SpriteSorter spriteSorter = new SpriteSorter(xmlScene.getSprite());
+            List<SpriteFactory.Sprite> sprites = new ArrayList<>();
+            for (Sprite s : spriteSorter.sortByDependents()) {
+                SpriteFactory.Sprite sprite = transformer.transform(s);
+                sprites.add(sprite);
+                for (int i = 0; i <= sprite.transitions.size(); i++) {
+                    ITransition transition = sprite.transitions.get(sprite.transitions.keyAt(i));
+                    if (transition != null) {
+                        transition.start();
+                    }
                 }
             }
-        }
 
-        Collections.sort(sprites, new Comparator<SpriteFactory.Sprite>() {
-            @Override
-            public int compare(SpriteFactory.Sprite sprite, SpriteFactory.Sprite t1) {
-                return sprite.getSortOrder() - t1.getSortOrder();
+            Collections.sort(sprites, new Comparator<SpriteFactory.Sprite>() {
+                @Override
+                public int compare(SpriteFactory.Sprite sprite, SpriteFactory.Sprite t1) {
+                    return sprite.getSortOrder() - t1.getSortOrder();
+                }
+            });
+
+            for (SpriteFactory.Sprite s : sprites) {
+                scene.addSprite(s);
             }
-        });
-
-        for (SpriteFactory.Sprite s : sprites) {
-            scene.addSprite(s);
+            maxOffset = 0.5f * (scene.getSceneWidth() - projection.getProjectionWidth());
+        } catch (JsonSyntaxException | JsonIOException jsonException) {
+            Toast.makeText(context, String.format("Invalid input.json: %s", jsonException.getMessage()), Toast.LENGTH_LONG).show();
         }
-        maxOffset = 0.5f * (scene.getSceneWidth() - projection.getProjectionWidth());
     }
 
     @Override
