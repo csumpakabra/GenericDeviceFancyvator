@@ -17,7 +17,7 @@ public class SpriteSorterTest {
 
         com.meandmyphone.genericdevicefancyvator.json.pojo.Scene scene = parser.parse(getClass().getResourceAsStream("test_scene1.json"));
 
-        spriteList = scene.getSprite();
+        spriteList = scene.getSprites();
     }
     
     @Test

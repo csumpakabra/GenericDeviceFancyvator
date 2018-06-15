@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.meandmyphone.genericdevicefancyvator.R;
 import com.meandmyphone.genericdevicefancyvator.json.Parser;
 import com.meandmyphone.genericdevicefancyvator.json.RuntimeTypeAdapterFactory;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.CycleType;
@@ -40,13 +39,13 @@ public class LaunchActivity extends AppCompatActivity {
         TextView text = findViewById(R.id.text);
 
         Scene scene = new Parser().parse(this.getResources().openRawResource(this.getResources().getIdentifier("input", "raw", this.getPackageName())));
-        Sprite sprite = scene.sprite.get(0);
+        Sprite sprite = scene.getSprites().get(0);
         TranslateTransition tt = new TranslateTransition();
         Measure by = new Measure();
-        by.relativity = RelativityType.SCENE;
-        by.value = 1.0f;
-        tt.byX = by;
-        tt.byY = by;
+        by.setRelativity(RelativityType.SCENE);
+        by.setValue(1.0f);
+        tt.setByX(by);
+        tt.setByY(by);
         tt.setCycleCount(10);
         tt.setEase(Ease.CUBIC_INOUT);
         tt.setDuration(1000);
@@ -146,13 +145,13 @@ public class LaunchActivity extends AppCompatActivity {
 
                 roboAnim.setResource("roborun");
                 roboAnim.setSpriteTransform(sprite1Transform);
-//                ft.getSprite().add(roboAnim);
+//                ft.getSprites().add(roboAnim);
             }
         }
 
         robot.getTransitions().add(ft);
 
-        scene.getSprite().add(robot);
+        scene.getSprites().add(robot);
 
         RuntimeTypeAdapterFactory<Position> positionRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory
                 .of(Position.class, "positionType")
@@ -173,7 +172,7 @@ public class LaunchActivity extends AppCompatActivity {
                 .create();
 
         //scene.sprite = new ArrayList<>();
-        scene.getSprite().add(sprite);
+        scene.getSprites().add(sprite);
 
         Log.d("sprite", gson.toJson(scene));
 

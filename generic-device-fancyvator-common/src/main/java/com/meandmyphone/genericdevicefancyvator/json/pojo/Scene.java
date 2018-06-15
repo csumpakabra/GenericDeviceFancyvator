@@ -21,7 +21,7 @@ public class Scene {
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getSprite().add(newItem);
+     *    getSprites().add(newItem);
      * </pre>
      * 
      * 
@@ -31,7 +31,7 @@ public class Scene {
      * 
      * 
      */
-    public List<com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite> getSprite() {
+    public List<com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite> getSprites() {
         if (sprite == null) {
             sprite = new ArrayList<>();
         }

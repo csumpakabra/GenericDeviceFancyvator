@@ -120,7 +120,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
             ResourceExtractor resourceExtractor = new ResourceExtractor(xmlScene, context);
             scene = new Scene(context, runMode, projection, resourceExtractor.extractResources());
             Transformer transformer = new GDFTransformer(context, this, xmlScene, scene);
-            SpriteSorter spriteSorter = new SpriteSorter(xmlScene.getSprite());
+            SpriteSorter spriteSorter = new SpriteSorter(xmlScene.getSprites());
             List<SpriteFactory.Sprite> sprites = new ArrayList<>();
             for (Sprite s : spriteSorter.sortByDependents()) {
                 SpriteFactory.Sprite sprite = transformer.transform(s);

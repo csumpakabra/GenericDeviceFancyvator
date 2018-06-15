@@ -54,7 +54,7 @@ public class GDFTransformer implements Transformer {
         this.xmlScene = xmlScene;
         this.scene = scene;
         this.spriteFactory = new SpriteFactory(scene);
-        for (com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite sprite : xmlScene.getSprite()) {
+        for (com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite sprite : xmlScene.getSprites()) {
             int internalId = Sprite.SPRITE_COUNTER++;
             spriteIdByXmlId.put(sprite.getId(), internalId);
             int resourceId = context.getResources().getIdentifier(sprite.getResource(), "drawable", context.getPackageName());

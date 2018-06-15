@@ -66,18 +66,18 @@ public class SpriteSorter {
                 if (SPRITE_RELATIVE.equals(sprite.getSpriteTransform().getPosition().getPositionType())) {
                     SpriteRelativePosition spriteRelativePosition = (SpriteRelativePosition) sprite.getSpriteTransform().getPosition();
                     marked.add(spriteRelativePosition.getRelativeSpriteId());
-                    if (SPRITE.equals(spriteRelativePosition.getXDistanceFromTarget().relativity)) {
-                        marked.add(spriteRelativePosition.getXDistanceFromTarget().relativeTo);
+                    if (SPRITE.equals(spriteRelativePosition.getXDistanceFromTarget().getRelativity())) {
+                        marked.add(spriteRelativePosition.getXDistanceFromTarget().getRelativeTo());
                     }
-                    if (SPRITE.equals(spriteRelativePosition.getYDistanceFromTarget().relativity)) {
-                        marked.add(spriteRelativePosition.getYDistanceFromTarget().relativeTo);
+                    if (SPRITE.equals(spriteRelativePosition.getYDistanceFromTarget().getRelativity())) {
+                        marked.add(spriteRelativePosition.getYDistanceFromTarget().getRelativeTo());
                     }
                 } else if (SCENE_RELATIVE.equals(sprite.getSpriteTransform().getPosition().getPositionType())) {
                     SceneRelativePosition sceneRelativePosition = (SceneRelativePosition) sprite.getSpriteTransform().getPosition();
-                    if (SPRITE.equals(sceneRelativePosition.getXDistanceFromTarget().relativity)) {
+                    if (SPRITE.equals(sceneRelativePosition.getXDistanceFromTarget().getRelativity())) {
                         marked.add(sceneRelativePosition.getXDistanceFromTarget().getRelativeTo());
                     }
-                    if (SPRITE.equals(sceneRelativePosition.getYDistanceFromTarget().relativity)) {
+                    if (SPRITE.equals(sceneRelativePosition.getYDistanceFromTarget().getRelativity())) {
                         marked.add(sceneRelativePosition.getYDistanceFromTarget().getRelativeTo());
                     }
                 }

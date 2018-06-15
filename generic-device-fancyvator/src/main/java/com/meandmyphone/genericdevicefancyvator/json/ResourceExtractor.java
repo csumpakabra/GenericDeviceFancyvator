@@ -20,7 +20,7 @@ public class ResourceExtractor {
 
     public Integer[] extractResources() {
         Map<String, Integer> resources = new HashMap<>();
-        for (Sprite sprite : xmlScene.getSprite()) {
+        for (Sprite sprite : xmlScene.getSprites()) {
             if (!resources.containsKey(sprite.getResource())) {
                 int resourceId = context
                         .getResources().getIdentifier(
