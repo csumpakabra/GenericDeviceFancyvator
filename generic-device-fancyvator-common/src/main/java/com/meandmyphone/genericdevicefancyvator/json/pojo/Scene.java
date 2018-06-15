@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Scene {
 
-    public List<Sprite> sprite;
+    private List<Sprite> sprite;
 
     /**
      * Gets the value of the sprite property.

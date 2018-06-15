@@ -5,8 +5,8 @@ public class RotateTransition
     extends Transition
 {
 
-    public float fromAngle;
-    public float toAngle;
+    private float fromAngle;
+    private float toAngle;
 
     /**
      * Gets the value of the fromAngle property.

@@ -2,9 +2,9 @@ package com.meandmyphone.genericdevicefancyvator.json.pojo.transform;
 
 public class Measure {
 
-    public RelativityType relativity;
-    public String relativeTo;
-    public float value;
+    private RelativityType relativity;
+    private String relativeTo;
+    private float value;
 
     /**
      * Gets the value of the relativity property.

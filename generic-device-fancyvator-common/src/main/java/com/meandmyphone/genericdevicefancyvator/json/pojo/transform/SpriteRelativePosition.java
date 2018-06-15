@@ -2,7 +2,7 @@ package com.meandmyphone.genericdevicefancyvator.json.pojo.transform;
 
 public class SpriteRelativePosition extends Position {
 
-    public String relativeSpriteId;
+    private String relativeSpriteId;
 
     /**
      * Gets the value of the relativeSpriteId property.

@@ -5,10 +5,10 @@ public class ScaleTransition
     extends Transition
 {
 
-    public float fromX;
-    public float toX;
-    public float fromY;
-    public float toY;
+    private float fromX;
+    private float toX;
+    private float fromY;
+    private float toY;
 
     /**
      * Gets the value of the fromX property.

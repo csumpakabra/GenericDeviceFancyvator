@@ -7,8 +7,8 @@ public class TranslateTransition
     extends Transition
 {
 
-    public Measure byX;
-    public Measure byY;
+    private Measure byX;
+    private Measure byY;
 
     /**
      * Gets the value of the byX property.

@@ -3,10 +3,10 @@ package com.meandmyphone.genericdevicefancyvator.json.pojo.transform;
 
 public class SpriteTransform {
 
-    public Position position;
-    public Pivot pivot;
-    public Measure width;
-    public Measure height;
+    private Position position;
+    private Pivot pivot;
+    private Measure width;
+    private Measure height;
 
     /**
      * Gets the value of the position property.
