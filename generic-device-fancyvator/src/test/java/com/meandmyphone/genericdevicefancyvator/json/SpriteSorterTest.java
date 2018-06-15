@@ -1,7 +1,5 @@
 package com.meandmyphone.genericdevicefancyvator.json;
 
-import com.meandmyphone.genericdevicefancyvator.common.Parser;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.meandmyphone.genericdevicefancyvator.common;
+package com.meandmyphone.genericdevicefancyvator.json;
 
 /*
  * Copyright (C) 2008 Google Inc.

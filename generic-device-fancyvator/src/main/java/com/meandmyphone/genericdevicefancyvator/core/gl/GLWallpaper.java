@@ -5,12 +5,11 @@ import android.content.Context;
 import android.content.pm.ConfigurationInfo;
 import android.opengl.GLSurfaceView;
 import android.service.wallpaper.WallpaperService;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.widget.Toast;
 
-import com.meandmyphone.genericdevicefancyvator.common.Transformer;
+import com.meandmyphone.genericdevicefancyvator.transformer.Transformer;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.util.Logger;
 

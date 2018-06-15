@@ -1,4 +1,4 @@
-package com.meandmyphone.genericdevicefancyvator.common;
+package com.meandmyphone.genericdevicefancyvator;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.meandmyphone.genericdevicefancyvator.R;
+import com.meandmyphone.genericdevicefancyvator.json.Parser;
+import com.meandmyphone.genericdevicefancyvator.json.RuntimeTypeAdapterFactory;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.CycleType;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Ease;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FadeTransition;

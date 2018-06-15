@@ -7,9 +7,9 @@ import android.widget.Toast;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.meandmyphone.genericdevicefancyvator.common.GDFTransformer;
-import com.meandmyphone.genericdevicefancyvator.common.Parser;
-import com.meandmyphone.genericdevicefancyvator.common.Transformer;
+import com.meandmyphone.genericdevicefancyvator.transformer.GDFTransformer;
+import com.meandmyphone.genericdevicefancyvator.json.Parser;
+import com.meandmyphone.genericdevicefancyvator.transformer.Transformer;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.programs.TextureShaderProgram;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;

@@ -1,4 +1,4 @@
-package com.meandmyphone.genericdevicefancyvator.common;
+package com.meandmyphone.genericdevicefancyvator.transformer;
 
 import android.content.Context;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.meandmyphone.genericdevicefancyvator.common;
+package com.meandmyphone.genericdevicefancyvator.transformer;
 
 import com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory;
 

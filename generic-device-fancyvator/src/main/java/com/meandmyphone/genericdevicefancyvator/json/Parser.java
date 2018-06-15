@@ -1,4 +1,4 @@
-package com.meandmyphone.genericdevicefancyvator.common;
+package com.meandmyphone.genericdevicefancyvator.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
