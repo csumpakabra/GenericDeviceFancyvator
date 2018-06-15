@@ -1,1 +1,1 @@
-include ':app', ':genericdevicefancyvator-common'
+include ':generic-device-fancyvator', ':generic-device-fancyvator-common'

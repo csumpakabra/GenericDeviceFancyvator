@@ -8,8 +8,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/genericdevicefancyvator-common" />
+            <option value="$PROJECT_DIR$/generic-device-fancyvator" />
+            <option value="$PROJECT_DIR$/generic-device-fancyvator-common" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
