@@ -1,6 +1,6 @@
 package com.meandmyphone.genericdevicefancyvator.core.background;
 
-enum FillType {
+public enum FillType {
     REPEAT("repeat"), STRETCH("stretch");
     String value;
     FillType(String value) {

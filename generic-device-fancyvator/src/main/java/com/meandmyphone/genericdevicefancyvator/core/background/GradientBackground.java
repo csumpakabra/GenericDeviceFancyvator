@@ -1,8 +1,14 @@
 package com.meandmyphone.genericdevicefancyvator.core.background;
 
+import android.content.Context;
+import android.opengl.Matrix;
+
 import com.meandmyphone.genericdevicefancyvator.core.programs.ColorShaderProgram;
 import com.meandmyphone.genericdevicefancyvator.core.data.VertexArray;
+import com.meandmyphone.genericdevicefancyvator.core.programs.ShaderProgram;
+import com.meandmyphone.genericdevicefancyvator.core.programs.TextureShaderProgram;
 import com.meandmyphone.genericdevicefancyvator.core.util.Mathf;
+import com.meandmyphone.genericdevicefancyvator.core.util.ShaderHelper;
 
 import static android.opengl.GLES20.GL_TRIANGLES;
 import static android.opengl.GLES20.glDrawArrays;
@@ -13,15 +19,19 @@ import static com.meandmyphone.genericdevicefancyvator.core.gl.Constants.BYTES_P
  */
 
 public class GradientBackground extends Background {
-    private static int counter = 0xFF00;
-    public final int ID = ++counter;
+
+
+    private ColorShaderProgram colorShaderProgram;
     private static final int POSITION_COMPONENT_COUNT = 2;
     private static final int COLOR_COMPONENT_COUNT = 4;
     private float[] vertexData;
     private static final int STRIDE = (POSITION_COMPONENT_COUNT
             + COLOR_COMPONENT_COUNT) * BYTES_PER_FLOAT;
 
-    public GradientBackground(int topLeftColor, int botLeftColor, int botRightColor, int topRightColor) {
+    public GradientBackground(Context context, int topLeftColor, int botLeftColor, int botRightColor, int topRightColor) {
+
+        colorShaderProgram = new ColorShaderProgram(context);
+
         float [][] colors = new float[4][4];
         colors[0] = Mathf.toGLColor(topLeftColor);
         colors[1] = Mathf.toGLColor(botLeftColor);
@@ -40,18 +50,39 @@ public class GradientBackground extends Background {
 
         vertexArray = new VertexArray(vertexData);
     }
+    @Override
+    public void draw() {
+        float [] identity = new float[16];
+        Matrix.setIdentityM(identity, 0);
+        colorShaderProgram.useProgram();
+        colorShaderProgram.setUniforms(identity);
+        super.bindData();
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+    }
 
-    public void bindData(ColorShaderProgram textureProgram) {
-        vertexArray.setVertexAttribPointer(
-                0,
-                textureProgram.getPositionAttributeLocation(),
-                POSITION_COMPONENT_COUNT,
-                STRIDE);
-        vertexArray.setVertexAttribPointer(
-                POSITION_COMPONENT_COUNT,
-                textureProgram.getColorAttributeLocation(),
-                COLOR_COMPONENT_COUNT,
-                STRIDE);
+    @Override
+    protected int getPositionAttributeLocation() {
+        return colorShaderProgram.getPositionAttributeLocation();
+    }
+
+    @Override
+    protected int getFillAtributeLocation() {
+        return colorShaderProgram.getColorAttributeLocation();
+    }
+
+    @Override
+    protected int getPositionComponentCount() {
+        return POSITION_COMPONENT_COUNT;
+    }
+
+    @Override
+    protected int getFillComponentCount() {
+        return COLOR_COMPONENT_COUNT;
+    }
+
+    @Override
+    protected int getStride() {
+        return STRIDE;
     }
 
 }

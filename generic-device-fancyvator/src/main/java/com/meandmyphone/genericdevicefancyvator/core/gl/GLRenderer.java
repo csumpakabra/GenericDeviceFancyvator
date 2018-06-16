@@ -157,6 +157,10 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         // Clear the rendering surface.
         glClear(GL_COLOR_BUFFER_BIT);
 
+        if (scene.getBackground() != null) {
+            scene.getBackground().draw();
+        }
+
         for (int spriteIndex = 0; spriteIndex < scene.getSpriteCount(); spriteIndex++) {
             SpriteFactory.Sprite sprite = scene.getSpriteAtIndex(spriteIndex);
             for (int transitionIndex = 0; transitionIndex < sprite.transitions.size(); transitionIndex++) {
@@ -172,15 +176,15 @@ public class GLRenderer implements GLSurfaceView.Renderer {
             float[] scale = new float[16];
 
             // ROTATION AND SCALE
-            Matrix.setIdentityM(scale, 0);
-            Matrix.scaleM(scale, 0, sprite.scaleX, sprite.scaleY, 1);
-            Matrix.setIdentityM(transform, 0);
-            Matrix.setIdentityM(pivot, 0);
-            Matrix.translateM(pivot, 0, pivot, 0, sprite.pivotX, sprite.pivotY, 0); // TRANSLATE TO CENTER
-            Matrix.setRotateEulerM(rotation, 0, 0, 0, sprite.angle); // EULER ROTATE
-            Matrix.multiplyMM(rotation, 0, pivot, 0, rotation, 0);
-            Matrix.multiplyMM(scale, 0, pivot, 0, scale, 0);
-            Matrix.setIdentityM(pivot, 0);
+            Matrix.setIdentityM(scale, 0); // Scale to identity
+            Matrix.scaleM(scale, 0, sprite.scaleX, sprite.scaleY, 1); // Set scale
+            Matrix.setIdentityM(transform, 0); // transform to identity
+            Matrix.setIdentityM(pivot, 0); // pivot to identity
+            Matrix.translateM(pivot, 0, pivot, 0, sprite.pivotX, sprite.pivotY, 0); // translate pivot matrix to pivot
+            Matrix.setRotateEulerM(rotation, 0, 0, 0, sprite.angle); // euler rotate rotate matrix ...
+            Matrix.multiplyMM(rotation, 0, pivot, 0, rotation, 0); // ... around pivot
+            Matrix.multiplyMM(scale, 0, pivot, 0, scale, 0); // scale on pivot
+            Matrix.setIdentityM(pivot, 0); // ???
             Matrix.translateM(pivot, 0, pivot, 0, -sprite.pivotX, -sprite.pivotY, 0); // TRANSLATE TO ORIGINAL
             Matrix.multiplyMM(rotation, 0, rotation, 0, pivot, 0); // CALCULATE ROTATION
             Matrix.multiplyMM(scale, 0, scale, 0, pivot, 0); // CALCULATE SCALE
@@ -292,9 +296,9 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         }
 
         public static Point2D screenToWorldPoint(float x, float y) {
-            final float normalizedX = (x / screenWidth) * 2 - 1;
-            final float normalizedY = -((y / screenHeight) * 2 - 1);
-            return new Point2D(normalizedX, normalizedY);
+            final float screenX = (x / screenWidth) * 2 - 1;
+            final float screenY = -((y / screenHeight) * 2 - 1);
+            return new Point2D(screenX, screenY);
         }
     }
 }

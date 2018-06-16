@@ -2,14 +2,11 @@ package com.meandmyphone.genericdevicefancyvator.core.background;
 
 import com.meandmyphone.genericdevicefancyvator.core.data.VertexArray;
 
-import static android.opengl.GLES20.GL_TRIANGLES;
-import static android.opengl.GLES20.glDrawArrays;
-
 public abstract class Background {
 
     protected VertexArray vertexArray;
 
-    public void bindData() {
+    protected final void bindData() {
         vertexArray.setVertexAttribPointer(
                 0,
                 getPositionAttributeLocation(),
@@ -32,8 +29,6 @@ public abstract class Background {
 
     protected abstract int getStride();
 
-    public void draw() {
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-    }
+    public abstract void draw();
 
 }

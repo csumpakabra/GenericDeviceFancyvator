@@ -1,9 +1,15 @@
 package com.meandmyphone.genericdevicefancyvator.core.gl;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 
+import com.meandmyphone.genericdevicefancyvator.R;
+import com.meandmyphone.genericdevicefancyvator.core.background.Background;
+import com.meandmyphone.genericdevicefancyvator.core.background.FillType;
+import com.meandmyphone.genericdevicefancyvator.core.background.GradientBackground;
+import com.meandmyphone.genericdevicefancyvator.core.background.ImageBackground;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.FadeTransition;
@@ -41,6 +47,7 @@ public class Scene {
     private float sceneWidth, sceneHeight;
     private final Projection projection;
     private final Map<Anchor, Point2D> pointsOfInterest;
+    private Background background;
 
     public Scene(Context context, int runMode, Projection projection, Integer[] resources) {
         this.pointsOfInterest = new HashMap<>();
@@ -81,6 +88,8 @@ public class Scene {
             setSceneCenterLeft(this.projection.getProjectionPointOfInteres(Anchor.CENTERLEFT));
             setSceneCenter(this.projection.getProjectionPointOfInteres(Anchor.CENTER));
         }
+
+        background = new ImageBackground(context, R.drawable.roborun, this, FillType.STRETCH);
     }
 
     private void setSceneTopLeft(Point2D sceneTopLeft) {
@@ -170,6 +179,14 @@ public class Scene {
 
     public int getTexture(int resourceId) {
         return textures.get(resourceId);
+    }
+
+    public Background getBackground() {
+        return background;
+    }
+
+    public void setBackground(Background background) {
+        this.background = background;
     }
 
     public void destroySprite(int spriteID) {
