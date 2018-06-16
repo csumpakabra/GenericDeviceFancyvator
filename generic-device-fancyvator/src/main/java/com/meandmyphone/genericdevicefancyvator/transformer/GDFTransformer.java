@@ -3,6 +3,7 @@ package com.meandmyphone.genericdevicefancyvator.transformer;
 import android.content.Context;
 import android.util.Log;
 
+import com.meandmyphone.genericdevicefancyvator.core.background.Background;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor;
 import com.meandmyphone.genericdevicefancyvator.core.gl.GLRenderer;
@@ -228,6 +229,10 @@ public class GDFTransformer implements Transformer {
                 return ITransition.SINEASEINOUT;
         }
         throw new IllegalArgumentException("Unable to transform xmlEase: " + xmlEase);
+    }
+
+    private Background transform(com.meandmyphone.genericdevicefancyvator.json.pojo.background.Background background) {
+        return null;
     }
 
     private float transformWidth(Measure measure) {

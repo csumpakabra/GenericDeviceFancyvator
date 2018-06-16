@@ -2,6 +2,9 @@ package com.meandmyphone.genericdevicefancyvator.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.background.Background;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.background.GradientBackground;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.background.ImageBackground;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FadeTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FlipbookTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Position;
@@ -33,6 +36,12 @@ public class Parser {
                 .registerSubtype(RotateTransition.class, "ROTATE")
                 .registerSubtype(ScaleTransition.class, "SCALE")
                 .registerSubtype(FlipbookTransition.class, "FLIPBOOK")
+                ;
+
+        RuntimeTypeAdapterFactory<Background> backgroudnRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory
+                .of(Background.class, "backgroundType")
+                .registerSubtype(ImageBackground.class, "GRADIENT")
+                .registerSubtype(GradientBackground.class, "IMAGE")
                 ;
 
         Gson gson = new GsonBuilder()

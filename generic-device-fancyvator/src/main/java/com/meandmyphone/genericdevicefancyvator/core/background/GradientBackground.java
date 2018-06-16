@@ -1,4 +1,4 @@
-package com.meandmyphone.genericdevicefancyvator.core.primitives;
+package com.meandmyphone.genericdevicefancyvator.core.background;
 
 import com.meandmyphone.genericdevicefancyvator.core.programs.ColorShaderProgram;
 import com.meandmyphone.genericdevicefancyvator.core.data.VertexArray;
@@ -12,17 +12,16 @@ import static com.meandmyphone.genericdevicefancyvator.core.gl.Constants.BYTES_P
  * Created by csumpakadabra on 2017.10.27..
  */
 
-public class FullScreenRectangle {
+public class GradientBackground extends Background {
     private static int counter = 0xFF00;
     public final int ID = ++counter;
     private static final int POSITION_COMPONENT_COUNT = 2;
     private static final int COLOR_COMPONENT_COUNT = 4;
     private float[] vertexData;
-    private final VertexArray vertexArray;
     private static final int STRIDE = (POSITION_COMPONENT_COUNT
             + COLOR_COMPONENT_COUNT) * BYTES_PER_FLOAT;
 
-    public FullScreenRectangle(int topLeftColor, int botLeftColor, int botRightColor, int topRightColor) {
+    public GradientBackground(int topLeftColor, int botLeftColor, int botRightColor, int topRightColor) {
         float [][] colors = new float[4][4];
         colors[0] = Mathf.toGLColor(topLeftColor);
         colors[1] = Mathf.toGLColor(botLeftColor);
@@ -54,10 +53,5 @@ public class FullScreenRectangle {
                 COLOR_COMPONENT_COUNT,
                 STRIDE);
     }
-
-    public void draw() {
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-    }
-
 
 }

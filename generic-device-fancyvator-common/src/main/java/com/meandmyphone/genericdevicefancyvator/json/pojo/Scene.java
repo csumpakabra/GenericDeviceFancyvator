@@ -2,12 +2,15 @@
 package com.meandmyphone.genericdevicefancyvator.json.pojo;
 
 
+import com.meandmyphone.genericdevicefancyvator.json.pojo.background.Background;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Scene {
 
     private List<Sprite> sprite;
+    private Background background;
 
     /**
      * Gets the value of the sprite property.

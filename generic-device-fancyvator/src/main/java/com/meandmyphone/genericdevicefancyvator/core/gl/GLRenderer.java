@@ -7,18 +7,18 @@ import android.widget.Toast;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.meandmyphone.genericdevicefancyvator.transformer.GDFTransformer;
-import com.meandmyphone.genericdevicefancyvator.json.Parser;
-import com.meandmyphone.genericdevicefancyvator.transformer.Transformer;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.programs.TextureShaderProgram;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.Ease;
 import com.meandmyphone.genericdevicefancyvator.core.util.Logger;
 import com.meandmyphone.genericdevicefancyvator.core.util.Mathf;
+import com.meandmyphone.genericdevicefancyvator.json.Parser;
 import com.meandmyphone.genericdevicefancyvator.json.ResourceExtractor;
 import com.meandmyphone.genericdevicefancyvator.json.SpriteSorter;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite;
+import com.meandmyphone.genericdevicefancyvator.transformer.GDFTransformer;
+import com.meandmyphone.genericdevicefancyvator.transformer.Transformer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -157,50 +157,50 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         // Clear the rendering surface.
         glClear(GL_COLOR_BUFFER_BIT);
 
-            for (int spriteIndex = 0; spriteIndex < scene.getSpriteCount(); spriteIndex++) {
-                SpriteFactory.Sprite sprite = scene.getSpriteAtIndex(spriteIndex);
-                for (int transitionIndex = 0; transitionIndex < sprite.transitions.size(); transitionIndex++) {
-                    ITransition transition = sprite.transitions.get(sprite.transitions.keyAt(transitionIndex));
-                    transition.transit();
-                }
-
-                float[] transform = new float[16];
-                float[] temp = new float[16];
-                float[] rotation = new float[16];
-                float[] pivot = new float[16];
-                float[] translate = new float[16];
-                float[] scale = new float[16];
-
-                // ROTATION AND SCALE
-                Matrix.setIdentityM(scale, 0);
-                Matrix.scaleM(scale, 0, sprite.scaleX, sprite.scaleY, 1);
-                Matrix.setIdentityM(transform, 0);
-                Matrix.setIdentityM(pivot, 0);
-                Matrix.translateM(pivot, 0, pivot, 0, sprite.pivotX, sprite.pivotY, 0); // TRANSLATE TO CENTER
-                Matrix.setRotateEulerM(rotation, 0, 0, 0, sprite.angle); // EULER ROTATE
-                Matrix.multiplyMM(rotation, 0, pivot, 0, rotation, 0);
-                Matrix.multiplyMM(scale, 0, pivot, 0, scale, 0);
-                Matrix.setIdentityM(pivot, 0);
-                Matrix.translateM(pivot, 0, pivot, 0, -sprite.pivotX, -sprite.pivotY, 0); // TRANSLATE TO ORIGINAL
-                Matrix.multiplyMM(rotation, 0, rotation, 0, pivot, 0); // CALCULATE ROTATION
-                Matrix.multiplyMM(scale, 0, scale, 0, pivot, 0); // CALCULATE SCALE
-
-                //TRANSLATE
-                Matrix.setIdentityM(translate, 0);
-                Matrix.translateM(translate, 0, sprite.translateX, sprite.translateY, 0);
-
-                //MULTIPLY
-                Matrix.multiplyMM(transform, 0, scale, 0, rotation, 0);
-                Matrix.multiplyMM(transform, 0, translate, 0, transform, 0); // SCALE * ROTATION * TRANSLATE
-
-                //FINAL MATRIX - PROJECT
-                Matrix.multiplyMM(temp, 0, projectionMatrix, 0, transform, 0);
-
-                textureProgram.useProgram();
-                textureProgram.setUniforms(temp, scene.getTexture(sprite.getResourceId()), sprite.alpha);
-                sprite.bindData(textureProgram);
-                sprite.draw();
+        for (int spriteIndex = 0; spriteIndex < scene.getSpriteCount(); spriteIndex++) {
+            SpriteFactory.Sprite sprite = scene.getSpriteAtIndex(spriteIndex);
+            for (int transitionIndex = 0; transitionIndex < sprite.transitions.size(); transitionIndex++) {
+                ITransition transition = sprite.transitions.get(sprite.transitions.keyAt(transitionIndex));
+                transition.transit();
             }
+
+            float[] transform = new float[16];
+            float[] temp = new float[16];
+            float[] rotation = new float[16];
+            float[] pivot = new float[16];
+            float[] translate = new float[16];
+            float[] scale = new float[16];
+
+            // ROTATION AND SCALE
+            Matrix.setIdentityM(scale, 0);
+            Matrix.scaleM(scale, 0, sprite.scaleX, sprite.scaleY, 1);
+            Matrix.setIdentityM(transform, 0);
+            Matrix.setIdentityM(pivot, 0);
+            Matrix.translateM(pivot, 0, pivot, 0, sprite.pivotX, sprite.pivotY, 0); // TRANSLATE TO CENTER
+            Matrix.setRotateEulerM(rotation, 0, 0, 0, sprite.angle); // EULER ROTATE
+            Matrix.multiplyMM(rotation, 0, pivot, 0, rotation, 0);
+            Matrix.multiplyMM(scale, 0, pivot, 0, scale, 0);
+            Matrix.setIdentityM(pivot, 0);
+            Matrix.translateM(pivot, 0, pivot, 0, -sprite.pivotX, -sprite.pivotY, 0); // TRANSLATE TO ORIGINAL
+            Matrix.multiplyMM(rotation, 0, rotation, 0, pivot, 0); // CALCULATE ROTATION
+            Matrix.multiplyMM(scale, 0, scale, 0, pivot, 0); // CALCULATE SCALE
+
+            //TRANSLATE
+            Matrix.setIdentityM(translate, 0);
+            Matrix.translateM(translate, 0, sprite.translateX, sprite.translateY, 0);
+
+            //MULTIPLY
+            Matrix.multiplyMM(transform, 0, scale, 0, rotation, 0);
+            Matrix.multiplyMM(transform, 0, translate, 0, transform, 0); // SCALE * ROTATION * TRANSLATE
+
+            //FINAL MATRIX - PROJECT
+            Matrix.multiplyMM(temp, 0, projectionMatrix, 0, transform, 0);
+
+            textureProgram.useProgram();
+            textureProgram.setUniforms(temp, scene.getTexture(sprite.getResourceId()), sprite.alpha);
+            sprite.bindData(textureProgram);
+            sprite.draw();
+        }
 
         scene.onFrameDrawn();
     }
