@@ -4,15 +4,10 @@ import android.content.Context;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 
-import com.meandmyphone.genericdevicefancyvator.R;
 import com.meandmyphone.genericdevicefancyvator.core.background.Background;
-import com.meandmyphone.genericdevicefancyvator.core.background.FillType;
-import com.meandmyphone.genericdevicefancyvator.core.background.ImageBackground;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor;
 import com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory.Sprite;
-import com.meandmyphone.genericdevicefancyvator.core.transitions.FadeTransition;
-import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.TransitionCallback;
 import com.meandmyphone.genericdevicefancyvator.core.util.TextureHelper;
 
 import java.util.ArrayList;
@@ -199,21 +194,6 @@ public class Scene {
         deprecatedSprites.add(spriteID);
     }
 
-    public void destroySpriteWithEffect(GLRenderer renderer, final int id, DestroyEffect effect) {
-        switch (effect) {
-            case FADE:
-                FadeTransition fadeOut = new FadeTransition(renderer, 500, id, 0.0f);
-                fadeOut.setOnTransitionFinished(new TransitionCallback() {
-                    @Override
-                    public void handleEvent() {
-                        destroySprite(id);
-                    }
-                });
-                fadeOut.start();
-                break;
-        }
-    }
-
     public void onFrameDrawn() {
         Iterator<Integer> it = deprecatedSprites.iterator();
         while (it.hasNext()) {
@@ -236,9 +216,5 @@ public class Scene {
                 ", sceneWidth=" + sceneWidth +
                 ", sceneHeight=" + sceneHeight +
                 '}';
-    }
-
-    public enum DestroyEffect {
-        FADE
     }
 }

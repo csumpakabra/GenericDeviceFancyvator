@@ -14,8 +14,8 @@ public class FlipBookAnimation extends Transition {
     private int delay, currentIndex = 0;
     private long lastFlipTime;
 
-    public FlipBookAnimation(GLRenderer renderer, int nodeId, int[] resources, float[] top_left_u, float[] top_left_v, float [] bot_right_u, float [] bot_right_v, int delay) {
-        super(renderer, resources.length * delay, nodeId, ITransition.LINEAR);
+    public FlipBookAnimation(GLRenderer renderer, int nodeId, int destroyEffect, boolean destroyOnFinished, boolean autoreverse, int[] resources, float[] top_left_u, float[] top_left_v, float [] bot_right_u, float [] bot_right_v, int delay) {
+        super(renderer, resources.length * delay, nodeId, ITransition.LINEAR, destroyEffect, destroyOnFinished, autoreverse);
         this.resources = resources;
         this.delay = delay;
         this.top_left_u = top_left_u;
@@ -26,6 +26,7 @@ public class FlipBookAnimation extends Transition {
 
     @Override
     public void transit() {
+        super.transit();
         if (System.currentTimeMillis() - lastFlipTime >= delay) {
             SpriteFactory.Sprite sprite = renderer.getCurrentScene().getSprite(nodeId);
 
@@ -46,12 +47,16 @@ public class FlipBookAnimation extends Transition {
         currentIndex += direction;
         if (currentIndex > resources.length - 1) {
             currentIndex = autoreverse ? resources.length - 2 : 0;
-            if (autoreverse) direction = -1;
+            if (autoreverse) {
+                direction = -1;
+                transitionCycleFinished();
+            }
         }
 
         if (currentIndex < 0) {
             currentIndex = 1;
             direction = 1;
+            transitionCycleFinished();
         }
     }
 }

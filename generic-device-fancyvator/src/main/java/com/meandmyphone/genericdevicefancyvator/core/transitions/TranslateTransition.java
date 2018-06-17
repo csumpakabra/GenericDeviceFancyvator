@@ -16,20 +16,8 @@ public class TranslateTransition extends Transition {
     public float fromX, fromY, toX, toY, deltaX, deltaY, previousX, previousY;
     private final Point2D A,B;
 
-    public TranslateTransition(GLRenderer renderer, Point2D B, int cycleDuration, int nodeId) {
-        this(renderer,new Point2D(0,0), B, cycleDuration, nodeId, ITransition.DEFAULT);
-    }
-
-    public TranslateTransition(GLRenderer renderer, Point2D A, Point2D B, int cycleDuration, int nodeId) {
-        this(renderer,A, B, cycleDuration, nodeId, ITransition.DEFAULT);
-    }
-
-    public TranslateTransition(GLRenderer renderer, Point2D B, int cycleDuration, int nodeId, int easeType) {
-        this(renderer,new Point2D(0,0), B, cycleDuration, nodeId, easeType);
-    }
-
-    public TranslateTransition(GLRenderer renderer, Point2D A, Point2D B, int cycleDuration, int nodeId, int easeType) {
-        super(renderer,cycleDuration, nodeId, easeType);
+    public TranslateTransition(GLRenderer renderer, Point2D A, Point2D B, int cycleDuration, int nodeId, int easeType, int destroyEffect, boolean destroyOnFinished, boolean autoReverse) {
+        super(renderer,cycleDuration, nodeId, easeType, destroyEffect, destroyOnFinished, autoReverse);
         this.A = A;
         this.B = B;
         fromX = A.X;
@@ -43,7 +31,7 @@ public class TranslateTransition extends Transition {
 
     @Override
     public void transit() {
-        if (!playing) return;
+        super.transit();
         long currentTimeInLoop = System.currentTimeMillis() - cycleStartTime;
         if (currentTimeInLoop <= cycleDuration) {
             SpriteFactory.Sprite sprite = renderer.getCurrentScene().getSprite(nodeId);
@@ -54,7 +42,7 @@ public class TranslateTransition extends Transition {
             previousX = x;
             previousY = y;
         } else {
-            transitionFinished();
+            transitionCycleFinished();
             if (autoreverse) {
                 direction *= -1;
                 float tempX = fromX;

@@ -14,6 +14,10 @@ public class Transition {
 
     private int cycleCount;
 
+    private DestroyEffect destroyEffect;
+
+    private boolean destroySpriteOnFinished;
+
     /**
      * Gets the value of the duration property.
      * 
@@ -108,5 +112,24 @@ public class Transition {
 
     public void setTransitionType(TransitionType transitionType) {
         this.transitionType = transitionType;
+    }
+
+    public DestroyEffect getDestroyEffect() {
+        if (destroyEffect == null) {
+            return DestroyEffect.NONE;
+        }
+        return destroyEffect;
+    }
+
+    public void setDestroyEffect(DestroyEffect destroyEffect) {
+        this.destroyEffect = destroyEffect;
+    }
+
+    public boolean isDestroySpriteOnFinished() {
+        return destroySpriteOnFinished;
+    }
+
+    public void setDestroySpriteOnFinished(boolean destroySpriteOnFinished) {
+        this.destroySpriteOnFinished = destroySpriteOnFinished;
     }
 }

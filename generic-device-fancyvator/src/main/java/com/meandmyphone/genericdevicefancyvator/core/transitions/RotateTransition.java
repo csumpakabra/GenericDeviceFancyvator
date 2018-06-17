@@ -13,20 +13,8 @@ public class RotateTransition extends Transition {
     private String TAG = "RotateTransition " + transitionId;
     private float fromAngle, toAngle, deltaAngle;
 
-    public RotateTransition(GLRenderer renderer, int cycleDuration, int nodeId, float toAngle) {
-        this(renderer, cycleDuration, nodeId, ITransition.DEFAULT, 0, toAngle);
-    }
-
-    public RotateTransition(GLRenderer renderer, int cycleDuration, int nodeId, float fromAngle, float toAngle) {
-        this(renderer, cycleDuration, nodeId, ITransition.DEFAULT, fromAngle, toAngle);
-    }
-
-    public RotateTransition(GLRenderer renderer, int cycleDuration, int nodeId, int easeType, float toAngle) {
-        this(renderer, cycleDuration, nodeId, easeType, 0, toAngle);
-    }
-
-    public RotateTransition(GLRenderer renderer, int cycleDuration, int nodeId, int easeType, float fromAngle, float toAngle) {
-        super(renderer, cycleDuration, nodeId, easeType);
+    public RotateTransition(GLRenderer renderer, int cycleDuration, int nodeId, int easeType, int destroyEffect, boolean destroyOnFinished, boolean autoreverse, float fromAngle, float toAngle) {
+        super(renderer, cycleDuration, nodeId, easeType, destroyEffect, destroyOnFinished, autoreverse);
         this.fromAngle = fromAngle;
         this.toAngle = toAngle;
         deltaAngle = toAngle - fromAngle;
@@ -35,14 +23,14 @@ public class RotateTransition extends Transition {
 
     @Override
     public void transit() {
-        if (!playing || cyclesDone>=cycleCount) return;
+        super.transit();
         long currentTimeInLoop = System.currentTimeMillis() - cycleStartTime;
         if (currentTimeInLoop <= cycleDuration) {
             SpriteFactory.Sprite sprite = renderer.getCurrentScene().getSprite(nodeId);
             sprite.angle = Ease.calculateFloat(easeType, currentTimeInLoop, fromAngle, deltaAngle, cycleDuration);
 
         } else {
-            transitionFinished();
+            transitionCycleFinished();
             if (autoreverse) {
                 direction *= -1;
                 float tempAngle = fromAngle;
