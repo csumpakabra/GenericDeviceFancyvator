@@ -10,12 +10,12 @@ import com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory;
 public class FlipBookAnimation extends Transition {
 
     private int[] resources;
-    private float [] top_left_u, top_left_v, bot_right_u, bot_right_v;
+    private float[] top_left_u, top_left_v, bot_right_u, bot_right_v;
     private int delay, currentIndex = 0;
     private long lastFlipTime;
 
-    public FlipBookAnimation(GLRenderer renderer, int nodeId, int destroyEffect, boolean destroyOnFinished, boolean autoreverse, int[] resources, float[] top_left_u, float[] top_left_v, float [] bot_right_u, float [] bot_right_v, int delay) {
-        super(renderer, resources.length * delay, nodeId, ITransition.LINEAR, destroyEffect, destroyOnFinished, autoreverse);
+    public FlipBookAnimation(GLRenderer renderer, int nodeId, int cycleCount, int destroyEffect, boolean destroyOnFinished, boolean autoreverse, int[] resources, float[] top_left_u, float[] top_left_v, float[] bot_right_u, float[] bot_right_v, int delay) {
+        super(renderer, resources.length * delay, nodeId, cycleCount, ITransition.LINEAR, destroyEffect, destroyOnFinished, autoreverse);
         this.resources = resources;
         this.delay = delay;
         this.top_left_u = top_left_u;
@@ -25,8 +25,7 @@ public class FlipBookAnimation extends Transition {
     }
 
     @Override
-    public void transit() {
-        super.transit();
+    public void doTransit() {
         if (System.currentTimeMillis() - lastFlipTime >= delay) {
             SpriteFactory.Sprite sprite = renderer.getCurrentScene().getSprite(nodeId);
 
@@ -49,8 +48,9 @@ public class FlipBookAnimation extends Transition {
             currentIndex = autoreverse ? resources.length - 2 : 0;
             if (autoreverse) {
                 direction = -1;
-                transitionCycleFinished();
             }
+            transitionCycleFinished();
+
         }
 
         if (currentIndex < 0) {

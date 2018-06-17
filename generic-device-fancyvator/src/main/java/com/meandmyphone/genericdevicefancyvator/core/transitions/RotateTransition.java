@@ -13,8 +13,8 @@ public class RotateTransition extends Transition {
     private String TAG = "RotateTransition " + transitionId;
     private float fromAngle, toAngle, deltaAngle;
 
-    public RotateTransition(GLRenderer renderer, int cycleDuration, int nodeId, int easeType, int destroyEffect, boolean destroyOnFinished, boolean autoreverse, float fromAngle, float toAngle) {
-        super(renderer, cycleDuration, nodeId, easeType, destroyEffect, destroyOnFinished, autoreverse);
+    public RotateTransition(GLRenderer renderer, int cycleDuration, int nodeId, int cycleCount, int easeType, int destroyEffect, boolean destroyOnFinished, boolean autoreverse, float fromAngle, float toAngle) {
+        super(renderer, cycleDuration, nodeId, cycleCount, easeType, destroyEffect, destroyOnFinished, autoreverse);
         this.fromAngle = fromAngle;
         this.toAngle = toAngle;
         deltaAngle = toAngle - fromAngle;
@@ -22,15 +22,12 @@ public class RotateTransition extends Transition {
     }
 
     @Override
-    public void transit() {
-        super.transit();
+    public void doTransit() {
         long currentTimeInLoop = System.currentTimeMillis() - cycleStartTime;
         if (currentTimeInLoop <= cycleDuration) {
             SpriteFactory.Sprite sprite = renderer.getCurrentScene().getSprite(nodeId);
             sprite.angle = Ease.calculateFloat(easeType, currentTimeInLoop, fromAngle, deltaAngle, cycleDuration);
-
         } else {
-            transitionCycleFinished();
             if (autoreverse) {
                 direction *= -1;
                 float tempAngle = fromAngle;
@@ -38,7 +35,7 @@ public class RotateTransition extends Transition {
                 toAngle = tempAngle;
                 deltaAngle = toAngle - fromAngle;
             }
-            transit();
+            transitionCycleFinished();
         }
     }
 }

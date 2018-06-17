@@ -1,8 +1,8 @@
 package com.meandmyphone.genericdevicefancyvator.core.transitions;
 
 import com.meandmyphone.genericdevicefancyvator.core.gl.GLRenderer;
-import com.meandmyphone.genericdevicefancyvator.core.gl.Scene;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.TransitionCallback;
+import com.meandmyphone.genericdevicefancyvator.core.util.Logger;
 
 /**
  * Created by csumpakadabra on 2017.10.18..
@@ -10,10 +10,11 @@ import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.Transition
 
 public abstract class Transition implements ITransition, TransitionCallback {
 
+    private final static String TAG = "Transition";
     private static int counter = 0;
 
     protected long startTime, cycleStartTime;
-    protected int cycleDuration, cyclesDone, cycleCount = Integer.MAX_VALUE;
+    protected int cycleDuration, cyclesDone, cycleCount;
     protected final int nodeId;
     protected final int transitionId = ++counter;
     protected short direction = 1;
@@ -21,17 +22,18 @@ public abstract class Transition implements ITransition, TransitionCallback {
     protected boolean playing = false;
     protected int easeType;
     private int destroyEffect;
-    private boolean destroySpriteWhenFinished = false;
+    private boolean destroySpriteWhenFinished;
     protected GLRenderer renderer;
 
-    public Transition(GLRenderer renderer, int cycleDuration, int nodeId, int easeType, int destroyEffect, boolean destroySpriteWhenFinished, boolean autoreverse) {
-        this.cycleDuration = (int)calculateSeed(cycleDuration);
+    public Transition(GLRenderer renderer, int cycleDuration, int nodeId, int cycleCount, int easeType, int destroyEffect, boolean destroySpriteWhenFinished, boolean autoreverse) {
+        this.cycleDuration = (int) calculateSeed(cycleDuration);
         this.nodeId = nodeId;
         this.easeType = easeType;
         this.renderer = renderer;
         this.destroyEffect = destroyEffect;
         this.destroySpriteWhenFinished = destroySpriteWhenFinished;
         this.autoreverse = autoreverse;
+        this.cycleCount = cycleCount;
     }
 
     public void start() {
@@ -49,28 +51,26 @@ public abstract class Transition implements ITransition, TransitionCallback {
 
     private long calculateSpeed(long speedOnNormal, int currentSpeed) {
         switch (currentSpeed) {
-            default: return speedOnNormal;
+            default:
+                return speedOnNormal;
         }
     }
 
-    public void transit() {
+    @Override
+    final public void transit() {
         if (!playing) return;
-        if (cyclesDone>=cycleCount) {
+        if (cyclesDone >= cycleCount) {
             transitionFinished();
             return;
         }
-        transitionCycleStarted();
-
+        doTransit();
     }
+
+    protected abstract void doTransit();
 
     @Override
     public void transitionStarted() {
-
-    }
-
-    @Override
-    public void transitionCycleStarted() {
-
+        Logger.Log(TAG, String.format("Transition: %d, %s started", transitionId, getClass().getSimpleName()));
     }
 
     @Override
@@ -83,9 +83,12 @@ public abstract class Transition implements ITransition, TransitionCallback {
 
     @Override
     public final void transitionFinished() {
+        Logger.Log(TAG, String.format("Transition: %d, %s finished", transitionId, getClass().getSimpleName()));
+        playing = false;
+
         if (destroySpriteWhenFinished) {
             switch (this.destroyEffect) {
-                case ITransition.DESTORY_EFFECT_NONE:
+                case ITransition.DESTROY_EFFECT_NONE:
                     renderer.getCurrentScene().destroySprite(nodeId);
                     break;
                 case ITransition.DESTROY_EFFECT_FADE:
@@ -93,23 +96,19 @@ public abstract class Transition implements ITransition, TransitionCallback {
                             renderer,
                             500,
                             nodeId,
+                            1,
                             ITransition.LINEAR,
-                            ITransition.DESTORY_EFFECT_NONE,
+                            ITransition.DESTROY_EFFECT_NONE,
                             true,
                             false,
                             renderer.getCurrentScene().getSprite(nodeId).getAlpha(),
                             0.0f);
-
+                    renderer.getCurrentScene().getSprite(nodeId).addTransition(fadeOut);
                     fadeOut.start();
                     break;
             }
         }
     }
-
-    public void destroySpriteWithEffect(GLRenderer renderer, final int id, int effect) {
-
-    }
-
 
     public int getEaseType() {
         return easeType;

@@ -19,7 +19,6 @@ import com.meandmyphone.genericdevicefancyvator.core.transitions.RotateTransitio
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ScaleTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.TranslateTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Aspect;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.CycleType;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.DestroyEffect;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Ease;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FlipbookTransition;
@@ -76,6 +75,7 @@ public class GDFTransformer implements Transformer {
                 renderer,
                 xmlTransition.getDuration(),
                 spriteId,
+                xmlTransition.getCycleCount(),
                 transform(xmlTransition.getEase()),
                 transform(xmlTransition.getDestroyEffect()),
                 xmlTransition.isDestroySpriteOnFinished(),
@@ -94,6 +94,7 @@ public class GDFTransformer implements Transformer {
                         transformHeight(xmlTransition.getByY())),
                 xmlTransition.getDuration(),
                 spriteId,
+                xmlTransition.getCycleCount(),
                 transform(xmlTransition.getEase()),
                 transform(xmlTransition.getDestroyEffect()),
                 xmlTransition.isDestroySpriteOnFinished(),
@@ -106,6 +107,7 @@ public class GDFTransformer implements Transformer {
                 renderer,
                 xmlTransition.getDuration(),
                 spriteId,
+                xmlTransition.getCycleCount(),
                 transform(xmlTransition.getEase()),
                 transform(xmlTransition.getDestroyEffect()),
                 xmlTransition.isDestroySpriteOnFinished(),
@@ -120,6 +122,7 @@ public class GDFTransformer implements Transformer {
                 renderer,
                 xmlTransition.getDuration(),
                 spriteId,
+                xmlTransition.getCycleCount(),
                 transform(xmlTransition.getEase()),
                 transform(xmlTransition.getDestroyEffect()),
                 xmlTransition.isDestroySpriteOnFinished(),
@@ -152,6 +155,7 @@ public class GDFTransformer implements Transformer {
         return new FlipBookAnimation(
                 renderer,
                 spriteId,
+                xmlTransition.getCycleCount(),
                 transform(xmlTransition.getDestroyEffect()),
                 xmlTransition.isDestroySpriteOnFinished(),
                 YOYO.equals(xmlTransition.getCycleType()),
@@ -371,7 +375,7 @@ public class GDFTransformer implements Transformer {
 
     private int transform(DestroyEffect destroyEffect) {
         switch (destroyEffect) {
-            case NONE: return ITransition.DESTORY_EFFECT_NONE;
+            case NONE: return ITransition.DESTROY_EFFECT_NONE;
             case FADE: return ITransition.DESTROY_EFFECT_FADE;
         }
         throw new IllegalArgumentException("Invalid destroyEffect: " + destroyEffect);

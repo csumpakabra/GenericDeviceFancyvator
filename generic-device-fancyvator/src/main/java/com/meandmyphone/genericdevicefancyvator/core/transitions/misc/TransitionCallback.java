@@ -6,7 +6,6 @@ package com.meandmyphone.genericdevicefancyvator.core.transitions.misc;
 
 public interface TransitionCallback {
     void transitionStarted();
-    void transitionCycleStarted();
     void transitionCycleFinished();
     void transitionFinished();
 }

@@ -22,7 +22,7 @@ public interface ITransition {
     int NUMBEROFTRANSITIONS = 10;
 
     int
-            DESTORY_EFFECT_NONE = 0x2000,
+            DESTROY_EFFECT_NONE = 0x2000,
             DESTROY_EFFECT_FADE = 0x2001;
 
     int CYCLE_INDEFINITE = 0xFFFF;
