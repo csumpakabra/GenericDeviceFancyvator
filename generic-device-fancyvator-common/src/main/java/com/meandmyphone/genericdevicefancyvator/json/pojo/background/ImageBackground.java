@@ -1,10 +1,13 @@
 package com.meandmyphone.genericdevicefancyvator.json.pojo.background;
 
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Ease;
+
 public class ImageBackground extends Background {
 
 
     private String resource;
     private float topLeftU, topLeftV, botRightU, botRightV;
+    private FillType fillType;
 
     public String getResource() {
         return resource;
@@ -44,5 +47,13 @@ public class ImageBackground extends Background {
 
     public void setBotRightV(float botRightV) {
         this.botRightV = botRightV;
+    }
+
+    public FillType getFillType() {
+        return fillType;
+    }
+
+    public void setFillType(FillType fillType) {
+        this.fillType = fillType;
     }
 }

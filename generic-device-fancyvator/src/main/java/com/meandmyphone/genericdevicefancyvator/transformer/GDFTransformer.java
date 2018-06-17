@@ -4,6 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.meandmyphone.genericdevicefancyvator.core.background.Background;
+import com.meandmyphone.genericdevicefancyvator.core.background.FillType;
+import com.meandmyphone.genericdevicefancyvator.core.background.GradientBackground;
+import com.meandmyphone.genericdevicefancyvator.core.background.ImageBackground;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor;
 import com.meandmyphone.genericdevicefancyvator.core.gl.GLRenderer;
@@ -22,7 +25,6 @@ import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FlipbookTra
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Frame;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Measure;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Position;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.RelativityType;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SceneRelativePosition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SpriteRelativePosition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Transition;
@@ -31,6 +33,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory.Sprite;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.background.BackgroundType.*;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.transform.PositionType.SCENE_RELATIVE;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.transform.PositionType.SPRITE_RELATIVE;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.transform.RelativityType.*;
 import static com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TransitionType.FADE;
 import static com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TransitionType.FLIPBOOK;
 import static com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TransitionType.ROTATE;
@@ -231,17 +237,47 @@ public class GDFTransformer implements Transformer {
         throw new IllegalArgumentException("Unable to transform xmlEase: " + xmlEase);
     }
 
-    private Background transform(com.meandmyphone.genericdevicefancyvator.json.pojo.background.Background background) {
-        return null;
+    @Override
+    public Background transform(com.meandmyphone.genericdevicefancyvator.json.pojo.background.Background background) {
+        if (GRADIENT.equals(background.getBackgroundType())) {
+            com.meandmyphone.genericdevicefancyvator.json.pojo.background.GradientBackground gradientBackground =
+                    (com.meandmyphone.genericdevicefancyvator.json.pojo.background.GradientBackground) background;
+            return new GradientBackground(
+                    context,
+                    gradientBackground.getTopLeftColor(),
+                    gradientBackground.getBotLeftColor(),
+                    gradientBackground.getBotRightColor(),
+                    gradientBackground.getBotRightColor()
+            );
+        } else if (IMAGE.equals(background.getBackgroundType())) {
+            com.meandmyphone.genericdevicefancyvator.json.pojo.background.ImageBackground imageBackground =
+                    (com.meandmyphone.genericdevicefancyvator.json.pojo.background.ImageBackground) background;
+            int resId;
+            if (resourceIdByXmlResourceId.containsKey(imageBackground.getResource())) {
+                resId = resourceIdByXmlResourceId.get(imageBackground.getResource());
+            } else {
+                resId = context.getResources().getIdentifier(imageBackground.getResource(), "drawable", context.getPackageName());
+            }
+            return new ImageBackground(
+                    context,
+                    resId,
+                    transform(imageBackground.getFillType()),
+                    imageBackground.getTopLeftU(),
+                    imageBackground.getTopLeftV(),
+                    imageBackground.getBotRightU(),
+                    imageBackground.getBotRightV()
+            );
+        }
+        throw new IllegalArgumentException("Invalid backgroundType: " + background.getBackgroundType());
     }
 
     private float transformWidth(Measure measure) {
-        if (RelativityType.NONE.equals(measure.getRelativity())) {
-            Log.w(TAG, "Creating absolute widht sprite!");
+        if (NONE.equals(measure.getRelativity())) {
+            Log.w(TAG, "Creating absolute width sprite!");
             return measure.getValue();
-        } else if (RelativityType.SCENE.equals(measure.getRelativity())) {
+        } else if (SCENE.equals(measure.getRelativity())) {
             return measure.getValue() * scene.getSceneWidth();
-        } else if (RelativityType.SPRITE.equals(measure.getRelativity())) {
+        } else if (SPRITE.equals(measure.getRelativity())) {
             int relativeToSpriteId = spriteIdByXmlId.get(measure.getRelativeTo());
             Sprite relativeToSprite = scene.getSprite(relativeToSpriteId);
             return relativeToSprite.width * measure.getValue();
@@ -250,12 +286,12 @@ public class GDFTransformer implements Transformer {
     }
 
     private float transformHeight(Measure measure) {
-        if (RelativityType.NONE.equals(measure.getRelativity())) {
+        if (NONE.equals(measure.getRelativity())) {
             Log.w(TAG, "Creating absolute height sprite!");
             return measure.getValue();
-        } else if (RelativityType.SCENE.equals(measure.getRelativity())) {
+        } else if (SCENE.equals(measure.getRelativity())) {
             return measure.getValue() * scene.getSceneHeight();
-        } else if (RelativityType.SPRITE.equals(measure.getRelativity())) {
+        } else if (SPRITE.equals(measure.getRelativity())) {
             int relativeToSpriteId = spriteIdByXmlId.get(measure.getRelativeTo());
             Sprite relativeToSprite = scene.getSprite(relativeToSpriteId);
             return relativeToSprite.height * measure.getValue();
@@ -266,13 +302,13 @@ public class GDFTransformer implements Transformer {
     private Point2D transformPoint(Position position) {
         float distanceX = transformWidth(position.getXDistanceFromTarget());
         float distanceY = transformHeight(position.getYDistanceFromTarget());
-        if (position instanceof SceneRelativePosition) {
+        if (SCENE_RELATIVE.equals(position.getPositionType())) {
             SceneRelativePosition pos = (SceneRelativePosition) position;
             Point2D relativePoint = scene.getScenePointOfInterest(Anchor.fromPivot(pos.getRelativePointOfTarget()));
             float x = relativePoint.X + distanceX;
             float y = relativePoint.Y - distanceY;
             return new Point2D(x, y);
-        } else if (position instanceof SpriteRelativePosition) {
+        } else if (SPRITE_RELATIVE.equals(position.getPositionType())) {
             SpriteRelativePosition pos = (SpriteRelativePosition) position;
             int relativeToSpirteId = spriteIdByXmlId.get(pos.getRelativeSpriteId());
             Sprite relativeToSprite = scene.getSprite(relativeToSpirteId);
@@ -306,5 +342,13 @@ public class GDFTransformer implements Transformer {
                 return new Point2D(pivotPoint.X - realWidth / 2, pivotPoint.Y + realHeight);
         }
         throw new IllegalArgumentException("Invalid anchor: " + anchor);
+    }
+
+    private FillType transform(com.meandmyphone.genericdevicefancyvator.json.pojo.background.FillType fillType) {
+        switch (fillType) {
+            case STRETCH: return FillType.STRETCH;
+            case REPEAT: return FillType.REPEAT;
+        }
+        throw new IllegalArgumentException("Invalid fillType: " + fillType);
     }
 }

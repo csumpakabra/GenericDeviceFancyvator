@@ -52,7 +52,7 @@ public class Projection {
         return projectionHeight;
     }
 
-    public Point2D getProjectionPointOfInteres(Anchor anchor) {
+    public Point2D getProjectionPointOfInterest(Anchor anchor) {
         return pointsOfInterest.get(anchor);
     }
 }

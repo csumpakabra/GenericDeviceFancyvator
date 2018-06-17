@@ -1,17 +1,16 @@
 package com.meandmyphone.genericdevicefancyvator.core.gl;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 
 import com.meandmyphone.genericdevicefancyvator.R;
 import com.meandmyphone.genericdevicefancyvator.core.background.Background;
 import com.meandmyphone.genericdevicefancyvator.core.background.FillType;
-import com.meandmyphone.genericdevicefancyvator.core.background.GradientBackground;
 import com.meandmyphone.genericdevicefancyvator.core.background.ImageBackground;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.data.misc.Anchor;
+import com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory.Sprite;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.FadeTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.misc.TransitionCallback;
 import com.meandmyphone.genericdevicefancyvator.core.util.TextureHelper;
@@ -41,9 +40,18 @@ public class Scene {
     private static int counter = 0x0000;
     private final int ID = counter++;
     private SparseIntArray textures = new SparseIntArray();
-    private SparseArray<SpriteFactory.Sprite> sprites = new SparseArray<>();
+    private SparseArray<Sprite> sprites = new SparseArray<>();
     private List<Integer> deprecatedSprites = new ArrayList<>();
-    private Point2D sceneTopLeft, sceneTopCenter, sceneTopRight, sceneCenterRight, sceneBotRight, sceneBotCenter, sceneBotLeft, sceneCenterLeft, sceneCenter;
+    private Point2D
+            sceneTopLeft,
+            sceneTopCenter,
+            sceneTopRight,
+            sceneCenterRight,
+            sceneBotRight,
+            sceneBotCenter,
+            sceneBotLeft,
+            sceneCenterLeft,
+            sceneCenter;
     private float sceneWidth, sceneHeight;
     private final Projection projection;
     private final Map<Anchor, Point2D> pointsOfInterest;
@@ -60,12 +68,12 @@ public class Scene {
             setSceneHeight(projection.getProjectionHeight());
             setSceneWidth((float) (Math.pow(projection.getProjectionHeight(), 2) / projection.getProjectionWidth()));
             float
-                    top = projection.getProjectionPointOfInteres(Anchor.TOPCENTER).Y,
-                    right = projection.getProjectionPointOfInteres(Anchor.CENTER).X + getSceneWidth() / 2,
-                    bottom = projection.getProjectionPointOfInteres(Anchor.BOTCENTER).Y,
-                    left = projection.getProjectionPointOfInteres(Anchor.CENTER).X - getSceneWidth() / 2,
-                    centerX = projection.getProjectionPointOfInteres(Anchor.CENTER).X,
-                    centerY = projection.getProjectionPointOfInteres(Anchor.CENTER).Y;
+                    top = projection.getProjectionPointOfInterest(Anchor.TOPCENTER).Y,
+                    right = projection.getProjectionPointOfInterest(Anchor.CENTER).X + getSceneWidth() / 2,
+                    bottom = projection.getProjectionPointOfInterest(Anchor.BOTCENTER).Y,
+                    left = projection.getProjectionPointOfInterest(Anchor.CENTER).X - getSceneWidth() / 2,
+                    centerX = projection.getProjectionPointOfInterest(Anchor.CENTER).X,
+                    centerY = projection.getProjectionPointOfInterest(Anchor.CENTER).Y;
             setSceneTopLeft(new Point2D(left, top));
             setSceneTopCenter(new Point2D(centerX, top));
             setSceneTopRight(new Point2D(right, top));
@@ -73,23 +81,21 @@ public class Scene {
             setSceneBotRight(new Point2D(right, bottom));
             setSceneBotCenter(new Point2D(centerX, bottom));
             setSceneBotLeft(new Point2D(left, bottom));
-            setSceneCenterLeft(new Point2D(left, bottom));
+            setSceneCenterLeft(new Point2D(left, centerY));
             setSceneCenter(new Point2D(centerX, centerY));
         } else if (runMode == GLRenderer.LANDSCAPE_MODE) {
             setSceneWidth(this.projection.getProjectionWidth());
             setSceneHeight(this.projection.getProjectionHeight());
-            setSceneTopLeft(this.projection.getProjectionPointOfInteres(TOPLEFT));
-            setSceneTopCenter(this.projection.getProjectionPointOfInteres(Anchor.TOPCENTER));
-            setSceneTopRight(this.projection.getProjectionPointOfInteres(Anchor.TOPRIGHT));
-            setSceneCenterRight(this.projection.getProjectionPointOfInteres(Anchor.CENTERRIGHT));
-            setSceneBotRight(this.projection.getProjectionPointOfInteres(Anchor.BOTRIGHT));
-            setSceneBotCenter(this.projection.getProjectionPointOfInteres(Anchor.BOTCENTER));
-            setSceneBotLeft(this.projection.getProjectionPointOfInteres(Anchor.BOTLEFT));
-            setSceneCenterLeft(this.projection.getProjectionPointOfInteres(Anchor.CENTERLEFT));
-            setSceneCenter(this.projection.getProjectionPointOfInteres(Anchor.CENTER));
+            setSceneTopLeft(this.projection.getProjectionPointOfInterest(TOPLEFT));
+            setSceneTopCenter(this.projection.getProjectionPointOfInterest(Anchor.TOPCENTER));
+            setSceneTopRight(this.projection.getProjectionPointOfInterest(Anchor.TOPRIGHT));
+            setSceneCenterRight(this.projection.getProjectionPointOfInterest(Anchor.CENTERRIGHT));
+            setSceneBotRight(this.projection.getProjectionPointOfInterest(Anchor.BOTRIGHT));
+            setSceneBotCenter(this.projection.getProjectionPointOfInterest(Anchor.BOTCENTER));
+            setSceneBotLeft(this.projection.getProjectionPointOfInterest(Anchor.BOTLEFT));
+            setSceneCenterLeft(this.projection.getProjectionPointOfInterest(Anchor.CENTERLEFT));
+            setSceneCenter(this.projection.getProjectionPointOfInterest(Anchor.CENTER));
         }
-
-        background = new ImageBackground(context, R.drawable.roborun, this, FillType.STRETCH);
     }
 
     private void setSceneTopLeft(Point2D sceneTopLeft) {
@@ -157,7 +163,7 @@ public class Scene {
         this.sceneHeight = sceneHeight;
     }
 
-    public void addSprite(SpriteFactory.Sprite sprite) {
+    public void addSprite(Sprite sprite) {
         sprites.put(sprite.ID, sprite);
     }
 
@@ -169,11 +175,11 @@ public class Scene {
         return sprites.size();
     }
 
-    public SpriteFactory.Sprite getSprite(int key) {
+    public Sprite getSprite(int key) {
         return sprites.get(key);
     }
 
-    public SpriteFactory.Sprite getSpriteAtIndex(int index) {
+    public Sprite getSpriteAtIndex(int index) {
         return sprites.get(sprites.keyAt(index));
     }
 

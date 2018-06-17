@@ -90,6 +90,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         float [] projectionMatrixLandscape = new float[16];
         float [] projectionMatrixPortrait = new float[16];
 
+        // TODO separate portait - landscape
         final float aspectRatio = width > height ?
                 (float) width / (float) height :
                 (float) height / (float) width;

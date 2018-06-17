@@ -4,7 +4,7 @@ import android.content.Context;
 import android.opengl.Matrix;
 
 import com.meandmyphone.genericdevicefancyvator.core.data.VertexArray;
-import com.meandmyphone.genericdevicefancyvator.core.gl.Scene;
+import com.meandmyphone.genericdevicefancyvator.core.gl.Projection;
 import com.meandmyphone.genericdevicefancyvator.core.programs.TextureShaderProgram;
 import com.meandmyphone.genericdevicefancyvator.core.util.TextureHelper;
 
@@ -26,18 +26,18 @@ public class ImageBackground extends Background {
     private final TextureShaderProgram textureShaderProgram;
     private final int texture;
     
-    public ImageBackground(Context context, int resourceId, Scene scene, FillType fillType) {
+    public ImageBackground(Context context, int resourceId, FillType fillType, float topLeftU, float topLeftV, float botRightU, float botRightV) {
         textureShaderProgram = new TextureShaderProgram(context);
         texture = TextureHelper.loadTexture(context, resourceId);
 
         if (STRETCH.equals(fillType)) {
             vertexData = new float[]{
-                    scene.getScenePointOfInterest(TOPLEFT).X, scene.getScenePointOfInterest(TOPLEFT).Y, 0, 0, // top l
-                    scene.getScenePointOfInterest(BOTLEFT).X, scene.getScenePointOfInterest(BOTLEFT).Y, 0, 1, // bot l
-                    scene.getScenePointOfInterest(BOTRIGHT).X, scene.getScenePointOfInterest(BOTRIGHT).Y, 1, 1, // bot r
-                    scene.getScenePointOfInterest(TOPLEFT).X, scene.getScenePointOfInterest(TOPLEFT).Y, 0, 0, // top l
-                    scene.getScenePointOfInterest(TOPRIGHT).X, scene.getScenePointOfInterest(TOPRIGHT).Y, 1, 0, // top r
-                    scene.getScenePointOfInterest(BOTRIGHT).X, scene.getScenePointOfInterest(BOTRIGHT).Y, 1, 1}; // bot r
+                    -1, 1, topLeftU, topLeftV, // top l
+                    -1, -1, topLeftU, botRightV, // bot l
+                    1, -1, botRightU, botRightV, // bot r
+                    -1, 1, topLeftU, topLeftV, // top l
+                    1, 1, botRightV, topLeftV, // top r
+                    1, -1, botRightU, botRightV}; // bot r
         } else if (REPEAT.equals(fillType)) {
             throw new UnsupportedOperationException("FillType not supported: " + fillType);
         }
