@@ -28,14 +28,16 @@ public class RotateTransition extends Transition {
             SpriteFactory.Sprite sprite = renderer.getCurrentScene().getSprite(nodeId);
             sprite.angle = Ease.calculateFloat(easeType, currentTimeInLoop, fromAngle, deltaAngle, cycleDuration);
         } else {
-            if (autoreverse) {
-                direction *= -1;
-                float tempAngle = fromAngle;
-                fromAngle = toAngle;
-                toAngle = tempAngle;
-                deltaAngle = toAngle - fromAngle;
-            }
             transitionCycleFinished();
         }
+    }
+
+    @Override
+    protected void changeDirectionAndReset() {
+        direction *= -1;
+        float tempAngle = fromAngle;
+        fromAngle = toAngle;
+        toAngle = tempAngle;
+        deltaAngle = toAngle - fromAngle;
     }
 }

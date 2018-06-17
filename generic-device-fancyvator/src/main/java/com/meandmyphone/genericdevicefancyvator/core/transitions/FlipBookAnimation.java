@@ -46,9 +46,6 @@ public class FlipBookAnimation extends Transition {
         currentIndex += direction;
         if (currentIndex > resources.length - 1) {
             currentIndex = autoreverse ? resources.length - 2 : 0;
-            if (autoreverse) {
-                direction = -1;
-            }
             transitionCycleFinished();
 
         }
@@ -58,5 +55,10 @@ public class FlipBookAnimation extends Transition {
             direction = 1;
             transitionCycleFinished();
         }
+    }
+
+    @Override
+    protected void changeDirectionAndReset() {
+        direction = -1;
     }
 }

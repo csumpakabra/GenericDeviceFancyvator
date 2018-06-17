@@ -68,6 +68,8 @@ public abstract class Transition implements ITransition, TransitionCallback {
 
     protected abstract void doTransit();
 
+    protected abstract void changeDirectionAndReset();
+
     @Override
     public void transitionStarted() {
         Logger.Log(TAG, String.format("Transition: %d, %s started", transitionId, getClass().getSimpleName()));
@@ -77,6 +79,9 @@ public abstract class Transition implements ITransition, TransitionCallback {
     public void transitionCycleFinished() {
         if (cycleCount != ITransition.CYCLE_INDEFINITE) {
             ++cyclesDone;
+        }
+        if (autoreverse) {
+            changeDirectionAndReset();
         }
         cycleStartTime = System.currentTimeMillis();
     }

@@ -41,18 +41,20 @@ public class TranslateTransition extends Transition {
             previousX = x;
             previousY = y;
         } else {
-            if (autoreverse) {
-                direction *= -1;
-                float tempX = fromX;
-                float tempY = fromY;
-                fromX = toX;
-                fromY = toY;
-                toX = tempX;
-                toY = tempY;
-                deltaX = toX - fromX;
-                deltaY = toY - fromY;
-            }
             transitionCycleFinished();
         }
+    }
+
+    @Override
+    protected void changeDirectionAndReset() {
+        direction *= -1;
+        float tempX = fromX;
+        float tempY = fromY;
+        fromX = toX;
+        fromY = toY;
+        toX = tempX;
+        toY = tempY;
+        deltaX = toX - fromX;
+        deltaY = toY - fromY;
     }
 }

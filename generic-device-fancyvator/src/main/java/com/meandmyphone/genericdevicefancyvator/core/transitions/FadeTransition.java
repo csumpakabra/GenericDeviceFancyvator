@@ -30,14 +30,16 @@ public class FadeTransition extends Transition {
             SpriteFactory.Sprite sprite = renderer.getCurrentScene().getSprite(nodeId);
             sprite.alpha = Ease.calculateFloat(easeType, currentTimeInLoop, fromAlpha, deltaAlpha, cycleDuration);
         } else {
-            if (autoreverse) {
-                direction *= -1;
-                float tempAlpha = fromAlpha;
-                fromAlpha = toAlpha;
-                toAlpha = tempAlpha;
-                deltaAlpha = toAlpha - fromAlpha;
-            }
             transitionCycleFinished();
         }
+    }
+
+    @Override
+    protected void changeDirectionAndReset() {
+        direction *= -1;
+        float tempAlpha = fromAlpha;
+        fromAlpha = toAlpha;
+        toAlpha = tempAlpha;
+        deltaAlpha = toAlpha - fromAlpha;
     }
 }
