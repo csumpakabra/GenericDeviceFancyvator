@@ -14,8 +14,8 @@ public class FlipBookAnimation extends Transition {
     private int delay, currentIndex = 0;
     private long lastFlipTime;
 
-    public FlipBookAnimation(GLRenderer renderer, int nodeId, int cycleCount, int destroyEffect, boolean destroyOnFinished, boolean autoreverse, int[] resources, float[] top_left_u, float[] top_left_v, float[] bot_right_u, float[] bot_right_v, int delay) {
-        super(renderer, resources.length * delay, nodeId, cycleCount, ITransition.LINEAR, destroyEffect, destroyOnFinished, autoreverse);
+    public FlipBookAnimation(GLRenderer renderer, int nodeId, int cycleCount, int destroyEffect, boolean autoreverse, int[] resources, float[] top_left_u, float[] top_left_v, float[] bot_right_u, float[] bot_right_v, int delay) {
+        super(renderer, resources.length * delay, nodeId, cycleCount, ITransition.LINEAR, destroyEffect, autoreverse);
         this.resources = resources;
         this.delay = delay;
         this.top_left_u = top_left_u;

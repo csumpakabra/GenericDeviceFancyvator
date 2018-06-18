@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.background.Background;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.background.GradientBackground;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.background.ImageBackground;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.BaseTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FadeTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FlipbookTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Position;
@@ -13,7 +14,7 @@ import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.ScaleTransi
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Scene;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SceneRelativePosition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SpriteRelativePosition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Transition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.SequentialTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TranslateTransition;
 
 import java.io.BufferedReader;
@@ -29,13 +30,14 @@ public class Parser {
                 .registerSubtype(SpriteRelativePosition.class, "SPRITE_RELATIVE")
                 .registerSubtype(SceneRelativePosition.class, "SCENE_RELATIVE");
 
-        RuntimeTypeAdapterFactory<Transition> transitionRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory
-                .of(Transition.class, "transitionType")
+        RuntimeTypeAdapterFactory<BaseTransition> transitionRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory
+                .of(BaseTransition.class, "transitionType")
                 .registerSubtype(FadeTransition.class, "FADE")
                 .registerSubtype(TranslateTransition.class, "TRANSLATE")
                 .registerSubtype(RotateTransition.class, "ROTATE")
                 .registerSubtype(ScaleTransition.class, "SCALE")
                 .registerSubtype(FlipbookTransition.class, "FLIPBOOK")
+                .registerSubtype(SequentialTransition.class, "SEQUENCE")
                 ;
 
         RuntimeTypeAdapterFactory<Background> backgroudnRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory

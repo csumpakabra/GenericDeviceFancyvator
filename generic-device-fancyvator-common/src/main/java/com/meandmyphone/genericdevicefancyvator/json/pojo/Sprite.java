@@ -4,7 +4,7 @@ package com.meandmyphone.genericdevicefancyvator.json.pojo;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Aspect;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Pivot;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SpriteTransform;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Transition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.BaseTransition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class Sprite {
     private float rotation;
     private Pivot pivot;
     private int sortingOrder;
-    private List<Transition> transition;
+    private List<BaseTransition> transition;
     private Aspect keepAspect;
 
     public Sprite() {
@@ -272,13 +272,13 @@ public class Sprite {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Transition }
+     * {@link BaseTransition }
      * 
      * 
      */
-    public List<Transition> getTransitions() {
+    public List<BaseTransition> getTransitions() {
         if (transition == null) {
-            transition = new ArrayList<Transition>();
+            transition = new ArrayList<BaseTransition>();
         }
         return this.transition;
     }
@@ -289,14 +289,6 @@ public class Sprite {
 
     public void setSortingOrder(int sortingOrder) {
         this.sortingOrder = sortingOrder;
-    }
-
-    public List<Transition> getTransition() {
-        return transition;
-    }
-
-    public void setTransition(List<Transition> transition) {
-        this.transition = transition;
     }
 
     public Aspect getAspect() {

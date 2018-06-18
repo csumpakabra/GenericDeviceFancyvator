@@ -12,7 +12,10 @@ public enum TransitionType {
 
     TRANSLATE("translate"),
 
-    FLIPBOOK("flipbook");
+    FLIPBOOK("flipbook"),
+
+    SEQUENCE("sequence");
+
     private final String value;
 
     TransitionType(String v) {

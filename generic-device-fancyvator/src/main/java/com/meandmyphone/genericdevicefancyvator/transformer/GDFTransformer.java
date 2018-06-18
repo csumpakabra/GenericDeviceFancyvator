@@ -17,8 +17,11 @@ import com.meandmyphone.genericdevicefancyvator.core.transitions.FlipBookAnimati
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.RotateTransition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ScaleTransition;
+import com.meandmyphone.genericdevicefancyvator.core.transitions.SequentialTranstion;
+import com.meandmyphone.genericdevicefancyvator.core.transitions.Transition;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.TranslateTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Aspect;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.BaseTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.DestroyEffect;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Ease;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FlipbookTransition;
@@ -27,7 +30,6 @@ import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Measure;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.Position;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SceneRelativePosition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SpriteRelativePosition;
-import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Transition;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,7 +80,6 @@ public class GDFTransformer implements Transformer {
                 xmlTransition.getCycleCount(),
                 transform(xmlTransition.getEase()),
                 transform(xmlTransition.getDestroyEffect()),
-                xmlTransition.isDestroySpriteOnFinished(),
                 YOYO.equals(xmlTransition.getCycleType()),
                 xmlTransition.getFromAlpha(),
                 xmlTransition.getToAlpha()
@@ -97,7 +98,6 @@ public class GDFTransformer implements Transformer {
                 xmlTransition.getCycleCount(),
                 transform(xmlTransition.getEase()),
                 transform(xmlTransition.getDestroyEffect()),
-                xmlTransition.isDestroySpriteOnFinished(),
                 YOYO.equals(xmlTransition.getCycleType())
         );
     }
@@ -110,7 +110,6 @@ public class GDFTransformer implements Transformer {
                 xmlTransition.getCycleCount(),
                 transform(xmlTransition.getEase()),
                 transform(xmlTransition.getDestroyEffect()),
-                xmlTransition.isDestroySpriteOnFinished(),
                 YOYO.equals(xmlTransition.getCycleType()),
                 xmlTransition.getFromAngle(),
                 xmlTransition.getToAngle()
@@ -125,7 +124,6 @@ public class GDFTransformer implements Transformer {
                 xmlTransition.getCycleCount(),
                 transform(xmlTransition.getEase()),
                 transform(xmlTransition.getDestroyEffect()),
-                xmlTransition.isDestroySpriteOnFinished(),
                 YOYO.equals(xmlTransition.getCycleType()),
                 xmlTransition.getFromX(),
                 xmlTransition.getToX(),
@@ -135,7 +133,7 @@ public class GDFTransformer implements Transformer {
     }
 
     private FlipBookAnimation transform(int spriteId, FlipbookTransition xmlTransition) {
-        int flipCount = xmlTransition.getSprite().size();
+        int flipCount = xmlTransition.getSprites().size();
         int[] resources = new int[flipCount];
         float[] top_left_u = new float[flipCount];
         float[] top_left_v = new float[flipCount];
@@ -144,7 +142,7 @@ public class GDFTransformer implements Transformer {
         int delay = xmlTransition.getDuration() / flipCount;
 
         for (int i = 0; i < flipCount; i++) {
-            Frame xmlSprite = xmlTransition.getSprite().get(i);
+            Frame xmlSprite = xmlTransition.getSprites().get(i);
             //noinspection SuspiciousMethodCalls
             resources[i] = resourceIdByXmlResourceId.get(xmlSprite.getResource());
             top_left_u[i] = xmlSprite.getTopLeftU();
@@ -157,7 +155,6 @@ public class GDFTransformer implements Transformer {
                 spriteId,
                 xmlTransition.getCycleCount(),
                 transform(xmlTransition.getDestroyEffect()),
-                xmlTransition.isDestroySpriteOnFinished(),
                 YOYO.equals(xmlTransition.getCycleType()),
                 resources,
                 top_left_u,
@@ -165,6 +162,31 @@ public class GDFTransformer implements Transformer {
                 bot_right_u,
                 bot_right_v,
                 delay);
+    }
+
+    private SequentialTranstion transform(int spriteID, com.meandmyphone.genericdevicefancyvator.json.pojo.transition.SequentialTransition xmlTransition) {
+        Transition [] transitions = new Transition[xmlTransition.getTransitions().size()];
+        for (int i = 0; i < transitions.length; i++) {
+            com.meandmyphone.genericdevicefancyvator.json.pojo.transition.BaseTransition transition = xmlTransition.getTransitions().get(i);
+            transitions[i] = transform(spriteID, transition);
+        }
+        return new SequentialTranstion(renderer, spriteID, xmlTransition.getCycleCount(), YOYO.equals(xmlTransition.getCycleType()), transitions);
+    }
+
+    private Transition transform(int spriteID, com.meandmyphone.genericdevicefancyvator.json.pojo.transition.BaseTransition xmlTransition) {
+        if (FADE.equals(xmlTransition.getTransitionType())) {
+            return transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FadeTransition) xmlTransition);
+        } else if (TRANSLATE.equals(xmlTransition.getTransitionType())) {
+            return transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TranslateTransition) xmlTransition);
+        } else if (ROTATE.equals(xmlTransition.getTransitionType())) {
+            return transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.transition.RotateTransition) xmlTransition);
+        } else if (SCALE.equals(xmlTransition.getTransitionType())) {
+            return transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.transition.ScaleTransition) xmlTransition);
+        } else if (FLIPBOOK.equals(xmlTransition.getTransitionType())) {
+            return transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FlipbookTransition) xmlTransition);
+        } else {
+            throw new IllegalArgumentException("Invalid transition: " + xmlTransition.getTransitionType());
+        }
     }
 
     @Override
@@ -214,7 +236,7 @@ public class GDFTransformer implements Transformer {
                 xmlSprite.getSortingOrder()
         );
 
-        for (Transition transition : xmlSprite.getTransitions()) {
+        for (BaseTransition transition : xmlSprite.getTransitions()) {
             if (FADE.equals(transition.getTransitionType())) {
                 sprite.addTransition(transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FadeTransition) transition));
             } else if (TRANSLATE.equals(transition.getTransitionType())) {
@@ -375,6 +397,7 @@ public class GDFTransformer implements Transformer {
 
     private int transform(DestroyEffect destroyEffect) {
         switch (destroyEffect) {
+            case DONTDESTROY: return ITransition.DESTROY_EFFECT_DONT_DESTROY;
             case NONE: return ITransition.DESTROY_EFFECT_NONE;
             case FADE: return ITransition.DESTROY_EFFECT_FADE;
         }

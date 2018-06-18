@@ -22,6 +22,7 @@ public interface ITransition {
     int NUMBEROFTRANSITIONS = 10;
 
     int
+            DESTROY_EFFECT_DONT_DESTROY = 0x0000,
             DESTROY_EFFECT_NONE = 0x2000,
             DESTROY_EFFECT_FADE = 0x2001;
 

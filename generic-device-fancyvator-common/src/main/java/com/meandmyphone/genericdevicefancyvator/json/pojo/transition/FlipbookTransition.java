@@ -24,7 +24,7 @@ public class FlipbookTransition
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getSprite().add(newItem);
+     *    getSprites().add(newItem);
      * </pre>
      * 
      * 
@@ -34,7 +34,7 @@ public class FlipbookTransition
      * 
      * 
      */
-    public List<Frame> getSprite() {
+    public List<Frame> getSprites() {
         if (frames == null) {
             frames = new ArrayList<Frame>();
         }

@@ -16,8 +16,8 @@ public class TranslateTransition extends Transition {
     public float fromX, fromY, toX, toY, deltaX, deltaY, previousX, previousY;
     private final Point2D A, B;
 
-    public TranslateTransition(GLRenderer renderer, Point2D A, Point2D B, int cycleDuration, int nodeId, int cycleCount, int easeType, int destroyEffect, boolean destroyOnFinished, boolean autoReverse) {
-        super(renderer, cycleDuration, nodeId, cycleCount, easeType, destroyEffect, destroyOnFinished, autoReverse);
+    public TranslateTransition(GLRenderer renderer, Point2D A, Point2D B, int cycleDuration, int nodeId, int cycleCount, int easeType, int destroyEffect, boolean autoReverse) {
+        super(renderer, cycleDuration, nodeId, cycleCount, easeType, destroyEffect, autoReverse);
         this.A = A;
         this.B = B;
         fromX = A.X;
@@ -32,10 +32,10 @@ public class TranslateTransition extends Transition {
     @Override
     public void doTransit() {
         long currentTimeInLoop = System.currentTimeMillis() - cycleStartTime;
-        if (currentTimeInLoop <= cycleDuration) {
+        if (currentTimeInLoop <= getCycleDuration()) {
             SpriteFactory.Sprite sprite = renderer.getCurrentScene().getSprite(nodeId);
-            float x = Ease.calculateFloat(easeType, currentTimeInLoop, fromX, deltaX, cycleDuration);
-            float y = Ease.calculateFloat(easeType, currentTimeInLoop, fromY, deltaY, cycleDuration);
+            float x = Ease.calculateFloat(easeType, currentTimeInLoop, fromX, deltaX, getCycleDuration());
+            float y = Ease.calculateFloat(easeType, currentTimeInLoop, fromY, deltaY, getCycleDuration());
             sprite.translateX += x - previousX;
             sprite.translateY += y - previousY;
             previousX = x;

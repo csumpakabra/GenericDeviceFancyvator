@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SceneRelativePosition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SpriteRelativePosition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.BaseTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Transition;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TransitionType;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TranslateTransition;
 
 import java.util.ArrayList;
@@ -87,8 +89,8 @@ public class SpriteSorter {
                 if (SPRITE.equals(sprite.getSpriteTransform().getHeight().getRelativity())) {
                     marked.add(sprite.getSpriteTransform().getHeight().getRelativeTo());
                 }
-                for (Transition transition : sprite.getTransitions()) {
-                    if (transition instanceof TranslateTransition) {
+                for (BaseTransition transition : sprite.getTransitions()) {
+                    if (TransitionType.TRANSLATE.equals(transition.getTransitionType())) {
                         TranslateTransition translateTransition = (TranslateTransition) transition;
                         if (SPRITE.equals(translateTransition.getByX().getRelativity())) {
                             marked.add(translateTransition.getByX().getRelativeTo());

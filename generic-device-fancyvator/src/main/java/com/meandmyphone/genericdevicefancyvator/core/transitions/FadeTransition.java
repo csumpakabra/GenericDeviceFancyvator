@@ -15,8 +15,8 @@ public class FadeTransition extends Transition {
     private final String TAG = "FadeTransition " + transitionId;
     float fromAlpha, toAlpha, deltaAlpha;
 
-    public FadeTransition(GLRenderer renderer, int cycleDuration, int nodeId, int cycleCount, int easeType, int destroyEffect, boolean destroyWhenFinished, boolean autoreverse, float fromAlpha, float toAlpha) {
-        super(renderer, cycleDuration, nodeId, cycleCount, easeType, destroyEffect, destroyWhenFinished, autoreverse);
+    public FadeTransition(GLRenderer renderer, int cycleDuration, int nodeId, int cycleCount, int easeType, int destroyEffect, boolean autoreverse, float fromAlpha, float toAlpha) {
+        super(renderer, cycleDuration, nodeId, cycleCount, easeType, destroyEffect, autoreverse);
         this.fromAlpha = fromAlpha;
         this.toAlpha = toAlpha;
         deltaAlpha = toAlpha - fromAlpha;
@@ -26,9 +26,9 @@ public class FadeTransition extends Transition {
     @Override
     public void doTransit() {
         long currentTimeInLoop = System.currentTimeMillis() - cycleStartTime;
-        if (currentTimeInLoop <= cycleDuration) {
+        if (currentTimeInLoop <= getCycleDuration()) {
             SpriteFactory.Sprite sprite = renderer.getCurrentScene().getSprite(nodeId);
-            sprite.alpha = Ease.calculateFloat(easeType, currentTimeInLoop, fromAlpha, deltaAlpha, cycleDuration);
+            sprite.alpha = Ease.calculateFloat(easeType, currentTimeInLoop, fromAlpha, deltaAlpha, getCycleDuration());
         } else {
             transitionCycleFinished();
         }

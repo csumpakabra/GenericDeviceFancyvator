@@ -8,9 +8,10 @@ import android.util.Log;
 
 public class Logger {
     public static void Log(String TAG, String message) {
-        Log(TAG,message,null);
+        Log(TAG, message, new Object[]{});
     }
 
     public static void Log(String TAG, String message, Object... args) {
-        Log.d("GLLWP/".concat(TAG), String.format(message,args));}
+        Log.d("GLLWP/".concat(TAG), String.format(message, args));
+    }
 }
