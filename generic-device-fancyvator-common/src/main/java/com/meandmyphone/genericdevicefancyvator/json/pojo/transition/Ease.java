@@ -2,6 +2,8 @@ package com.meandmyphone.genericdevicefancyvator.json.pojo.transition;
 
 public enum Ease {
 
+    DEFAULT("default"),
+
     LINEAR("linear"),
 
     CUBIC_IN("cubic_in"),

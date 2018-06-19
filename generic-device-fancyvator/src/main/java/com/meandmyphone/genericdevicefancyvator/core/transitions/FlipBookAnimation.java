@@ -1,5 +1,7 @@
 package com.meandmyphone.genericdevicefancyvator.core.transitions;
 
+import android.util.Log;
+
 import com.meandmyphone.genericdevicefancyvator.core.gl.GLRenderer;
 import com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory;
 
@@ -47,7 +49,6 @@ public class FlipBookAnimation extends Transition {
         if (currentIndex > resources.length - 1) {
             currentIndex = autoreverse ? resources.length - 2 : 0;
             transitionCycleFinished();
-
         }
 
         if (currentIndex < 0) {

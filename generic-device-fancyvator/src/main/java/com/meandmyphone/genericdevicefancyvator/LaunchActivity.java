@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.meandmyphone.genericdevicefancyvator.json.Parser;
 import com.meandmyphone.genericdevicefancyvator.json.RuntimeTypeAdapterFactory;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.CycleType;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.DestroyEffect;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Ease;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FadeTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FlipbookTransition;
@@ -25,6 +26,7 @@ import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SceneRelativ
 import com.meandmyphone.genericdevicefancyvator.json.pojo.Sprite;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SpriteRelativePosition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transform.SpriteTransform;
+import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.SequentialTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TransitionType;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TranslateTransition;
 import com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Transition;
@@ -152,6 +154,87 @@ public class LaunchActivity extends AppCompatActivity {
         robot.getTransitions().add(ft);
 
         scene.getSprites().add(robot);
+        
+        Parser parser = new Parser();
+        com.meandmyphone.genericdevicefancyvator.json.pojo.Scene xmlScene = parser.parse(this.getResources().openRawResource(this.getResources().getIdentifier("input","raw",this.getPackageName())));
+        
+        Sprite seq = new Sprite();
+        SpriteTransform seqTransform = new SpriteTransform();
+        Measure seqWidth = new Measure();
+        Measure seqHeight = new Measure();
+        Measure seqDistanceFromTargetX = new Measure();
+        Measure seqDistanceFromTargetY = new Measure();
+        SceneRelativePosition seqPosition = new SceneRelativePosition();
+        seqDistanceFromTargetX.setRelativity(RelativityType.SCENE);
+        seqDistanceFromTargetY.setRelativity(RelativityType.SCENE);
+        seqDistanceFromTargetX.setValue(0.0f);
+        seqDistanceFromTargetY.setValue(0.0f);
+        seqPosition.setPositionType(PositionType.SCENE_RELATIVE);
+        seqPosition.setRelativePointOfTarget(Pivot.CENTER);
+        seqPosition.setXDistanceFromTarget(seqDistanceFromTargetX);
+        seqPosition.setYDistanceFromTarget(seqDistanceFromTargetY);
+        seqWidth.setRelativity(RelativityType.SCENE);
+        seqWidth.setValue(0.2f);
+        seqHeight.setRelativity(RelativityType.SCENE);
+        seqHeight.setValue(0.2f);
+        seqTransform.setPivot(Pivot.CENTER);
+        seqTransform.setWidth(seqWidth);
+        seqTransform.setHeight(seqHeight);
+        seqTransform.setPosition(seqPosition);
+        seq.setAlpha(1.0f);
+        seq.setId("seq");
+        seq.setPivot(Pivot.CENTER);
+        seq.setRotation(0.0f);
+        seq.setScaleX(1.0f);
+        seq.setScaleY(1.0f);
+
+        seq.setSpriteTopleftU(0);
+        seq.setSpriteTopleftV(0);
+        seq.setSpriteBotrightU(0.3333f);
+        seq.setSpriteBotrightV(0.3333f);
+
+        seq.setResource("roborun");
+        seq.setSpriteTransform(seqTransform);
+
+        SequentialTransition st = new SequentialTransition();
+        TranslateTransition tt1 = new TranslateTransition();
+        Measure bySome = new Measure();
+        bySome.setValue(0.5f);
+        bySome.setRelativity(RelativityType.SCENE);
+        Measure byZero = new Measure();
+        bySome.setValue(0.0f);
+        bySome.setRelativity(RelativityType.SCENE);
+        
+        tt1.setByX(bySome);
+        tt1.setByY(byZero);
+        
+        tt1.setCycleType(CycleType.RESTART);
+        tt1.setCycleCount(0);
+        tt1.setDestroyEffect(DestroyEffect.DONTDESTROY);
+        tt1.setDuration(1000);
+        tt1.setEase(Ease.LINEAR);
+        tt1.setTransitionType(TransitionType.TRANSLATE);
+
+        TranslateTransition tt2 = new TranslateTransition();
+
+        tt2.setByX(byZero);
+        tt2.setByY(bySome);
+
+        tt2.setCycleType(CycleType.RESTART);
+        tt2.setCycleCount(0);
+        tt2.setDestroyEffect(DestroyEffect.DONTDESTROY);
+        tt2.setDuration(1000);
+        tt2.setEase(Ease.LINEAR);
+        tt2.setTransitionType(TransitionType.TRANSLATE);
+        
+        st.getTransitions().add(tt1);
+
+
+        st.setCycleCount(0);
+        st.setCycleType(CycleType.YOYO);
+        st.setTransitionType(TransitionType.SEQUENCE);
+
+        seq.getTransitions().add(st);
 
         RuntimeTypeAdapterFactory<Position> positionRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory
                 .of(Position.class, "positionType")
@@ -172,9 +255,9 @@ public class LaunchActivity extends AppCompatActivity {
                 .create();
 
         //scene.sprite = new ArrayList<>();
-        scene.getSprites().add(sprite);
+        //scene.getSprites().add(sprite);
 
-        Log.d("sprite", gson.toJson(scene));
+        Log.d("sprite", gson.toJson(seq));
 
     }
 }

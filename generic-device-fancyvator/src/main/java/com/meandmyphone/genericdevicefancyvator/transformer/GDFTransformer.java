@@ -44,6 +44,7 @@ import static com.meandmyphone.genericdevicefancyvator.json.pojo.transition.Tran
 import static com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TransitionType.FLIPBOOK;
 import static com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TransitionType.ROTATE;
 import static com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TransitionType.SCALE;
+import static com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TransitionType.SEQUENCE;
 import static com.meandmyphone.genericdevicefancyvator.json.pojo.transition.TransitionType.TRANSLATE;
 
 public class GDFTransformer implements Transformer {
@@ -247,6 +248,8 @@ public class GDFTransformer implements Transformer {
                 sprite.addTransition(transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.transition.ScaleTransition) transition));
             } else if (FLIPBOOK.equals(transition.getTransitionType())) {
                 sprite.addTransition(transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.transition.FlipbookTransition) transition));
+            } else if (SEQUENCE.equals(transition.getTransitionType())) {
+                sprite.addTransition(transform(spriteID, (com.meandmyphone.genericdevicefancyvator.json.pojo.transition.SequentialTransition) transition));
             } else {
                 throw new IllegalArgumentException("Invalid transition: " + transition);
             }
@@ -256,6 +259,8 @@ public class GDFTransformer implements Transformer {
 
     private int transform(Ease xmlEase) {
         switch (xmlEase) {
+            case DEFAULT:
+                return ITransition.DEFAULT;
             case LINEAR:
                 return ITransition.LINEAR;
             case CUBIC_IN:
@@ -276,6 +281,7 @@ public class GDFTransformer implements Transformer {
                 return ITransition.SINEASEOUT;
             case SINE_INOUT:
                 return ITransition.SINEASEINOUT;
+
         }
         throw new IllegalArgumentException("Unable to transform xmlEase: " + xmlEase);
     }

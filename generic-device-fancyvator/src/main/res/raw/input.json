@@ -1,15 +1,16 @@
 {
   "sprite": [
+
     {
       "alpha": 1.0,
-      "id": "robot",
-      "keepAspect" : "WIDTH",
-      "pivot": "BOT_LEFT",
+      "id": "seq",
+      "pivot": "CENTER",
+      "keepAspect": "WIDTH",
       "resource": "roborun",
       "rotation": 0.0,
       "scaleX": 1.0,
       "scaleY": 1.0,
-      "sortingOrder": 1,
+      "sortingOrder": 0,
       "spriteBotrightU": 0.3333,
       "spriteBotrightV": 0.3333,
       "spriteTopleftU": 0.0,
@@ -22,10 +23,10 @@
         "pivot": "CENTER",
         "position": {
           "positionType": "SCENE_RELATIVE",
-          "relativePointOfTarget": "BOT_LEFT",
+          "relativePointOfTarget": "CENTER",
           "xDistanceFromTarget": {
             "relativity": "SCENE",
-            "value": -0.2
+            "value": 0.0
           },
           "yDistanceFromTarget": {
             "relativity": "SCENE",
@@ -39,389 +40,61 @@
       },
       "transition": [
         {
-          "byX": {
-            "relativity": "SCENE",
-            "value": 1.2
-          },
-          "byY": {
-            "relativity": "SCENE",
-            "value": 0.0
-          },
-          "cycleCount": 10,
-          "cycleType": "RESTART",
-          "duration": 5000,
-          "ease": "LINEAR",
-          "transitionType": "TRANSLATE"
-        },
-        {
-          "frames": [
+          "transitions": [
             {
-              "resource": "roborun",
-              "botRightU": 0.33333334,
-              "botRightV": 0.33333334,
-              "topLeftU": 0.0,
-              "topLeftV": 0.0
+              "byX": {
+                "relativity": "SCENE",
+                "value": 0.2
+              },
+              "byY": {
+                "relativity": "SCENE",
+                "value": 0.0
+              },
+              "destroyEffect": "DONTDESTROY",
+              "destroySpriteOnFinished": false,
+              "duration": 1000,
+              "ease": "LINEAR",
+              "cycleCount": 0,
+              "cycleType": "YOYO",
+              "transitionType": "TRANSLATE"
+            },{
+              "byX": {
+                "relativity": "SCENE",
+                "value": 0.0
+              },
+              "byY": {
+                "relativity": "SCENE",
+                "value": 0.2
+              },
+              "destroyEffect": "DONTDESTROY",
+              "destroySpriteOnFinished": false,
+              "duration": 1000,
+              "ease": "LINEAR",
+              "cycleCount": 0,
+              "cycleType": "YOYO",
+              "transitionType": "TRANSLATE"
             },
             {
-              "resource": "roborun",
-              "botRightU": 0.6666667,
-              "botRightV": 0.33333334,
-              "topLeftU": 0.33333334,
-              "topLeftV": 0.0
-            },
-            {
-              "resource": "roborun",
-              "botRightU": 1.0,
-              "botRightV": 0.33333334,
-              "topLeftU": 0.6666666,
-              "topLeftV": 0.0
-            },
-            {
-              "resource": "roborun",
-              "botRightU": 0.33333334,
-              "botRightV": 0.6666667,
-              "topLeftU": 0.0,
-              "topLeftV": 0.33333334
-            },
-            {
-              "resource": "roborun",
-              "botRightU": 0.6666667,
-              "botRightV": 0.6666667,
-              "topLeftU": 0.33333334,
-              "topLeftV": 0.33333334
-            },
-            {
-              "resource": "roborun",
-              "botRightU": 1.0,
-              "botRightV": 0.6666667,
-              "topLeftU": 0.6666666,
-              "topLeftV": 0.33333334
-            },
-            {
-              "resource": "roborun",
-              "botRightU": 0.33333334,
-              "botRightV": 1.0,
-              "topLeftU": 0.0,
-              "topLeftV": 0.6666666
-            },
-            {
-              "resource": "roborun",
-              "botRightU": 0.6666667,
-              "botRightV": 1.0,
-              "topLeftU": 0.33333334,
-              "topLeftV": 0.6666666
+              "byX": {
+                "relativity": "SCENE",
+                "value": -0.2
+              },
+              "byY": {
+                "relativity": "SCENE",
+                "value": -0.2
+              },
+              "destroyEffect": "DONTDESTROY",
+              "destroySpriteOnFinished": false,
+              "duration": 1000,
+              "ease": "LINEAR",
+              "cycleCount": 0,
+              "cycleType": "YOYO",
+              "transitionType": "TRANSLATE"
             }
           ],
-          "cycleCount": 10,
-          "cycleType": "RESTART",
-          "duration": 1000,
-          "ease": "LINEAR",
-          "transitionType": "FLIPBOOK"
-        }
-      ]
-    },{
-      "alpha": 1.0,
-      "keepAspect" : "WIDTH",
-      "id": "number1",
-      "pivot": "TOP_LEFT",
-      "resource": "light_led",
-      "rotation": 0.0,
-      "scaleX": 1.0,
-      "scaleY": 1.0,
-      "sortingOrder": 2,
-      "spriteBotrightU": 1.0,
-      "spriteBotrightV": 1.0,
-      "spriteTopleftU": 0.0,
-      "spriteTopleftV": 0.0,
-      "spriteTransform": {
-        "height": {
-          "relativity": "SCENE",
-          "value": 1.0
-        },
-        "pivot": "TOP_LEFT",
-        "position": {
-          "positionType": "SCENE_RELATIVE",
-          "relativePointOfTarget": "TOP_LEFT",
-          "xDistanceFromTarget": {
-            "relativity": "SCENE",
-            "value": 0.0
-          },
-          "yDistanceFromTarget": {
-            "relativity": "SCENE",
-            "value": 0.0
-          }
-        },
-        "width": {
-          "relativity": "SCENE",
-          "value": 0.2
-        }
-      }
-    },{
-      "alpha": 1.0,
-      "keepAspect" : "WIDTH",
-      "id": "number2",
-      "pivot": "TOP_LEFT",
-      "resource": "light_led",
-      "rotation": 0.0,
-      "scaleX": 1.0,
-      "scaleY": 1.0,
-      "sortingOrder": 3,
-      "spriteBotrightU": 1.0,
-      "spriteBotrightV": 1.0,
-      "spriteTopleftU": 0.0,
-      "spriteTopleftV": 0.0,
-      "spriteTransform": {
-        "height": {
-          "relativity": "SCENE",
-          "value": 1.0
-        },
-        "pivot": "TOP_LEFT",
-        "position": {
-          "positionType": "SPRITE_RELATIVE",
-          "relativePointOfTarget": "BOT_RIGHT",
-          "relativeSpriteId": "number1",
-          "xDistanceFromTarget": {
-            "relativity": "SCENE",
-            "value": 0.0
-          },
-          "yDistanceFromTarget": {
-            "relativity": "SCENE",
-            "value": 0.0
-          }
-        },
-        "width": {
-          "relativity": "SCENE",
-          "value": 0.2
-        }
-      }
-    },{
-      "alpha": 1.0,
-      "keepAspect" : "WIDTH",
-      "id": "botleft",
-      "pivot": "BOT_LEFT",
-      "resource": "light_led",
-      "rotation": 0.0,
-      "scaleX": 1.0,
-      "scaleY": 1.0,
-      "sortingOrder": 2,
-      "spriteBotrightU": 1.0,
-      "spriteBotrightV": 1.0,
-      "spriteTopleftU": 0.0,
-      "spriteTopleftV": 0.0,
-      "spriteTransform": {
-        "height": {
-          "relativity": "SCENE",
-          "value": 1.0
-        },
-        "pivot": "TOP_LEFT",
-        "position": {
-          "positionType": "SCENE_RELATIVE",
-          "relativePointOfTarget": "BOT_LEFT",
-          "xDistanceFromTarget": {
-            "relativity": "SCENE",
-            "value": 0.0
-          },
-          "yDistanceFromTarget": {
-            "relativity": "SCENE",
-            "value": 0.0
-          }
-        },
-        "width": {
-          "relativity": "SCENE",
-          "value": 0.1
-        }
-      }
-    },{
-      "alpha": 1.0,
-      "keepAspect" : "WIDTH",
-      "id": "botright",
-      "pivot": "BOT_RIGHT",
-      "resource": "light_led",
-      "rotation": 0.0,
-      "scaleX": 1.0,
-      "scaleY": 1.0,
-      "sortingOrder": 2,
-      "spriteBotrightU": 1.0,
-      "spriteBotrightV": 1.0,
-      "spriteTopleftU": 0.0,
-      "spriteTopleftV": 0.0,
-      "spriteTransform": {
-        "height": {
-          "relativity": "SCENE",
-          "value": 1.0
-        },
-        "pivot": "TOP_LEFT",
-        "position": {
-          "positionType": "SCENE_RELATIVE",
-          "relativePointOfTarget": "BOT_RIGHT",
-          "xDistanceFromTarget": {
-            "relativity": "SCENE",
-            "value": 0.0
-          },
-          "yDistanceFromTarget": {
-            "relativity": "SCENE",
-            "value": 0.0
-          }
-        },
-        "width": {
-          "relativity": "SCENE",
-          "value": 0.1
-        }
-      }
-    },{
-      "alpha": 1.0,
-      "keepAspect" : "WIDTH",
-      "id": "topright",
-      "pivot": "TOP_RIGHT",
-      "resource": "light_led",
-      "rotation": 0.0,
-      "scaleX": 1.0,
-      "scaleY": 1.0,
-      "sortingOrder": 2,
-      "spriteBotrightU": 1.0,
-      "spriteBotrightV": 1.0,
-      "spriteTopleftU": 0.0,
-      "spriteTopleftV": 0.0,
-      "spriteTransform": {
-        "height": {
-          "relativity": "SCENE",
-          "value": 1.0
-        },
-        "pivot": "TOP_LEFT",
-        "position": {
-          "positionType": "SCENE_RELATIVE",
-          "relativePointOfTarget": "TOP_RIGHT",
-          "xDistanceFromTarget": {
-            "relativity": "SCENE",
-            "value": 0.0
-          },
-          "yDistanceFromTarget": {
-            "relativity": "SCENE",
-            "value": 0.0
-          }
-        },
-        "width": {
-          "relativity": "SCENE",
-          "value": 0.1
-        }
-      }
-    },{
-      "alpha": 1.0,
-      "id": "robot2",
-      "keepAspect" : "WIDTH",
-      "pivot": "CENTER_LEFT",
-      "resource": "roborun",
-      "rotation": 180.0,
-      "scaleX": 1.0,
-      "scaleY": 1.0,
-      "sortingOrder": 1,
-      "spriteBotrightU": 0.3333,
-      "spriteBotrightV": 0.3333,
-      "spriteTopleftU": 0.0,
-      "spriteTopleftV": 0.0,
-      "spriteTransform": {
-        "height": {
-          "relativity": "SCENE",
-          "value": 0.2
-        },
-        "pivot": "CENTER",
-        "position": {
-          "positionType": "SCENE_RELATIVE",
-          "relativePointOfTarget": "CENTER_RIGHT",
-          "xDistanceFromTarget": {
-            "relativity": "SCENE",
-            "value": 0.2
-          },
-          "yDistanceFromTarget": {
-            "relativity": "SCENE",
-            "value": 0.0
-          }
-        },
-        "width": {
-          "relativity": "SCENE",
-          "value": 0.2
-        }
-      },
-      "transition": [
-        {
-          "byX": {
-            "relativity": "SCENE",
-            "value": -1.2
-          },
-          "byY": {
-            "relativity": "SCENE",
-            "value": 0.0
-          },
-          "cycleCount": 10,
-          "cycleType": "RESTART",
-          "duration": 5000,
-          "ease": "LINEAR",
-          "transitionType": "TRANSLATE"
-        },
-        {
-          "frames": [
-            {
-              "resource": "roborun",
-              "botRightU": 0.33333334,
-              "botRightV": 0.33333334,
-              "topLeftU": 0.0,
-              "topLeftV": 0.0
-            },
-            {
-              "resource": "roborun",
-              "botRightU": 0.6666667,
-              "botRightV": 0.33333334,
-              "topLeftU": 0.33333334,
-              "topLeftV": 0.0
-            },
-            {
-              "resource": "roborun",
-              "botRightU": 1.0,
-              "botRightV": 0.33333334,
-              "topLeftU": 0.6666666,
-              "topLeftV": 0.0
-            },
-            {
-              "resource": "roborun",
-              "botRightU": 0.33333334,
-              "botRightV": 0.6666667,
-              "topLeftU": 0.0,
-              "topLeftV": 0.33333334
-            },
-            {
-              "resource": "roborun",
-              "botRightU": 0.6666667,
-              "botRightV": 0.6666667,
-              "topLeftU": 0.33333334,
-              "topLeftV": 0.33333334
-            },
-            {
-              "resource": "roborun",
-              "botRightU": 1.0,
-              "botRightV": 0.6666667,
-              "topLeftU": 0.6666666,
-              "topLeftV": 0.33333334
-            },
-            {
-              "resource": "roborun",
-              "botRightU": 0.33333334,
-              "botRightV": 1.0,
-              "topLeftU": 0.0,
-              "topLeftV": 0.6666666
-            },
-            {
-              "resource": "roborun",
-              "botRightU": 0.6666667,
-              "botRightV": 1.0,
-              "topLeftU": 0.33333334,
-              "topLeftV": 0.6666666
-            }
-          ],
-          "cycleCount": 10,
-          "cycleType": "RESTART",
-          "duration": 1000,
-          "ease": "LINEAR",
-          "transitionType": "FLIPBOOK"
+          "cycleCount": 0,
+          "cycleType": "YOYO",
+          "transitionType": "SEQUENCE"
         }
       ]
     }

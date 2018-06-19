@@ -17,7 +17,7 @@ public interface ITransition {
             SINEASEIN = 0x1016,
             SINEASEOUT = 0x1017,
             SINEASEINOUT = 0x1018,
-            DEFAULT = LINEAR;
+            DEFAULT = 0x0000;
 
     int NUMBEROFTRANSITIONS = 10;
 
@@ -26,7 +26,7 @@ public interface ITransition {
             DESTROY_EFFECT_NONE = 0x2000,
             DESTROY_EFFECT_FADE = 0x2001;
 
-    int CYCLE_INDEFINITE = 0xFFFF;
+    int CYCLE_INDEFINITE = 0x0000;
 
     void transit();
     void start();
