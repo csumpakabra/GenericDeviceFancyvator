@@ -36,40 +36,67 @@ dependencies {
     implementation project(path: ':generic-device-fancyvator-common')
 }
 
-task getResources(type: Copy) {
-    println 'getting resources'
-    if (project.hasProperty('res')) {
+final JSON_PROPERTY = "json"
+final RES_PROPERTY = "res"
 
-        Path projectPath = Paths.get(project.projectDir.toString())
+Path projectPath;
+Path inputJsonPath;
+List<Path> resourceFiles = new ArrayList<>();
 
-        println String.format("input: res=%s; xml=%s\nProject location=%s", project.getProperties().get('res'), project.getProperties().get('xml'), projectPath.toString())
+task initializeBuildLwp() {
+    project.logger.lifecycle("Initializing LWP build process, author: csumpakabra")
+    projectPath = Paths.get(project.projectDir.toString())
+    project.logger.lifecycle(String.format("ProjectPath resolved to: %s", projectPath.toString()))
+    if (project.hasProperty(RES_PROPERTY)) {
         for (String fromFile : res.split(';')) {
             Path fromPath = Paths.get(fromFile)
-            Path toPath = projectPath.resolve("src/main/res/drawable-nodpi")
-            from file(fromPath.toFile())
-            into file(toPath.toFile())
-            println 'copy from: ' + fromPath.toFile()
-            println 'to: ' + toPath.toFile()
+            if (fromPath.toFile().exists()) {
+                if (resourceFiles.contains(fromPath)) {
+                    throw new InvalidUserDataException(String.format("Duplicate resource file: %s",
+                            fromPath.toString()))
+                }
+                resourceFiles.add(fromPath)
+            } else {
+                throw new InvalidUserDataException(String.format("Misssing resource file: %s",
+                        fromPath.toString()))
+            }
+            project.logger.lifecycle(String.format("Prepared resource file: %s for LWP build process",
+                    fromPath.toString()))
+        }
+        project.logger.lifecycle(String.format("Prepared %d resource files!", resourceFiles.size()))
+    } else {
+        throw new InvalidUserDataException("Missing resources property!");
+    }
+    if (project.hasProperty(JSON_PROPERTY)) {
+        inputJsonPath = Paths.get(json)
+        if (inputJsonPath.toFile().exists()) {
+            project.logger.lifecycle(String.format("Found inputJson at %s", inputJsonPath.toString()))
+        } else {
+            throw new InvalidUserDataException("Missing file, input json not found!");
         }
     } else {
-        println 'noArgs!'
+        throw new InvalidUserDataException("Missing json property!");
     }
-    println 'resources all set!'
 }
 
-task getInputXml(type: Copy) {
-    if (project.hasProperty('xml')) {
-        Path projectPath = Paths.get(project.projectDir.toString())
-        Path xmlPath = Paths.get(project.getProperties().get('xml'))
-        Path toXmlPath = projectPath.resolve("src/main/res/raw")
-        from file(xmlPath.toFile())
-        into file(toXmlPath.toFile())
-        rename(".*", "input.json")
-        println String.format("Copied input xml from %s to %s", xmlPath.toString(), toXmlPath.toString())
-    } else {
-        println 'noArgs!'
+task getResources(type: Copy) {
+    for (Path fromPath : resourceFiles) {
+        Path toPath = projectPath.resolve("src/main/res/drawable-nodpi")
+        from file(fromPath.toFile())
+        into file(toPath.toFile())
+        project.logger.lifecycle(String.format("Copied resource file from %s to %s", fromPath.toString(), toPath.toString()))
     }
+}
+
+task getInputJson(type: Copy) {
+    Path toJsonPath = projectPath.resolve("src/main/res/raw")
+    from file(inputJsonPath.toFile())
+    into file(toJsonPath.toFile())
+    rename(".*", "input.json")
+    project.logger.lifecycle(String.format("Copied input json file from %s to %s, renamed to input.json",
+            inputJsonPath.toString(), toJsonPath.toString()))
 }
 
 preBuild.dependsOn(getResources)
-getResources.dependsOn(getInputXml)
+getResources.dependsOn(getInputJson)
+getInputJson.dependsOn(initializeBuildLwp)
