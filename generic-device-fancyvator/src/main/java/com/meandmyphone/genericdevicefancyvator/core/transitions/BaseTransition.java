@@ -39,7 +39,7 @@ public abstract class BaseTransition implements ITransition, TransitionCallback 
     @Override
     final public void transit() {
         if (!playing) return;
-        if (cyclesDone >= cycleCount) {
+        if (cycleCount != ITransition.CYCLE_INDEFINITE && cyclesDone >= cycleCount) {
             transitionFinished();
             return;
         }

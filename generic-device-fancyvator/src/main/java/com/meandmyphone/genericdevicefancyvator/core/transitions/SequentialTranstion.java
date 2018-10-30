@@ -14,7 +14,6 @@ public class SequentialTranstion extends Transition {
         for (BaseTransition transition : transitions) {
             totalDuration += transition.getCycleDuration() * transition.getCycleCount();
         }
-//        currentDuration = transitions[0].getCycleDuration() * transitions[0].getCycleCount();
         currentDuration = transitions[0].getCycleDuration();
     }
 
@@ -22,8 +21,6 @@ public class SequentialTranstion extends Transition {
     protected void doTransit() {
         if (System.currentTimeMillis() - cycleStartTime >= currentDuration) {
             nextIndex();
-//            currentDuration = transitions[currentIndex].getCycleDuration() * transitions[currentIndex].getCycleCount();
-//            currentDuration = transitions[currentIndex].getCycleDuration();
         }
         transitions[currentIndex].doTransit();
     }
@@ -38,7 +35,6 @@ public class SequentialTranstion extends Transition {
 
         if (currentIndex < 0) {
             currentIndex = 1;
-            direction = 1;
             transitionCycleFinished();
         }
         currentDuration = transitions[currentIndex].getCycleDuration();

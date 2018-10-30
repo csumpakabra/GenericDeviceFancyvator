@@ -44,9 +44,22 @@ Path inputJsonPath;
 List<Path> resourceFiles = new ArrayList<>();
 
 task initializeBuildLwp() {
+    if (project.properties['android.injected.invoked.from.ide'] == 'true') return true
     project.logger.lifecycle("Initializing LWP build process, author: csumpakabra")
     projectPath = Paths.get(project.projectDir.toString())
     project.logger.lifecycle(String.format("ProjectPath resolved to: %s", projectPath.toString()))
+
+    if (project.hasProperty(JSON_PROPERTY)) {
+        inputJsonPath = Paths.get(json)
+        if (inputJsonPath.toFile().exists()) {
+            project.logger.lifecycle(String.format("Found inputJson at %s", inputJsonPath.toString()))
+        } else {
+            throw new InvalidUserDataException("Missing file, input json not found!");
+        }
+    } else {
+        throw new InvalidUserDataException("Missing json property!");
+    }
+
     if (project.hasProperty(RES_PROPERTY)) {
         for (String fromFile : res.split(';')) {
             Path fromPath = Paths.get(fromFile)
@@ -63,23 +76,19 @@ task initializeBuildLwp() {
             project.logger.lifecycle(String.format("Prepared resource file: %s for LWP build process",
                     fromPath.toString()))
         }
-        project.logger.lifecycle(String.format("Prepared %d resource files!", resourceFiles.size()))
+        if (resourceFiles.size() > 0) {
+            project.logger.lifecycle(String.format("Prepared %d resource files!", resourceFiles.size()))
+        } else {
+            throw new InvalidUserDataException("No resources set!");
+        }
     } else {
         throw new InvalidUserDataException("Missing resources property!");
     }
-    if (project.hasProperty(JSON_PROPERTY)) {
-        inputJsonPath = Paths.get(json)
-        if (inputJsonPath.toFile().exists()) {
-            project.logger.lifecycle(String.format("Found inputJson at %s", inputJsonPath.toString()))
-        } else {
-            throw new InvalidUserDataException("Missing file, input json not found!");
-        }
-    } else {
-        throw new InvalidUserDataException("Missing json property!");
-    }
+
 }
 
 task getResources(type: Copy) {
+    if (project.properties['android.injected.invoked.from.ide'] == 'true') return true
     for (Path fromPath : resourceFiles) {
         Path toPath = projectPath.resolve("src/main/res/drawable-nodpi")
         from file(fromPath.toFile())
@@ -89,6 +98,7 @@ task getResources(type: Copy) {
 }
 
 task getInputJson(type: Copy) {
+    if (project.properties['android.injected.invoked.from.ide'] == 'true') return true
     Path toJsonPath = projectPath.resolve("src/main/res/raw")
     from file(inputJsonPath.toFile())
     into file(toJsonPath.toFile())
