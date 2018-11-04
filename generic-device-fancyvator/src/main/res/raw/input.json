@@ -1,29 +1,28 @@
 {
   "sprite": [
-
     {
       "alpha": 1.0,
-      "id": "seq",
-      "pivot": "CENTER",
-      "keepAspect": "WIDTH",
-      "resource": "roborun",
+      "id": "ground",
+      "pivot": "BOT_LEFT",
+      "resource": "ground",
       "rotation": 0.0,
       "scaleX": 1.0,
       "scaleY": 1.0,
-      "sortingOrder": 0,
-      "spriteBotrightU": 0.3333,
-      "spriteBotrightV": 0.3333,
+      "keepAspect": "WIDTH",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
       "spriteTopleftU": 0.0,
       "spriteTopleftV": 0.0,
+      "sortingOrder": 1000,
       "spriteTransform": {
-        "height": {
+        "width": {
           "relativity": "SCENE",
-          "value": 0.2
+          "value": 1.0
         },
-        "pivot": "CENTER",
+        "pivot": "BOT_LEFT",
         "position": {
           "positionType": "SCENE_RELATIVE",
-          "relativePointOfTarget": "CENTER",
+          "relativePointOfTarget": "BOT_LEFT",
           "xDistanceFromTarget": {
             "relativity": "SCENE",
             "value": 0.0
@@ -32,69 +31,1033 @@
             "relativity": "SCENE",
             "value": 0.0
           }
+        }
+      }
+    },
+    {
+      "alpha": 1.0,
+      "id": "palm1",
+      "pivot": "BOT_LEFT",
+      "resource": "palm1",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "HEIGHT",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 100,
+      "spriteTransform": {
+        "height": {
+          "relativity": "SCENE",
+          "value": 0.7
         },
+        "pivot": "BOT_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "relativeSpriteId": "ground",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "ground",
+            "value": 0.5
+          }
+        }
+      }
+    },
+    {
+      "alpha": 1.0,
+      "id": "palm2",
+      "pivot": "BOT_RIGHT",
+      "resource": "palm2",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "HEIGHT",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 100,
+      "spriteTransform": {
+        "height": {
+          "relativity": "SCENE",
+          "value": 0.7
+        },
+        "pivot": "BOT_RIGHT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_RIGHT",
+          "relativeSpriteId": "ground",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "ground",
+            "value": 0.6
+          }
+        }
+      }
+    },
+    {
+      "alpha": 1.0,
+      "id": "wave1",
+      "pivot": "TOP_LEFT",
+      "rotation": 0,
+      "resource": "wave1",
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "WIDTH",
+      "spriteBotrightU": 0.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 1.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 99,
+      "spriteTransform": {
         "width": {
           "relativity": "SCENE",
-          "value": 0.2
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "relativeSpriteId": "ground",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "ground",
+            "value": 0.375
+          }
         }
       },
       "transition": [
         {
-          "transitions": [
-            {
-              "byX": {
-                "relativity": "SCENE",
-                "value": 0.2
-              },
-              "byY": {
-                "relativity": "SCENE",
-                "value": 0.0
-              },
-              "destroyEffect": "DONTDESTROY",
-              "destroySpriteOnFinished": false,
-              "duration": 1000,
-              "ease": "LINEAR",
-              "cycleCount": 0,
-              "cycleType": "YOYO",
-              "transitionType": "TRANSLATE"
-            },{
-              "byX": {
-                "relativity": "SCENE",
-                "value": 0.0
-              },
-              "byY": {
-                "relativity": "SCENE",
-                "value": 0.2
-              },
-              "destroyEffect": "DONTDESTROY",
-              "destroySpriteOnFinished": false,
-              "duration": 1000,
-              "ease": "LINEAR",
-              "cycleCount": 0,
-              "cycleType": "YOYO",
-              "transitionType": "TRANSLATE"
-            },
-            {
-              "byX": {
-                "relativity": "SCENE",
-                "value": -0.2
-              },
-              "byY": {
-                "relativity": "SCENE",
-                "value": -0.2
-              },
-              "destroyEffect": "DONTDESTROY",
-              "destroySpriteOnFinished": false,
-              "duration": 1000,
-              "ease": "LINEAR",
-              "cycleCount": 0,
-              "cycleType": "YOYO",
-              "transitionType": "TRANSLATE"
-            }
-          ],
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.0
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 10000,
+          "ease": "SINE_INOUT",
           "cycleCount": 0,
           "cycleType": "YOYO",
-          "transitionType": "SEQUENCE"
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "wave1-2",
+      "pivot": "TOP_LEFT",
+      "resource": "wave1",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "WIDTH",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 99,
+      "spriteTransform": {
+        "width": {
+          "relativity": "SCENE",
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "relativeSpriteId": "ground",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": -1.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "ground",
+            "value": 0.375
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.0
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 10000,
+          "ease": "SINE_INOUT",
+          "cycleCount": 0,
+          "cycleType": "YOYO",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    // masodik hullam
+    {
+      "alpha": 1.0,
+      "id": "wave2",
+      "pivot": "TOP_LEFT",
+      "rotation": 0,
+      "resource": "wave1",
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "WIDTH",
+      "spriteBotrightU": 0.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 1.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 90,
+      "spriteTransform": {
+        "width": {
+          "relativity": "SCENE",
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "relativeSpriteId": "ground",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "ground",
+            "value": 0.175
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.0
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 15000,
+          "ease": "SINE_INOUT",
+          "cycleCount": 0,
+          "cycleType": "YOYO",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "wave2-2",
+      "pivot": "TOP_LEFT",
+      "resource": "wave1",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "WIDTH",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 89,
+      "spriteTransform": {
+        "width": {
+          "relativity": "SCENE",
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "relativeSpriteId": "ground",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": -1.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "ground",
+            "value": 0.175
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.0
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 15000,
+          "ease": "SINE_INOUT",
+          "cycleCount": 0,
+          "cycleType": "YOYO",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "wave2-2",
+      "pivot": "TOP_LEFT",
+      "resource": "wave1",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "WIDTH",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 89,
+      "spriteTransform": {
+        "width": {
+          "relativity": "SCENE",
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "relativeSpriteId": "ground",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": -1.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "ground",
+            "value": 0.175
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.0
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 15000,
+          "ease": "SINE_INOUT",
+          "cycleCount": 0,
+          "cycleType": "YOYO",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "wave3",
+      "pivot": "TOP_LEFT",
+      "resource": "wave1",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "WIDTH",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 80,
+      "spriteTransform": {
+        "width": {
+          "relativity": "SCENE",
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "relativeSpriteId": "ground",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "ground",
+            "value": 0.0
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.0
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 30000,
+          "ease": "SINE_INOUT",
+          "cycleCount": 0,
+          "cycleType": "YOYO",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "wave3-2",
+      "pivot": "TOP_LEFT",
+      "resource": "wave1",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "WIDTH",
+      "spriteBotrightU": 0.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 1.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 79,
+      "spriteTransform": {
+        "width": {
+          "relativity": "SCENE",
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "relativeSpriteId": "ground",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": -1.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "ground",
+            "value": 0.0
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.0
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 30000,
+          "ease": "SINE_INOUT",
+          "cycleCount": 0,
+          "cycleType": "YOYO",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "shark",
+      "pivot": "TOP_LEFT",
+      "resource": "shark",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "HEIGHT",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 95,
+      "spriteTransform": {
+        "height": {
+          "relativity": "SPRITE",
+          "relativeTo": "wave1",
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "relativeSpriteId": "wave1",
+          "xDistanceFromTarget": {
+            "relativity": "NONE",
+            "value": -0.1
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "wave1",
+            "value": -0.5
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 2.1
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 12000,
+          "ease": "LINEAR",
+          "cycleCount": 0,
+          "cycleType": "RESTART",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "shark2",
+      "pivot": "TOP_LEFT",
+      "resource": "shark",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "HEIGHT",
+      "spriteBotrightU": 0.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 1.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 85,
+      "spriteTransform": {
+        "height": {
+          "relativity": "SPRITE",
+          "relativeTo": "wave2",
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_RIGHT",
+          "relativeSpriteId": "wave2",
+          "xDistanceFromTarget": {
+            "relativity": "NONE",
+            "value": 1.1
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "wave2",
+            "value": -0.5
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": -2.1
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 15000,
+          "ease": "LINEAR",
+          "cycleCount": 0,
+          "cycleType": "RESTART",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "wave4",
+      "pivot": "TOP_LEFT",
+      "resource": "wave1",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "WIDTH",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 60,
+      "spriteTransform": {
+        "width": {
+          "relativity": "SCENE",
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "relativeSpriteId": "ground",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "ground",
+            "value": -0.125
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.0
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 60000,
+          "ease": "SINE_INOUT",
+          "cycleCount": 0,
+          "cycleType": "YOYO",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "wave4-2",
+      "pivot": "TOP_LEFT",
+      "resource": "wave1",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "WIDTH",
+      "spriteBotrightU": 0.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 1.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 59,
+      "spriteTransform": {
+        "width": {
+          "relativity": "SCENE",
+          "value": 1.0
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "relativeSpriteId": "ground",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": -1.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "ground",
+            "value": -0.125
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.0
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 60000,
+          "ease": "SINE_INOUT",
+          "cycleCount": 0,
+          "cycleType": "YOYO",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "ship",
+      "pivot": "BOT_CENTER",
+      "resource": "ship",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "WIDTH",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 65,
+      "spriteTransform": {
+        "width": {
+          "relativity": "SCENE",
+          "value": 0.3
+        },
+        "pivot": "BOT_CENTER",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "TOP_CENTER",
+          "relativeSpriteId": "wave3",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SPRITE",
+            "relativeTo": "wave3",
+            "value": 0.275
+          }
+        }
+      },
+      "transition": [
+        {
+          "fromAngle": -3,
+          "toAngle": 3,
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 20000,
+          "ease": "SINE_INOUT",
+          "cycleCount": 0,
+          "cycleType": "YOYO",
+          "transitionType": "ROTATE"
+        },
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 0.05
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 20000,
+          "ease": "SINE_INOUT",
+          "cycleCount": 0,
+          "cycleType": "YOYO",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "fog",
+      "pivot": "TOP_LEFT",
+      "resource": "fog",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "NONE",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 1000,
+      "spriteTransform": {
+        "width": {
+          "relativity": "SPRITE",
+          "relativeTo": "ground",
+          "value": 1.0
+        },
+        "height": {
+          "relativity": "SPRITE",
+          "relativeTo": "ground",
+          "value": 1.0
+        },
+        "pivot": "BOT_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "BOT_LEFT",
+          "relativeSpriteId": "ground",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.0
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 90000,
+          "ease": "LINEAR",
+          "cycleCount": 0,
+          "cycleType": "RESTART",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "fog-2",
+      "pivot": "TOP_LEFT",
+      "resource": "fog",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "NONE",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 1000,
+      "spriteTransform": {
+        "width": {
+          "relativity": "SPRITE",
+          "relativeTo": "ground",
+          "value": 1.0
+        },
+        "height": {
+          "relativity": "SPRITE",
+          "relativeTo": "ground",
+          "value": 1.0
+        },
+        "pivot": "BOT_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativePointOfTarget": "BOT_LEFT",
+          "relativeSpriteId": "ground",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": -1.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.0
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 90000,
+          "ease": "LINEAR",
+          "cycleCount": 0,
+          "cycleType": "RESTART",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "cloud1",
+      "pivot": "TOP_LEFT",
+      "resource": "cloud1",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "HEIGHT",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 10,
+      "spriteTransform": {
+        "height": {
+          "relativity": "SCENE",
+          "value": 0.15
+        },
+        "pivot": "TOP_RIGHT",
+        "position": {
+          "positionType": "SCENE_RELATIVE",
+          "relativePointOfTarget": "TOP_LEFT",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": -0.2
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.4
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 42000,
+          "ease": "LINEAR",
+          "cycleCount": 0,
+          "cycleType": "RESTART",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "cloud2",
+      "pivot": "TOP_LEFT",
+      "resource": "cloud2",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "HEIGHT",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 12,
+      "spriteTransform": {
+        "height": {
+          "relativity": "SCENE",
+          "value": 0.25
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativeSpriteId": "cloud1",
+          "relativePointOfTarget": "CENTER_LEFT",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.4
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 36000,
+          "ease": "LINEAR",
+          "cycleCount": 0,
+          "cycleType": "RESTART",
+          "transitionType": "TRANSLATE"
+        }
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "id": "cloud3",
+      "pivot": "TOP_LEFT",
+      "resource": "cloud3",
+      "rotation": 0.0,
+      "scaleX": 1.0,
+      "scaleY": 1.0,
+      "keepAspect": "HEIGHT",
+      "spriteBotrightU": 1.0,
+      "spriteBotrightV": 1.0,
+      "spriteTopleftU": 0.0,
+      "spriteTopleftV": 0.0,
+      "sortingOrder": 11,
+      "spriteTransform": {
+        "height": {
+          "relativity": "SCENE",
+          "value": 0.2
+        },
+        "pivot": "TOP_LEFT",
+        "position": {
+          "positionType": "SPRITE_RELATIVE",
+          "relativeSpriteId": "cloud2",
+          "relativePointOfTarget": "CENTER_LEFT",
+          "xDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "yDistanceFromTarget": {
+            "relativity": "SCENE",
+            "value": 0.0
+          }
+        }
+      },
+      "transition": [
+        {
+          "byX": {
+            "relativity": "SCENE",
+            "value": 1.4
+          },
+          "byY": {
+            "relativity": "SCENE",
+            "value": 0.0
+          },
+          "destroyEffect": "DONTDESTROY",
+          "destroySpriteOnFinished": false,
+          "duration": 24000,
+          "ease": "LINEAR",
+          "cycleCount": 0,
+          "cycleType": "RESTART",
+          "transitionType": "TRANSLATE"
         }
       ]
     }

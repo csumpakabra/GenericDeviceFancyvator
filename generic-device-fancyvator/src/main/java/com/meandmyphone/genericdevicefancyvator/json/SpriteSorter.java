@@ -47,7 +47,8 @@ public class SpriteSorter {
         return sortedSprites;
     }
 
-    private void visit(Sprite sprite, @Nullable List<Sprite> temporary, @NonNull List<Sprite> permanent, @NonNull LinkedList<Sprite> sortedSprites) {
+    private void visit(Sprite sprite, @Nullable List<Sprite> temporary, @NonNull List<Sprite> permanent,
+                       @NonNull LinkedList<Sprite> sortedSprites) {
         if (permanent.contains(sprite)) {
             return;
         }
@@ -83,10 +84,10 @@ public class SpriteSorter {
                         marked.add(sceneRelativePosition.getYDistanceFromTarget().getRelativeTo());
                     }
                 }
-                if (SPRITE.equals(sprite.getSpriteTransform().getWidth().getRelativity())) {
+                if (sprite.getSpriteTransform().getWidth() != null && SPRITE.equals(sprite.getSpriteTransform().getWidth().getRelativity())) {
                     marked.add(sprite.getSpriteTransform().getWidth().getRelativeTo());
                 }
-                if (SPRITE.equals(sprite.getSpriteTransform().getHeight().getRelativity())) {
+                if (sprite.getSpriteTransform().getHeight() != null && SPRITE.equals(sprite.getSpriteTransform().getHeight().getRelativity())) {
                     marked.add(sprite.getSpriteTransform().getHeight().getRelativeTo());
                 }
                 for (BaseTransition transition : sprite.getTransitions()) {

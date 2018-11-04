@@ -27,17 +27,21 @@ public class SequentialTranstion extends Transition {
 
     private void nextIndex() {
         currentIndex += direction;
-        if (currentIndex > transitions.length - 1) {
+        if (currentIndex >= transitions.length) {
             currentIndex = autoreverse ? transitions.length - 2 : 0;
             transitionCycleFinished();
+            transitions[currentIndex].transitionCycleFinished();
 
         }
 
         if (currentIndex < 0) {
             currentIndex = 1;
             transitionCycleFinished();
+            transitions[currentIndex].transitionCycleFinished();
         }
         currentDuration = transitions[currentIndex].getCycleDuration();
+        transitions[currentIndex].cycleStartTime = System.currentTimeMillis();
+        transitions[currentIndex].startTime = System.currentTimeMillis();
         cycleStartTime = System.currentTimeMillis();
 
     }

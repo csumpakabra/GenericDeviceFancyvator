@@ -11,8 +11,11 @@ import com.meandmyphone.genericdevicefancyvator.core.gl.SpriteFactory.Sprite;
 import com.meandmyphone.genericdevicefancyvator.core.util.TextureHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +39,7 @@ public class Scene {
     private final int ID = counter++;
     private SparseIntArray textures = new SparseIntArray();
     private SparseArray<Sprite> sprites = new SparseArray<>();
+    public LinkedList<Sprite> sprites_ = new LinkedList<>();
     private List<Integer> deprecatedSprites = new ArrayList<>();
     private Point2D
             sceneTopLeft,
@@ -162,6 +166,19 @@ public class Scene {
         sprites.put(sprite.ID, sprite);
     }
 
+    public void sortSprites() {
+        for (int i = 0; i < getSpriteCount(); i++) {
+            sprites_.add(sprites.get(sprites.keyAt(i)));
+        }
+
+        Collections.sort(sprites_, new Comparator<Sprite>() {
+            @Override
+            public int compare(Sprite sprite, Sprite t1) {
+                return sprite.getSortOrder() - t1.getSortOrder();
+            }
+        });
+    }
+
     public int getID() {
         return ID;
     }
@@ -199,6 +216,7 @@ public class Scene {
         while (it.hasNext()) {
             int spriteID = it.next();
             if (sprites.get(spriteID) != null) {
+                sprites_.remove(sprites.get(spriteID));
                 sprites.remove(spriteID);
             }
             it.remove();

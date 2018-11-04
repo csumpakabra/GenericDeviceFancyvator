@@ -1,12 +1,14 @@
 package com.meandmyphone.genericdevicefancyvator.core.gl;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.widget.Toast;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.meandmyphone.genericdevicefancyvator.core.background.GradientBackground;
 import com.meandmyphone.genericdevicefancyvator.core.data.Point2D;
 import com.meandmyphone.genericdevicefancyvator.core.programs.TextureShaderProgram;
 import com.meandmyphone.genericdevicefancyvator.core.transitions.ITransition;
@@ -134,20 +136,13 @@ public class GLRenderer implements GLSurfaceView.Renderer {
                 }
             }
 
-            Collections.sort(sprites, new Comparator<SpriteFactory.Sprite>() {
-                @Override
-                public int compare(SpriteFactory.Sprite sprite, SpriteFactory.Sprite t1) {
-                    return sprite.getSortOrder() - t1.getSortOrder();
-                }
-            });
-
-            for (SpriteFactory.Sprite s : sprites) {
-                scene.addSprite(s);
-            }
+            scene.sortSprites();
             maxOffset = 0.5f * (scene.getSceneWidth() - projection.getProjectionWidth());
         } catch (JsonSyntaxException | JsonIOException jsonException) {
             Toast.makeText(context, String.format("Invalid input.json: %s", jsonException.getMessage()), Toast.LENGTH_LONG).show();
         }
+
+        scene.setBackground(new GradientBackground(context, Color.YELLOW, Color.BLUE, Color.BLUE, Color.BLUE));
     }
 
     @Override
@@ -155,6 +150,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
 
         limitFrameRate();
         calculateCameraOffset();
+
         // Clear the rendering surface.
         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -162,8 +158,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
             scene.getBackground().draw();
         }
 
-        for (int spriteIndex = 0; spriteIndex < scene.getSpriteCount(); spriteIndex++) {
-            SpriteFactory.Sprite sprite = scene.getSpriteAtIndex(spriteIndex);
+        for (SpriteFactory.Sprite sprite : scene.sprites_) {
             for (int transitionIndex = 0; transitionIndex < sprite.transitions.size(); transitionIndex++) {
                 ITransition transition = sprite.transitions.get(sprite.transitions.keyAt(transitionIndex));
                 transition.transit();

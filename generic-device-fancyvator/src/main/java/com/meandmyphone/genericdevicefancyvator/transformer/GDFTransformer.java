@@ -1,6 +1,7 @@
 package com.meandmyphone.genericdevicefancyvator.transformer;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
 import com.meandmyphone.genericdevicefancyvator.core.background.Background;
@@ -201,8 +202,8 @@ public class GDFTransformer implements Transformer {
             realHeight = transformHeight(xmlSprite.getSpriteTransform().getHeight());
         } else {
 
-            float originalWidth = xmlSprite.getSpriteBotrightU() - xmlSprite.getSpriteTopleftU();
-            float originalHeight = xmlSprite.getSpriteBotrightV() - xmlSprite.getSpriteTopleftV();
+            float originalWidth = ((BitmapDrawable) context.getResources().getDrawable(resourceIdByXmlResourceId.get(xmlSprite.getResource()))).getBitmap().getWidth();
+            float originalHeight = ((BitmapDrawable) context.getResources().getDrawable(resourceIdByXmlResourceId.get(xmlSprite.getResource()))).getBitmap().getHeight();
             float aspectRatio = originalWidth / originalHeight;
 
             if (Aspect.WIDTH.equals(xmlSprite.getAspect())) {
@@ -216,7 +217,7 @@ public class GDFTransformer implements Transformer {
             }
         }
         Point2D pivotPoint = transformPoint(xmlSprite.getSpriteTransform().getPosition());
-        Point2D spriteTopLeft = transformPointToTopLeft(pivotPoint, Anchor.fromPivot(xmlSprite.getPivot()), realWidth, realHeight);
+        Point2D spriteTopLeft = transformPointToTopLeft(pivotPoint, Anchor.fromPivot(xmlSprite.getSpriteTransform().getPivot()), realWidth, realHeight);
 
         Sprite sprite = spriteFactory.createSprite(
                 spriteIdByXmlId.get(xmlSprite.getId()),

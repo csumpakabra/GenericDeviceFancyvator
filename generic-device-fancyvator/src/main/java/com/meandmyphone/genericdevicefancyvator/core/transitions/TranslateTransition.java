@@ -14,7 +14,7 @@ public class TranslateTransition extends Transition {
 
     private String TAG = "TranslateTransition " + transitionId;
     public float fromX, fromY, toX, toY, deltaX, deltaY, previousX, previousY;
-    private final Point2D A, B;
+    public final Point2D A, B;
 
     public TranslateTransition(GLRenderer renderer, Point2D A, Point2D B, int cycleDuration, int nodeId, int cycleCount, int easeType, int destroyEffect, boolean autoReverse) {
         super(renderer, cycleDuration, nodeId, cycleCount, easeType, destroyEffect, autoReverse);
